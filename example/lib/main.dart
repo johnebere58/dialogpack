@@ -86,11 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
 
-                  const SizedBox(height: 5,),
+                  // const SizedBox(height: 5,),
                   Container(
                     height: 40,
                     width: double.infinity,
-                    margin: const EdgeInsets.fromLTRB(0,15,0,0),
+                    margin: const EdgeInsets.fromLTRB(15,5,15,0),
                     child: TextButton(onPressed: (){
 
                       DialogManager.showMessageDialog(context,
@@ -117,67 +117,69 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: const Text("Show Message Dialog",
                           style: TextStyle(color: Colors.white,fontSize: 16),)),
                   ),
+
+                  Container(
+                    height: 40,
+                    width: double.infinity,
+                    margin: const EdgeInsets.fromLTRB(15,20,15,20),
+                    child: TextButton(onPressed: (){
+
+                      DialogManager.showYesNoDialog(context, message: "Are you sure you are happy?", clickedYes: (){
+                        showSnackBar("Clicked Yes");
+                      },clickedNo: (){
+                        showSnackBar("Clicked No");
+                      });
+
+                    },
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue
+                        ),
+                        child: const Text("Show Yes/No Dialog",
+                          style: TextStyle(color: Colors.white,fontSize: 16),)),
+                  ),
+                  Container(
+                    height: 40,
+                    width: double.infinity,
+                    margin: const EdgeInsets.fromLTRB(15,0,15,20),
+                    child: TextButton(onPressed: (){
+
+                      DialogManager.showSuccessDialog(context,
+                          message: "Your image uploaded successfully", clickedYes: (){
+                            showSnackBar("Clicked Ok");
+                          });
+
+                    },
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue
+                        ),
+                        child: const Text("Show Success Dialog",
+                          style: TextStyle(color: Colors.white,fontSize: 16),)),
+                  ),
+
+                  Container(
+                    height: 40,
+                    width: double.infinity,
+                    margin: const EdgeInsets.fromLTRB(15,0,15,20),
+                    child: TextButton(onPressed: (){
+
+                      DialogManager.showFailedDialog(context,
+                          message: "Your image failed to upload", clickedYes: (){
+                            showSnackBar("Clicked Ok");
+                          });
+
+                    },
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue
+                        ),
+                        child: const Text("Show Failed Dialog",
+                          style: TextStyle(color: Colors.white,fontSize: 16),)),
+                  ),
+
                 ],
               ),
             ),
 
 
-            Container(
-              height: 40,
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(25,0,25,20),
-              child: TextButton(onPressed: (){
-
-                DialogManager.showYesNoDialog(context, message: "Are you sure you are happy?", clickedYes: (){
-                  showSnackBar("Clicked Yes");
-                },clickedNo: (){
-                  showSnackBar("Clicked No");
-                });
-
-              },
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue
-                  ),
-                  child: const Text("Show Yes/No Dialog",
-                    style: TextStyle(color: Colors.white,fontSize: 16),)),
-            ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(25,0,25,20),
-              child: TextButton(onPressed: (){
-
-                DialogManager.showSuccessDialog(context,
-                    message: "Your image uploaded successfully", clickedYes: (){
-                  showSnackBar("Clicked Ok");
-                });
-
-              },
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue
-                  ),
-                  child: const Text("Show Success Dialog",
-                    style: TextStyle(color: Colors.white,fontSize: 16),)),
-            ),
-
-            Container(
-              height: 40,
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(25,0,25,20),
-              child: TextButton(onPressed: (){
-
-                DialogManager.showFailedDialog(context,
-                    message: "Your image failed to upload", clickedYes: (){
-                  showSnackBar("Clicked Ok");
-                });
-
-              },
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue
-                  ),
-                  child: const Text("Show Failed Dialog",
-                    style: TextStyle(color: Colors.white,fontSize: 16),)),
-            ),
 
 
           ],
@@ -188,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showSnackBar(String text){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text),
+      duration: const Duration(seconds: 1),),);
   }
 }
