@@ -7,7 +7,7 @@ class MessageDialogModel{
     final IconData? icon;
     final Color iconColor;
     final double iconPadding;
-    final String title;
+    final String? title;
     final String message;
     final String positiveClickText;
     final String? negativeClickText;
@@ -25,8 +25,9 @@ class MessageDialogModel{
 
     MessageDialogModel(
     {
-      required this.title,
+
       required this.message,
+      this.title,
       this.icon,
       this.assetImage,
       this.iconColor= Colors.blue,

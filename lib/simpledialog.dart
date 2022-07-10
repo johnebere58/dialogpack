@@ -1,8 +1,3 @@
 
-import 'simpledialog_platform_interface.dart';
-
-class Simpledialog {
-  Future<String?> getPlatformVersion() {
-    return SimpledialogPlatform.instance.getPlatformVersion();
-  }
-}
+export 'src/dialog_manager.dart';
+export 'src/models/message_dialog_model.dart';

@@ -19,11 +19,5 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelSimpledialog>());
   });
 
-  test('getPlatformVersion', () async {
-    Simpledialog simpledialogPlugin = Simpledialog();
-    MockSimpledialogPlatform fakePlatform = MockSimpledialogPlatform();
-    SimpledialogPlatform.instance = fakePlatform;
-  
-    expect(await simpledialogPlugin.getPlatformVersion(), '42');
-  });
+
 }

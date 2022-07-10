@@ -11,8 +11,8 @@ class MessageDialog extends StatefulWidget {
   final MessageDialogModel messageDialogModel;
   final String dialogId; ///Specify dialogId if you wish to terminate this dialog manually
 
-  const MessageDialog(this.messageDialogModel,
-  {this.dialogId=DEFAULT_MESSAGE_DIALOG_ID, Key? key}):super(key:key);
+  const MessageDialog(
+  {required this.messageDialogModel,this.dialogId=DEFAULT_MESSAGE_DIALOG_ID, Key? key}):super(key:key);
 
   @override
   MessageDialogState createState() => MessageDialogState();
@@ -42,7 +42,7 @@ class MessageDialogState extends State<MessageDialog> {
     });
 
     _streamSubscriptions.add(
-      MessageDialogController.instance.stream.listen((String id) {
+      MessageDialogController.instance.stream.listen((String? id) {
         if(id == widget.dialogId){
           closePage(() async {
             Navigator.pop(context);
@@ -97,7 +97,7 @@ class MessageDialogState extends State<MessageDialog> {
 
     IconData? icon = messageDialogModel.icon;
     String? image = messageDialogModel.assetImage;
-    String title = messageDialogModel.title;
+    String? title = messageDialogModel.title;
     String message = messageDialogModel.message;
     Color iconColor = messageDialogModel.iconColor;
     double iconPadding = messageDialogModel.iconPadding;
@@ -154,13 +154,15 @@ class MessageDialogState extends State<MessageDialog> {
                             size: 45,
                           )),
                       addSpace(20),
-                      Text(
-                        title,
-                        style: textStyle(true, 20, messageDialogModel.titleTextColor),
-                        textAlign: TextAlign.center,
+                      if(title!=null)Container(
+                        margin: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          title,
+                          style: textStyle(true, 20, messageDialogModel.titleTextColor),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      if(message.isNotEmpty)addSpace(4),
-                      if(message.isNotEmpty)Flexible(
+                      Flexible(
                         child: SingleChildScrollView(
                           child: Text(
                             message,
