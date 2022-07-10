@@ -1,6 +1,15 @@
-# simpledialog
+# Dialog Pack
 
-A new Flutter plugin.
+[![Dart](https://github.com/johnebere58/dialogpack/actions/workflows/dart.yml/badge.svg?branch=master)](https://github.com/johnebere58/dialogpack/actions/workflows/dart.yml)
+
+A simple plugin packed with all the dialogs you will need to build your app.
+
+- [x] Message Dialog
+- [x] Success Dialog
+- [x] Progress Dialog
+- [x] List Dialog
+- [x] Input Dialog
+- [x] Custom Dialog
 
 ## Getting Started
 
