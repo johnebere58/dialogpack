@@ -49,7 +49,7 @@ TextStyle textStyle(bool bold, double size, color,
 launchNewScreen(BuildContext context, item, {Function(dynamic d)? result,
   opaque = false,bool replace=false,
   transitionBuilder,transitionDuration,bool scale=false,
-  slideUp=false,slide=false,fade=false,bool ignoreIOS=false}) {
+  slideUp=false,slide=false,fade=false,bool ignoreIOS=true}) {
 
   PageRoute pageRoute =
 

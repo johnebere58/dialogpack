@@ -3,10 +3,10 @@
 
 class MessageDialogModel{
 
-    final String? assetImage;
+    // final String? assetImage;
     final IconData? icon;
     final Color iconColor;
-    final double iconPadding;
+    final double iconSize;
     final String? title;
     final String message;
     final String positiveClickText;
@@ -17,7 +17,7 @@ class MessageDialogModel{
     final Function? onNeutralClicked;
     final bool cancellableOnTapOutside;
     final Color titleTextColor;
-    final Color messageTextColor;
+    final Color? messageTextColor;
     final Color positiveTextColor;
     final Color negativeTextColor;
     final Color neutralTextColor;
@@ -29,9 +29,9 @@ class MessageDialogModel{
       required this.message,
       this.title,
       this.icon,
-      this.assetImage,
+      // this.assetImage,
       this.iconColor= Colors.blue,
-      this.iconPadding = 10.0,
+      this.iconSize = 60.0,
       this.positiveClickText = "Ok",
       this.negativeClickText,
       this.neutralClickText,
@@ -40,7 +40,7 @@ class MessageDialogModel{
       this.onNeutralClicked,
       this.cancellableOnTapOutside=true,
       this.titleTextColor = Colors.black,
-      this.messageTextColor = Colors.black54,
+      this.messageTextColor,
       this.positiveTextColor = Colors.blue,
       this.negativeTextColor = Colors.red,
       this.neutralTextColor = Colors.black45,

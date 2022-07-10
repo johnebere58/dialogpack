@@ -96,11 +96,11 @@ class MessageDialogState extends State<MessageDialog> {
   Widget page() {
 
     IconData? icon = messageDialogModel.icon;
-    String? image = messageDialogModel.assetImage;
+    // String? image = messageDialogModel.assetImage;
     String? title = messageDialogModel.title;
     String message = messageDialogModel.message;
     Color iconColor = messageDialogModel.iconColor;
-    double iconPadding = messageDialogModel.iconPadding;
+    double iconSize = messageDialogModel.iconSize;
     String positiveText = messageDialogModel.positiveClickText;
     String? negativeText = messageDialogModel.negativeClickText;
     String? neutralText = messageDialogModel.neutralClickText;
@@ -110,169 +110,175 @@ class MessageDialogState extends State<MessageDialog> {
     Color positiveTextColor = messageDialogModel.positiveTextColor;
     Color negativeTextColor = messageDialogModel.negativeTextColor;
     Color neutralTextColor = messageDialogModel.neutralTextColor;
+    Color? messageTextColor = messageDialogModel.messageTextColor;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
-    return AnimatedOpacity(
-      opacity: hideUI?0:1,duration: const Duration(milliseconds: 400),
-      child: Center(
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-          // constraints: BoxConstraints(
-          //   maxWidth: getScreenWidth(context)>500?500
-          //       :double.infinity,
-          //   minWidth: getScreenWidth(context)/2
-          // ),
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            color: Colors.white,elevation: 5,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+        // constraints: BoxConstraints(
+        //   maxWidth: getScreenWidth(context)>500?500
+        //       :double.infinity,
+        //   minWidth: getScreenWidth(context)/2
+        // ),
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          color: Colors.white,elevation: 5,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20,20,20,15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(
-                              iconPadding),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: (icon == null && image !=null)
-                              ? (Image.asset(
-                                image,
-                                color: iconColor,
-                                width: 45,
-                                height: 45,
-                          ))
-                              : Icon(
-                            icon,
-                            color: iconColor,
-                            size: 45,
-                          )),
-                      addSpace(20),
-                      if(title!=null)Container(
-                        margin: const EdgeInsets.only(bottom: 5),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20,20,20,15),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // if(image!=null || icon!=null)Container(
+                    //     padding: EdgeInsets.all(
+                    //         iconPadding),
+                    //     decoration: const BoxDecoration(
+                    //       shape: BoxShape.circle,
+                    //     ),
+                    //     child: (icon == null && image !=null)
+                    //         ? (Image.asset(
+                    //           image,
+                    //           color: iconColor,
+                    //           width: 45,
+                    //           height: 45,
+                    //     ))
+                    //         : Icon(
+                    //       icon,
+                    //       color: iconColor,
+                    //       size: 75,
+                    //     )),
+                    if(icon!=null)Icon(
+                      icon,
+                      color: iconColor,
+                      size: iconSize,
+                    ),
+                    addSpace(20),
+                    if(title!=null)Container(
+                      margin: const EdgeInsets.only(bottom: 5),
+                      child: Text(
+                        title,
+                        style: textStyle(true, 20, messageDialogModel.titleTextColor),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Flexible(
+                      child: SingleChildScrollView(
                         child: Text(
-                          title,
-                          style: textStyle(true, 20, messageDialogModel.titleTextColor),
+                          message,
+                          style: textStyle(false,
+                              title==null?20:
+                              16,
+                              title==null?Colors.black:( messageTextColor ?? Colors.black54)),
                           textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Flexible(
-                        child: SingleChildScrollView(
-                          child: Text(
-                            message,
-                            style: textStyle(false, 16, messageDialogModel.messageTextColor),
-                            textAlign: TextAlign.center,
 //                                    maxLines: 1,
-                          ),
                         ),
                       ),
-                      if(message.isNotEmpty)addSpace(10),
-                    ],
-                  ),
+                    ),
+                    if(message.isNotEmpty)addSpace(10),
+                  ],
                 ),
+              ),
 
-                addLine(1, Colors.black.withOpacity(.1), 0, 0, 0, 0),
+              addLine(1, Colors.black.withOpacity(.1), 0, 0, 0, 0),
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10,0,10,20),
-                  child: Wrap(
-                    // mainAxisSize: MainAxisSize.min,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
-                              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
-                            ),
-                            onPressed: () {
-                              if(autoDismiss){
-                                closePage(() async {
-                                  Navigator.pop(context);
-                                  await Future.delayed(const Duration(milliseconds: 200));
-                                  if(positiveClick!=null)positiveClick();
-                                });
-                              }else{
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10,10,10,20),
+                child: Wrap(
+                  // mainAxisSize: MainAxisSize.min,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                          ),
+                          onPressed: () {
+                            if(autoDismiss){
+                              closePage(() async {
+                                Navigator.pop(context);
+                                await Future.delayed(const Duration(milliseconds: 200));
                                 if(positiveClick!=null)positiveClick();
-                              }
-                            },
-                            child: Text(
-                              positiveText,
-                              maxLines: 1,
-                              style: textStyle(true, 18, positiveTextColor),
-                            )),
-                      ),
-                      // if(noText!=null)addSpaceWidth(10),
-                      if(negativeText!=null)Container(
-                          margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                                // side: BorderSide(color: red0,width: 2)
-                              ),
-                              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                              });
+                            }else{
+                              if(positiveClick!=null)positiveClick();
+                            }
+                          },
+                          child: Text(
+                            positiveText,
+                            maxLines: 1,
+                            style: textStyle(true, 18, positiveTextColor),
+                          )),
+                    ),
+                    // if(noText!=null)addSpaceWidth(10),
+                    if(negativeText!=null)Container(
+                        margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              // side: BorderSide(color: red0,width: 2)
                             ),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                          ),
 //                                    color: blue3,
-                            onPressed: () {
-                              if(autoDismiss){
-                                closePage(()async{
-                                  Navigator.pop(context);
-                                  await Future.delayed(const Duration(milliseconds: 200));
-                                  if(negativeClick!=null)negativeClick();
-                                });
-                              }else{
+                          onPressed: () {
+                            if(autoDismiss){
+                              closePage(()async{
+                                Navigator.pop(context);
+                                await Future.delayed(const Duration(milliseconds: 200));
                                 if(negativeClick!=null)negativeClick();
-                              }
-                            },
-                            child: Text(
-                              negativeText,maxLines: 1,
-                              style: textStyle(true, 18, negativeTextColor),
-                            )),
-                      ),
-                      if(neutralText!=null)Container(
-                          margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                                // side: BorderSide(color: red0,width: 2)
-                              ),
-                              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                              });
+                            }else{
+                              if(negativeClick!=null)negativeClick();
+                            }
+                          },
+                          child: Text(
+                            negativeText,maxLines: 1,
+                            style: textStyle(true, 18, negativeTextColor),
+                          )),
+                    ),
+                    if(neutralText!=null)Container(
+                        margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              // side: BorderSide(color: red0,width: 2)
                             ),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                          ),
 //                                    color: blue3,
-                            onPressed: () {
-                              if(autoDismiss) {
-                                closePage(() async {
-                                  Navigator.pop(context);
-                                  await Future.delayed(
-                                      const Duration(milliseconds: 200));
-                                  if (neutralClick != null) neutralClick();
-                                });
-                              }else{
+                          onPressed: () {
+                            if(autoDismiss) {
+                              closePage(() async {
+                                Navigator.pop(context);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 200));
                                 if (neutralClick != null) neutralClick();
-                              }
-                            },
-                            child: Text(
-                              neutralText,maxLines: 1,
-                              style: textStyle(true, 18, neutralTextColor),
-                            )),
-                      ),
+                              });
+                            }else{
+                              if (neutralClick != null) neutralClick();
+                            }
+                          },
+                          child: Text(
+                            neutralText,maxLines: 1,
+                            style: textStyle(true, 18, neutralTextColor),
+                          )),
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
+              ),
 
-              ],
-            ),
+            ],
           ),
         ),
       ),
