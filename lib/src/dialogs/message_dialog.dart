@@ -6,8 +6,8 @@ import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
-import 'package:dialogpack/src/models/message_dialog_model.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
+import 'package:gif_view/gif_view.dart';
 
 
 class MessageDialog extends StatefulWidget {
@@ -100,11 +100,12 @@ class MessageDialogState extends State<MessageDialog> {
   Widget page() {
 
     IconData? icon = messageDialogModel.icon;
-    // String? image = messageDialogModel.assetImage;
+    String? image = messageDialogModel.assetImage;
+    String? gif = messageDialogModel.gif;
     String? title = messageDialogModel.title;
     String message = messageDialogModel.message;
-    Color iconColor = messageDialogModel.iconColor;
-    double iconSize = messageDialogModel.iconSize;
+    Color iconOrImageColor = messageDialogModel.iconOrImageColor;
+    double iconOrImageSize = messageDialogModel.iconOrImageSize;
     String positiveText = messageDialogModel.positiveClickText;
     String? negativeText = messageDialogModel.negativeClickText;
     String? neutralText = messageDialogModel.neutralClickText;
@@ -137,30 +138,29 @@ class MessageDialogState extends State<MessageDialog> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // if(image!=null || icon!=null)Container(
-                    //     padding: EdgeInsets.all(
-                    //         iconPadding),
-                    //     decoration: const BoxDecoration(
-                    //       shape: BoxShape.circle,
-                    //     ),
-                    //     child: (icon == null && image !=null)
-                    //         ? (Image.asset(
-                    //           image,
-                    //           color: iconColor,
-                    //           width: 45,
-                    //           height: 45,
-                    //     ))
-                    //         : Icon(
-                    //       icon,
-                    //       color: iconColor,
-                    //       size: 75,
-                    //     )),
-                    if(icon!=null)Icon(
-                      icon,
-                      color: iconColor,
-                      size: iconSize,
+
+                    if(icon!=null || image!=null || gif!=null)SizedBox(
+                        width: iconOrImageSize,height: iconOrImageSize,
+                        // margin: EdgeInsets.only(bottom: 10),
+                        child:
+                        gif!=null?GifView.asset(gif,loop: false,
+                          frameRate: 35,color: iconOrImageColor,
+                        ):
+                        (icon == null && image !=null)
+                            ? (Image.asset(
+                          image,
+                          color: iconOrImageColor,package: "dialogpack",
+                          // width: 45,
+                          // height: 45,
+                        ))
+                            : Icon(
+                          icon,
+                          color: iconOrImageColor,
+                          // size: 75,
+                        )
                     ),
-                    addSpace(20),
+
+                    addSpace(10),
                     if(title!=null)Container(
                       margin: const EdgeInsets.only(bottom: 5),
                       child: Text(

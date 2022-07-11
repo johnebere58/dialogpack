@@ -76,7 +76,7 @@ class CustomCheckBox extends StatefulWidget {
                padding: const EdgeInsets.all(2),
                decoration: BoxDecoration(
                    shape: BoxShape.circle,
-                   color: checked?Colors.transparent: blackColor.withOpacity(bestOpacity2),
+                   color: checked?Colors.transparent: blackColor.withOpacity(bestOpacity3),
                    border:
                    Border.all(color:checkColor, width: 1.5)
                ),

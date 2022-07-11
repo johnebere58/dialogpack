@@ -14,7 +14,9 @@ Color get blackColor2 => DialogManager.darkMode?white:warm_grey_two;
 
 double get bestOpacity => DialogManager.darkMode?(.5):(.1);
 
-double get bestOpacity2 => DialogManager.darkMode?(.3):(.03);
+double get bestOpacity2 => DialogManager.darkMode?(.3):(.1);
+
+double get bestOpacity3 => DialogManager.darkMode?(.3):(.03);
 
 const Color black = Color(0xff000000);
 const Color white = Color(0xffffffff);

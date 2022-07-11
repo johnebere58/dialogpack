@@ -75,7 +75,9 @@ class DialogManager{
             Widget? transition}){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
-            icon: Icons.check_circle_outlined,
+            gif: 'dialogpack:assets/success.gif',
+            iconOrImageSize: 100,
+            iconOrImageColor: Colors.blue,
             message: message,title: title,
             onPositiveClicked: clickedYes,
         )),
@@ -89,7 +91,7 @@ class DialogManager{
             Widget? transition}){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
-            icon: Icons.error_outline,iconColor: Colors.red,
+            icon: Icons.error_outline,iconOrImageColor: Colors.red,
             message: message,title: title,
             onPositiveClicked: clickedYes,
         )),

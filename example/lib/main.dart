@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Simple Dialogs'),
+        title: const Text('Dialog Pack'),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class MessageDialogModel{
 
-    // final String? assetImage;
+    final String? gif;
+    final String? assetImage;
     final IconData? icon;
-    final Color iconColor;
-    final double iconSize;
+    final Color iconOrImageColor;
+    final double iconOrImageSize;
     final String? title;
     final String message;
     final String positiveClickText;
@@ -30,9 +31,10 @@ class MessageDialogModel{
       required this.message,
       this.title,
       this.icon,
-      // this.assetImage,
-      this.iconColor= Colors.blue,
-      this.iconSize = 60.0,
+      this.assetImage,
+      this.gif,
+      this.iconOrImageColor= Colors.blue,
+      this.iconOrImageSize = 60.0,
       this.positiveClickText = "Ok",
       this.negativeClickText,
       this.neutralClickText,
