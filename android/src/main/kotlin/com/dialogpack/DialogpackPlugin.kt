@@ -1,4 +1,4 @@
-package com.simpledialog
+package com.dialogpack
 
 import androidx.annotation.NonNull
 
@@ -8,8 +8,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-/** SimpledialogPlugin */
-class SimpledialogPlugin: FlutterPlugin, MethodCallHandler {
+/** DialogpackPlugin */
+class DialogpackPlugin: FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -17,7 +17,7 @@ class SimpledialogPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "simpledialog")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "dialogpack")
     channel.setMethodCallHandler(this)
   }
 

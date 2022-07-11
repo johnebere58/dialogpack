@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface SimpledialogPlugin : NSObject<FlutterPlugin>
+@interface DialogpackPlugin : NSObject<FlutterPlugin>
 @end

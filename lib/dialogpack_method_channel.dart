@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import 'simpledialog_platform_interface.dart';
+import 'dialogpack_platform_interface.dart';
 
-/// An implementation of [SimpledialogPlatform] that uses method channels.
-class MethodChannelSimpledialog extends SimpledialogPlatform {
+/// An implementation of [DialogpackPlatform] that uses method channels.
+class MethodChannelDialogpack extends DialogpackPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('simpledialog');
+  final methodChannel = const MethodChannel('dialogpack');
 
   @override
   Future<String?> getPlatformVersion() async {

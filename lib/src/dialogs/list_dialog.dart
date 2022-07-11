@@ -1,16 +1,29 @@
 import 'dart:ui';
+import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/blocs/check_box_controller.dart';
+import 'package:dialogpack/src/utils/widget_utils.dart';
+import 'package:dialogpack/src/utils/widgets/custom_check_box.dart';
 import 'package:flutter/material.dart';
-import 'package:simpledialog/src/models/list_type.dart';
+import 'package:dialogpack/src/models/list_item.dart';
+import 'package:dialogpack/src/models/list_type.dart';
 
 class ListDialog extends StatefulWidget {
   final String? title;
-  final List<String> items;
-  final List<String>? defaultSelections;
+  final Color? buttonColor;
+  final List<ListItem> items;
+  // final List<ListItem>? defaultSelections; /// for multiple selection list
   final ListType listType;
+  final bool searchable;
+  final int maxSelection; // for multiple list selection
 
-  ListDialog(this.items,
-      {this.title,this.defaultSelections, this.listType=ListType.normal,
-        Key? key}):super(key:key)
+  const ListDialog(this.items,
+      {this.title,
+        // this.defaultSelections,
+        this.listType=ListType.normal,
+        this.buttonColor,
+        this.searchable=false,
+        this.maxSelection = 1,
+        Key? key}):super(key:key);
 
   @override
   ListDialogState createState() => ListDialogState();
@@ -18,48 +31,69 @@ class ListDialog extends StatefulWidget {
 
 class ListDialogState extends State<ListDialog> {
 
-  List item = [];
-  List selections = [];
-  bool multipleSelection = false;
-  bool allowMultipleItems = false;
+  late ListType listType;
+  late List<ListItem> allItems;
+  late List<ListItem> listItems;
+  final List<String> selectedIds = [];
   bool showBack=false;
   bool hideUI=true;
+
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  bool showCancel = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    multiple = widget.selections !=null;
-    selections = widget.selections??[];
+    listType = widget.listType;
+    allItems = widget.items;
+    listItems = widget.items;
 
-    Future.delayed(Duration(milliseconds: 200),(){
+    Future.delayed(const Duration(milliseconds: 200),(){
       hideUI=false;
       setState(() {});
     });
-    Future.delayed(Duration(milliseconds: 500),(){
+    Future.delayed(const Duration(milliseconds: 500),(){
       showBack=true;
-      setState(() {
-
-      });
+      setState(() {});
     });
 
+    _focusNode.addListener(() {
+      if(mounted)setState(() {});
+    });
+  }
+
+  void performSearch()async{
+    listItems.clear();
+    setState(() {});
+    String search = _searchController.text.toLowerCase().trim();
+
+    for(ListItem listItem in allItems){
+      String title = listItem.title;
+      String subtitle = listItem.subtitle ?? "";
+      String fullText = "$title$subtitle".toLowerCase().trim();
+      if(search.isNotEmpty && !fullText.contains(search))continue;
+      listItems.add(listItem);
+    }
+
+    if(mounted)setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
     return Stack(fit: StackFit.expand, children: <Widget>[
       GestureDetector(
         onTap: () {
           closePage((){ Navigator.pop(context);});
         },
         child: AnimatedOpacity(
-          opacity: showBack?1:0,duration: Duration(milliseconds: 300),
+          opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
           child: ClipRect(
               child:BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
                   child: Container(
-                    color: black.withOpacity(.7),
+                    color: Colors.black.withOpacity(.7),
                   ))
           ),
         ),
@@ -68,183 +102,238 @@ class ListDialogState extends State<ListDialog> {
     ]);
   }
 
-  page() {
+  Widget page() {
+
+    String? title = widget.title;
+    Color buttonColor = widget.buttonColor ?? blackColor;
+
     return Center(
-      child: Container(
-      //   constraints: BoxConstraints(maxWidth: getScreenWidth(context)>500?500:double.infinity,
-      // ),
-        padding: EdgeInsets.fromLTRB(60, 45, 60, 25),
-        child: new Card(
-          clipBehavior: Clip.antiAlias,
-          color: white,elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Stack(
-            children: [
-              Container(
-                height: 75,
-//                  decoration: BoxDecoration(
-//                    color: blue0,
-//
-//                  ),
-              ),
-              Container(
-                height: 80,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(100)
-                    )
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: blackColor2,
+        elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              if(title!=null)Padding(
+                padding: const EdgeInsets.only(left: 20,top: 20),
+                child: Text(title, style: textStyle(false, 16, blackColor),
                 ),
               ),
-//                Padding(
-//                  padding: const EdgeInsets.all(4.0),
-//                  child: Opacity(opacity: .3,child: Image.asset(ic_plain,height: 25,width: 25,)),
-//                ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              AnimatedContainer(duration: const Duration(milliseconds: 500),
+                width: double.infinity,
+                height: errorText.isEmpty?0:40,
+                color: Colors.red,
+                padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                child:Center(child: Text(errorText,style: textStyle(true, 14, white),)),
+              ),
+              if(widget.searchable)Container(
+                height: 45,
+                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                // decoration: BoxDecoration(
+                //     color: white.withOpacity(.8),
+                //     borderRadius: BorderRadius.circular(25),
+                //     border: Border.all(color: focusSearch.hasFocus?
+                //     black:black.withOpacity(.1),
+                //         width: focusSearch.hasFocus?2:1)
+                // ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  //mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    if(widget.title!=null)Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        widget.title,
-                        style: textStyle(false, 16, blue0),
+                    addSpaceWidth(10),
+                    Icon(
+                      Icons.search,
+                      color: blackColor2,
+                      size: 17,
+                    ),
+                    addSpaceWidth(10),
+
+                    Flexible(
+                      flex: 1,
+                      child: TextField(
+                        textInputAction: TextInputAction.search,
+                        textCapitalization: TextCapitalization.sentences,
+                        autofocus: true,
+                        onSubmitted: (_) {
+                          performSearch();
+                        },
+                        decoration: InputDecoration(
+                            hintText: "Search",
+                            hintStyle: textStyle(
+                              false,
+                              18,
+                              blackColor.withOpacity(.5),
+                            ),
+                            border: InputBorder.none,isDense: true),
+                        style: textStyle(false, 16, black),
+                        controller: _searchController,
+                        cursorColor: black,
+                        cursorWidth: 2,
+                        focusNode: _focusNode,
+                        keyboardType: TextInputType.text,
+                        onChanged: (s) {
+                          showCancel = s.trim().isNotEmpty;
+                          setState(() {});
+                          performSearch();
+                        },
                       ),
                     ),
-                    addSpace(5),
-//                addLine(.5, black.withOpacity(.1), 0, 0, 0, 0),
-                    Flexible(fit: FlexFit.loose,
+                    if(showCancel)GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showCancel = false;
+                          _searchController.text = "";
+                        });
+                        performSearch();
+                      },
                       child: Container(
-//                        color: white,
-                        child: new ConstrainedBox(
-                          constraints: BoxConstraints(
-
-                              maxHeight: (MediaQuery.of(context).size.height / 2) +
-                                  (MediaQuery.of(context).orientation ==
-                                          Orientation.landscape
-                                      ? 0
-                                      : (MediaQuery.of(context).size.height / 5))),
-                          child: Scrollbar(
-                            child: new ListView.builder(
-                              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                              itemBuilder: (context, position) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    position == 0
-                                        ? Container()
-                                        : addLine(
-                                            .5, black.withOpacity(.1), 0, 0, 0, 0),
-                                    GestureDetector(
-                                      onTap: () {
-                                        if(multiple){
-                                          bool selected = selections.contains(widget.items[position]);
-                                          if(selected){
-                                            selections.remove(widget.items[position]);
-                                          }else{
-                                            if(widget.singleSelection){
-                                              selections.clear();
-                                            }
-                                            selections.add(widget.items[position]);
-                                          }
-                                          setState(() {
-
-                                          });
-                                          return;
-                                        }
-                                        Navigator.of(context).pop(widget.items[position]);
-                                      },
-                                      child: new Container(
-                                        color: white,
-                                        width: double.infinity,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              widget.images.isEmpty
-                                                  ? Container()
-                                                  : !(widget.images[position] is String)
-                                                      ? Icon(
-                                                          widget.images[position],
-                                                          size: 20,
-                                                          color: !widget.useTint
-                                                              ? null
-                                                              : blue0,
-                                                        )
-                                                      : Image.asset(
-                                                          widget.images[position],
-                                                          width: 20,
-                                                          height: 20,
-                                                          color: !widget.useTint
-                                                              ? null
-                                                              : blue0,
-                                                        ),
-                                              widget.images.isNotEmpty
-                                                  ? addSpaceWidth(10)
-                                                  : Container(),
-                                              Flexible(
-                                                flex:1,fit:FlexFit.tight,
-                                                child: Text(
-                                                  widget.items[position],
-                                                  style: textStyle(
-                                                      false, 16, black.withOpacity(.8)),
-                                                ),
-                                              ),
-                                              if(multiple)addSpace(10),
-                                              if(multiple)checkBox(selections.contains(widget.items[position]))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                              itemCount: widget.items.length,
-                              shrinkWrap: true,
-                            ),
-                          ),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                        color: Colors.transparent,
+                        child: Icon(
+                          Icons.close,
+                          color: blackColor,
+                          size: 20,
                         ),
                       ),
-                    ),
-//                addLine(.5, black.withOpacity(.1), 0, 0, 0, 0),
-                    if (multiple && selections.isNotEmpty)
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-//                      width: double.infinity,
-                            height: 40,
-                            margin: EdgeInsets.all(10),
-                            child: FlatButton(
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                shape: RoundedRectangleBorder(
-//                                      side: BorderSide(color: blue0,width: 1),
-                                    borderRadius: BorderRadius.circular(25)),
-                                color: blue0,
-                                onPressed: () {
-                                  /*if(selections.isEmpty){
-                                    toastInAndroid("Nothing Selected");
-                                    return;
-                                  }*/
-                                  closePage((){ Navigator.pop(context,selections);});
-                                },
-                                child: Text(
-                                  "OK",
-                                  style: textStyle(true, 16, white),
-                                ))),
-                      )
-                    //gradientLine(alpha: .1)
+                    )
                   ],
                 ),
               ),
+              Flexible(fit: FlexFit.loose,
+                child: Scrollbar(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    itemBuilder: (context, position) {
+
+                      ListItem listItem = allItems[position];
+                      String? image = listItem.image;
+                      IconData? icon = listItem.icon;
+                      String title = listItem.title;
+                      String? subtitle = listItem.subtitle;
+                      Color titleColor = listItem.titleColor ?? blackColor;
+                      Color subtitleColor = listItem.subtitleColor ?? blackColor2;
+                      Color iconOrImageColor = listItem.iconOrImageColor ?? blackColor2;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          position == 0
+                              ? Container()
+                              : customDivider(),
+                          GestureDetector(
+                            onTap: () {
+
+                              handleSelection(position);
+
+                              if(listType==ListType.normal){
+                                Navigator.of(context).pop(selectedIds);
+                              }
+
+                            },
+                            child: Container(
+                              color: whiteColor,
+                              width: double.infinity,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    (icon!=null || image!=null)?(
+                                             Container(
+                                               margin:
+                                               const EdgeInsets.only(right: 10),
+                                               child:
+                                               icon!=null? Icon(
+                                                 icon,
+                                                 size: 20,
+                                                 color: iconOrImageColor,
+                                               )
+                                                     :Image.asset(
+                                               image!,
+                                               width: 20,
+                                               height: 20,
+                                               color: iconOrImageColor,
+                                             ),
+                                             )
+                                   ):Container(),
+                                    Flexible(
+                                      flex:1,fit:FlexFit.tight,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            title,
+                                            style: textStyle(
+                                                false, 16, titleColor),
+                                          ),
+                                          if(subtitle!=null)Container(
+                                            margin: const EdgeInsets.only(top: 5),
+                                            child: Text(
+                                              subtitle,
+                                              style: textStyle(
+                                                  false, 13, subtitleColor),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+
+                                    if(listType==ListType.multipleSelection)Container(
+                                      margin: const EdgeInsets.only(left: 5),
+                                      child: CustomCheckBox(
+                                        onChecked: (b){
+                                          handleSelection(position);
+                                        },
+                                        defaultValue: selectedIds.contains(listItem.itemKey),
+                                        key: ValueKey(listItem.itemKey),
+                                      )
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    itemCount: widget.items.length,
+                    shrinkWrap: true,
+                  ),
+                ),
+              ),
+              if ((listType!=ListType.normal) && selectedIds.isNotEmpty)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+//                      width: double.infinity,
+                      height: 40,
+                      margin: const EdgeInsets.all(10),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
+                            backgroundColor: buttonColor,
+                          ),
+                          onPressed: () {
+                            closePage((){ Navigator.pop(context,selectedIds);});
+                          },
+                          child: Text(
+                            "OK",
+                            style: textStyle(true, 16, whiteColor),
+                          ))),
+                )
+              //gradientLine(alpha: .1)
             ],
           ),
         ),
@@ -252,17 +341,50 @@ class ListDialogState extends State<ListDialog> {
     );
   }
 
+  void handleSelection(int position){
+    ListItem item = allItems[position];
+    String valueKey = item.itemKey;
+    bool selected = selectedIds.contains(valueKey);
+    if(selected){
+      selectedIds.remove(valueKey);
+      CheckBoxController.instance.uncheck(id: valueKey);
+    }else{
+      if(widget.maxSelection==1){
+        selectedIds.clear();
+      }else if(selectedIds.length >= widget.maxSelection){
+        showError("Max selection reached");
+        return;
+      }
+      CheckBoxController.instance.check(id: valueKey);
+      selectedIds.add(valueKey);
+    }
+    if(mounted)setState(() {});
+  }
+
   closePage(onClosed){
     showBack=false;
     setState(() {
 
     });
-    Future.delayed(Duration(milliseconds: 100),(){
-      Future.delayed(Duration(milliseconds: 100),(){
+    Future.delayed(const Duration(milliseconds: 100),(){
+      Future.delayed(const Duration(milliseconds: 100),(){
         hideUI=true;
         setState(() {});
       });
       onClosed();
+    });
+  }
+
+  String errorText = "";
+  showError(String text){
+
+    errorText=text;
+    setState(() {});
+
+    Future.delayed(const Duration(seconds: 1),(){
+      errorText="";
+      setState(() {});
+
     });
   }
 }

@@ -1,5 +1,6 @@
 
- import 'package:flutter/material.dart';
+ import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:flutter/material.dart';
 
 class MessageDialogModel{
 
@@ -16,7 +17,7 @@ class MessageDialogModel{
     final Function? onNegativeClicked;
     final Function? onNeutralClicked;
     final bool cancellableOnTapOutside;
-    final Color titleTextColor;
+    final Color? titleTextColor;
     final Color? messageTextColor;
     final Color positiveTextColor;
     final Color negativeTextColor;
@@ -39,7 +40,7 @@ class MessageDialogModel{
       this.onNegativeClicked,
       this.onNeutralClicked,
       this.cancellableOnTapOutside=true,
-      this.titleTextColor = Colors.black,
+      this.titleTextColor,
       this.messageTextColor,
       this.positiveTextColor = Colors.blue,
       this.negativeTextColor = Colors.red,

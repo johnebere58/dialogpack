@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:flutter/material.dart';
-import 'package:simpledialog/src/assets/string_assets.dart';
-import 'package:simpledialog/src/blocs/message_dialog_controller.dart';
-import 'package:simpledialog/src/models/message_dialog_model.dart';
-import 'package:simpledialog/src/utils/widget_utils.dart';
+import 'package:dialogpack/src/assets/string_assets.dart';
+import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
+import 'package:dialogpack/src/models/message_dialog_model.dart';
+import 'package:dialogpack/src/utils/widget_utils.dart';
 
 
 class MessageDialog extends StatefulWidget {
@@ -83,7 +84,7 @@ class MessageDialogState extends State<MessageDialog> {
                 child:BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
                     child: Container(
-                      color: Colors.black.withOpacity(.7),
+                      color: blackColor.withOpacity(.7),
                     ))
             ),
           ),
@@ -111,6 +112,7 @@ class MessageDialogState extends State<MessageDialog> {
     Color negativeTextColor = messageDialogModel.negativeTextColor;
     Color neutralTextColor = messageDialogModel.neutralTextColor;
     Color? messageTextColor = messageDialogModel.messageTextColor;
+    Color? titleTextColor = messageDialogModel.titleTextColor;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
     return Center(
@@ -162,7 +164,7 @@ class MessageDialogState extends State<MessageDialog> {
                       margin: const EdgeInsets.only(bottom: 5),
                       child: Text(
                         title,
-                        style: textStyle(true, 20, messageDialogModel.titleTextColor),
+                        style: textStyle(true, 20, titleTextColor??blackColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -173,7 +175,7 @@ class MessageDialogState extends State<MessageDialog> {
                           style: textStyle(false,
                               title==null?20:
                               16,
-                              title==null?Colors.black:( messageTextColor ?? Colors.black54)),
+                              title==null?blackColor:( messageTextColor ?? blackColor2)),
                           textAlign: TextAlign.center,
 //                                    maxLines: 1,
                         ),
@@ -184,7 +186,7 @@ class MessageDialogState extends State<MessageDialog> {
                 ),
               ),
 
-              addLine(1, Colors.black.withOpacity(.1), 0, 0, 0, 0),
+              addLine(1, blackColor.withOpacity(bestOpacity), 0, 0, 0, 0),
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,10,10,20),

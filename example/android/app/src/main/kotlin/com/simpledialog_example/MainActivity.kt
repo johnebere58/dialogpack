@@ -1,4 +1,4 @@
-package com.simpledialog_example
+package com.dialogpack_example
 
 import io.flutter.embedding.android.FlutterActivity
 

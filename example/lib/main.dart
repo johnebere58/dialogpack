@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpledialog/simpledialog.dart';
+import 'package:dialogpack/dialogpack.dart';
 
 void main() {
   runApp(const MyApp());

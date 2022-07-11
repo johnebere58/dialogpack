@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint simpledialog.podspec` to validate before publishing.
+# Run `pod lib lint dialogpack.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'simpledialog'
+  s.name             = 'dialogpack'
   s.version          = '0.0.1'
   s.summary          = 'A new Flutter plugin.'
   s.description      = <<-DESC

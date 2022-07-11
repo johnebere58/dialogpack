@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:simpledialog/simpledialog_method_channel.dart';
+import 'package:dialogpack/dialogpack_method_channel.dart';
 
 void main() {
-  MethodChannelSimpledialog platform = MethodChannelSimpledialog();
-  const MethodChannel channel = MethodChannel('simpledialog');
+  MethodChannelDialogpack platform = MethodChannelDialogpack();
+  const MethodChannel channel = MethodChannel('dialogpack');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 

@@ -1,8 +1,8 @@
 
 import 'dart:async';
 
-import 'package:simpledialog/src/assets/string_assets.dart';
-import 'package:simpledialog/src/repository/repository.dart';
+import 'package:dialogpack/src/assets/string_assets.dart';
+import 'package:dialogpack/src/repository/repository.dart';
 
 class MessageDialogController {
 

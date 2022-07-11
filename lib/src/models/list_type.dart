@@ -1,4 +1,4 @@
 
  enum ListType{
-   normal, singleSelection, multipleSelection
+   normal, multipleSelection
  }

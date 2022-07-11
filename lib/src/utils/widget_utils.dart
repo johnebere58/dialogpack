@@ -1,17 +1,23 @@
 import 'dart:io';
 
+import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:simpledialog/src/utils/transitions.dart';
+import 'package:dialogpack/src/utils/transitions.dart';
 
 Container addLine(
-    double size, color, double left, double top, double right, double bottom) {
+    double size, Color color, double left, double top, double right, double bottom) {
   return Container(
     height: size,
     width: double.infinity,
     color: color,
     margin: EdgeInsets.fromLTRB(left, top, right, bottom),
   );
+}
+
+///Add a custom margin line [hm = horizontal margin] [vm = vertical margin]
+Widget customDivider({double hm=0,double vm=0}){
+  return addLine(.5, blackColor.withOpacity(bestOpacity), hm, vm, hm, vm);
 }
 
 SizedBox addSpace(double size) {

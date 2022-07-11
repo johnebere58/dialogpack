@@ -1,6 +1,6 @@
-# simpledialog_example
+# dialogpack_example
 
-Demonstrates how to use the simpledialog plugin.
+Demonstrates how to use the dialogpack plugin.
 
 ## Getting Started
 
