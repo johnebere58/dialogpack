@@ -24,7 +24,7 @@ class SampleWidgetListTest extends StatefulWidget {
            child: Column(
              mainAxisSize: MainAxisSize.min,
              children: [
-               Text(message),
+               Text(message,key: const ValueKey("text"),),
                const SizedBox(height: 10,),
                TextButton(
                  onPressed: (){
@@ -37,7 +37,7 @@ class SampleWidgetListTest extends StatefulWidget {
                          setState(() {
                            message = "$item";
                          });
-                       }, returnIndex: false);
+                       }, returnIndexes: false);
 
                  },
                  child: const Text("Click Me"),
@@ -54,11 +54,48 @@ class SampleWidgetListTest extends StatefulWidget {
                          setState(() {
                            message = "Index $item";
                          });
-                       }, returnIndex: true);
+                       }, returnIndexes: true);
 
                  },
                  child: const Text("Click Me for Index"),
                ),
+
+               const SizedBox(height: 10,),
+               TextButton(
+                 onPressed: (){
+
+                   List<String> items = List.generate(5, (index) => "Item $index");
+
+                   DialogManager.showSimpleListDialog(context,
+                       items: items,searchable: true,maxSelections: 3,
+                       onItemSelected: (item){
+                         setState(() {
+                           message = "Items $item";
+                         });
+                       }, returnIndexes: false);
+
+                 },
+                 child: const Text("Click Me for Multiple Items"),
+               ),
+
+               const SizedBox(height: 10,),
+               TextButton(
+                 onPressed: (){
+
+                   List<String> items = List.generate(5, (index) => "Item $index");
+
+                   DialogManager.showSimpleListDialog(context,
+                       items: items,searchable: true,maxSelections: 3,
+                       onItemSelected: (item){
+                         setState(() {
+                           message = "Indexes $item";
+                         });
+                       }, returnIndexes: true);
+
+                 },
+                 child: const Text("Click Me for Multiple Indexes"),
+               ),
+
 
              ],
            ),

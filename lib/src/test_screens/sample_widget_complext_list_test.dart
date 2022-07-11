@@ -37,7 +37,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                          setState(() {
                            message = "$item";
                          });
-                       }, returnIndex: false);
+                       }, returnIndexes: false);
 
                  },
                  child: const Text("Click Me"),
@@ -54,7 +54,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                          setState(() {
                            message = "Index $item";
                          });
-                       }, returnIndex: true);
+                       }, returnIndexes: true);
 
                  },
                  child: const Text("Click Me for Index"),

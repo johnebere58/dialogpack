@@ -5,24 +5,27 @@ import 'package:dialogpack/src/utils/widget_utils.dart';
 import 'package:dialogpack/src/utils/widgets/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/models/list_item.dart';
-import 'package:dialogpack/src/models/list_type.dart';
 
 class ListDialog extends StatefulWidget {
   final String? title;
   final Color? buttonColor;
+  final Color? titleColor;
+  final Color? globalCheckBoxColor;
   final List<ListItem> items;
   // final List<ListItem>? defaultSelections; /// for multiple selection list
-  final ListType listType;
   final bool searchable;
   final int maxSelection; // for multiple list selection
+  final String? buttonText;
 
   const ListDialog(this.items,
       {this.title,
         // this.defaultSelections,
-        this.listType=ListType.normal,
         this.buttonColor,
+        this.titleColor,
+        this.globalCheckBoxColor,
         this.searchable=false,
         this.maxSelection = 1,
+        this.buttonText,
         Key? key}):super(key:key);
 
   @override
@@ -31,7 +34,6 @@ class ListDialog extends StatefulWidget {
 
 class ListDialogState extends State<ListDialog> {
 
-  late ListType listType;
   late List<ListItem> allItems;
   late List<ListItem> listItems;
   final List<String> selectedIds = [];
@@ -46,7 +48,6 @@ class ListDialogState extends State<ListDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    listType = widget.listType;
     allItems = widget.items;
     listItems = widget.items;
 
@@ -106,6 +107,7 @@ class ListDialogState extends State<ListDialog> {
 
     String? title = widget.title;
     Color buttonColor = widget.buttonColor ?? blackColor;
+    Color titleColor = widget.titleColor ?? blackColor;
 
     return Center(
       child: Card(
@@ -121,7 +123,7 @@ class ListDialogState extends State<ListDialog> {
             children: <Widget>[
               if(title!=null)Padding(
                 padding: const EdgeInsets.only(left: 20,top: 20),
-                child: Text(title, style: textStyle(false, 16, blackColor),
+                child: Text(title, style: textStyle(false, 16, titleColor),
                 ),
               ),
               AnimatedContainer(duration: const Duration(milliseconds: 500),
@@ -232,7 +234,7 @@ class ListDialogState extends State<ListDialog> {
 
                               handleSelection(position);
 
-                              if(listType==ListType.normal){
+                              if(widget.maxSelection==1){
                                 Navigator.of(context).pop(selectedIds);
                               }
 
@@ -289,7 +291,7 @@ class ListDialogState extends State<ListDialog> {
                                       ),
                                     ),
 
-                                    if(listType==ListType.multipleSelection)Container(
+                                    if(widget.maxSelection>1)Container(
                                       margin: const EdgeInsets.only(left: 5),
                                       child: CustomCheckBox(
                                         onChecked: (b){
@@ -297,6 +299,7 @@ class ListDialogState extends State<ListDialog> {
                                         },
                                         defaultValue: selectedIds.contains(listItem.itemKey),
                                         key: ValueKey(listItem.itemKey),
+                                        checkColor: widget.globalCheckBoxColor ?? listItem.checkBoxColor,
                                       )
                                     )
                                   ],
@@ -312,7 +315,7 @@ class ListDialogState extends State<ListDialog> {
                   ),
                 ),
               ),
-              if ((listType!=ListType.normal) && selectedIds.isNotEmpty)
+              if (widget.maxSelection>1 && selectedIds.isNotEmpty)
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
@@ -329,7 +332,7 @@ class ListDialogState extends State<ListDialog> {
                             closePage((){ Navigator.pop(context,selectedIds);});
                           },
                           child: Text(
-                            "OK",
+                            widget.buttonText ?? "Ok",
                             style: textStyle(true, 16, whiteColor),
                           ))),
                 )

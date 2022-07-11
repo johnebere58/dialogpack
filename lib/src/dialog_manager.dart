@@ -2,8 +2,6 @@
 
  import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/models/list_item.dart';
-import 'package:dialogpack/src/models/list_type.dart';
-import 'package:dialogpack/src/utils/list_dailog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -101,17 +99,20 @@ class DialogManager{
     }
 
     static _showListDialog(BuildContext context,{
-      required ListType listType,
       required List<ListItem> listItems,
-      required Function(dynamic item) onItemSelected,
+      required Function(List<ListItem> item) onItemSelected,
       String? title,Widget? transition,
-      bool returnIndex=false,
       bool searchable=false,
       int maxSelections = 1,
+      Color? buttonColor,
+      Color? titleColor,
       }){
 
-      launchNewScreen(context, ListDialog(listItems,title: title,
-        listType: listType,
+      launchNewScreen(context, ListDialog(listItems,
+        title: title,
+        maxSelection: maxSelections,
+        buttonColor: buttonColor,
+        titleColor: titleColor,
         searchable: searchable,),
           transitionBuilder: transition??slideUpTransition,
           result: (dynamic _){
@@ -119,94 +120,157 @@ class DialogManager{
             List<String> selectedIds = _ ;
             if(selectedIds.isEmpty)return;
 
-            List<int> selectedIndexes = getSelectedIndexes(listItems, selectedIds);
-
-            if(selectedIndexes.isEmpty)return;
-
-            if(listType == ListType.normal) {
-              if (returnIndex) {
-                onItemSelected(selectedIndexes[0]);
-              } else {
-                onItemSelected(listItems[selectedIndexes[0]].title);
-              }
-            }else{
-              if (returnIndex) {
-                onItemSelected(selectedIndexes);
-              } else {
-                List selectedListItems = List.generate(selectedIndexes.length, (index) =>
-                listItems[index]);
-                onItemSelected(selectedListItems);
-              }
-            }
+            List<ListItem> selectedListItems = List.generate(selectedIds.length,
+                    (index) =>
+            listItems.firstWhere((element) => element.itemKey == selectedIds[index]));
+            onItemSelected(selectedListItems);
 
           });
     }
 
-    /// show a list dialog to select a single item
-    /// the dialog item should be a [List] of [String]
+    /// show a simple list dialog
+    /// the dialog item should be a [List] of [String]s eg. ["apple", "ball", "cake"]
     /// You can set the dialog to be [searchable]
     ///
     /// use the function [onItemSelected] to get the item or position of item selected
-    /// [onItemSelected] will return a single item or a list of items depending on the
-    /// the value of [allowMultipleSelection]
-    /// if [allowMultipleSelection] is set to true [onItemSelected] will return a list of values
-    /// if [allowMultipleSelection] is set to false [onItemSelected] will return a single value
+    /// [onItemSelected] will return a single item eg. "apple"
+    /// or a list of items eg. ["apple","cake"]
+    /// depending on the value of [maxSelections]
+
+    /// You can choose for the return value to be a [String] eg. "apple"
+    /// or [int] position of the selected eg. 0
+    /// if "apple" is at position 0
+    /// by setting using [returnIndexes] to true
     ///
-    /// You can choose for the return value to be a [String] of item or [int] position of the selected item using [returnIndex]
-    /// if [returnIndex] is set to true, the value will be an [int] of the position
-    /// if [returnIndex] is set to false, the value will be the String selected
-    /// [returnIndex] is false by default
+    ///
+    /// if [returnIndexes] is set to true, the value will be an [int] of the position
+    /// if [returnIndexes] is set to false, the value will be the String selected
+    /// [returnIndexes] is false by default
+    ///
+    /// If you set [maxSelections] is greater than 1
+    /// the value return in [onItemSelected] will
+    /// be a [List] of [String] eg. ["apple", "cake"]
+    /// or a [List] of [int] eg. [0, 2]
+    /// depending if [returnIndexes] si set to true
     ///
     ///
     static showSimpleListDialog(BuildContext context,{
       required List<String> items,
       required Function(dynamic item) onItemSelected,
       String? title,Widget? transition,
-      bool returnIndex=false,
+      bool returnIndexes=false,
       bool searchable=false,
-      bool allowMultipleSelection=false,
-      int maxSelections = 1}){
+      int maxSelections = 1,
+      Color? buttonColor,
+      Color? titleColor}){
+      
+      if(maxSelections<1){
+        throw UnimplementedError("[maxSelections] cannot be less than 1");
+      }
 
       List<ListItem> listItems = List.generate(items.length, (index){
         return ListItem(title: items[index]);
       });
 
       _showListDialog(context, listItems: listItems,
-          listType: ListType.normal,
-          onItemSelected: onItemSelected,
-          returnIndex: returnIndex,
           title: title,
           searchable: searchable,
           transition: transition,
-          maxSelections: maxSelections);
+          maxSelections: maxSelections,
+          titleColor: titleColor,
+          buttonColor: buttonColor,
+          onItemSelected: (List<ListItem> resultItems){
+            if(maxSelections==1) {
+              ListItem listItem = resultItems[0];
+              if (returnIndexes) {
+                int index = listItems.indexWhere((element) =>
+                element.title
+                    == listItem.title);
+                onItemSelected(index);
+              } else {
+                onItemSelected(listItem.title);
+              }
+            }else{
+              if(returnIndexes){
+                List itemIndexes = List.generate(resultItems.length, (index) => items.indexOf(resultItems[index].title));
+                onItemSelected(itemIndexes);
+              }else{
+                List selectedItems = List.generate(resultItems.length, (index) => resultItems[index].title);
+                onItemSelected(selectedItems);
+              }
+            }
+          });
     }
 
-    static showMultipleSelectionSimpleListDialog(BuildContext context,{
-      required List<String> items,
-      ListType listType=ListType.normal,
-      String? title,Widget? transition}){
 
-      List<ListItem> listItems = List.generate(items.length, (index){
-        return ListItem(title: items[index]);
-      });
+    /// similar to showing a simple list dialog
+    /// the dialog item should be a [List] of [ListItem]s eg. [ListItem, ListItem, ListItem]
+    /// You can set the dialog to be [searchable]
+    ///
+    /// use the function [onItemSelected] to get the item or position of item selected
+    /// [onItemSelected] will return a single [ListItem] item
+    /// or a list of [List] list items eg. [ListItem, ListItem]
+    /// depending on the value of [maxSelections]
 
-      launchNewScreen(context, ListDialog(listItems,title: title,),
-          transitionBuilder: transition??slideUpTransition);
-    }
-
-
-
+    /// You can choose for the return value to be a [ListItem]
+    /// or [int] position of the [ListItem] selected eg. 0
+    /// by setting using [returnIndexes] to true
+    ///
+    ///
+    /// if [returnIndexes] is set to true, the value will be an [int] of the position
+    /// if [returnIndexes] is set to false, the value will be the String selected
+    /// [returnIndexes] is false by default
+    ///
+    /// If you set [maxSelections] is greater than 1
+    /// the value return in [onItemSelected] will
+    /// be a [List] of [String] eg. [ListItem, ListItem]
+    /// or a [List] of [int] eg. [0, 2]
+    /// depending if [returnIndexes] si set to true
+    ///
+    ///
     static showComplexListDialog(BuildContext context,{
       required List<ListItem> items,
-      ListType listType=ListType.normal,
-      String? title,Widget? transition}){
+      required Function(dynamic item) onItemSelected,
+      String? title,Widget? transition,
+      bool returnIndexes=false,
+      bool searchable=false,
+      int maxSelections = 1,
+      Color? buttonColor,
+      Color? titleColor}){
 
-      launchNewScreen(context, ListDialog(items,title: title,),
-          transitionBuilder: transition??slideUpTransition);
+      if(maxSelections<1){
+        throw UnimplementedError("[maxSelections] cannot be less than 1");
+      }
 
+      _showListDialog(context, listItems: items,
+          title: title,
+          searchable: searchable,
+          transition: transition,
+          maxSelections: maxSelections,
+          titleColor: titleColor,
+          buttonColor: buttonColor,
+          onItemSelected: (List<ListItem> resultItems){
+            if(maxSelections==1) {
+              ListItem listItem = resultItems[0];
+              if (returnIndexes) {
+                int index = items.indexWhere((element) =>
+                element.itemKey
+                    == listItem.itemKey);
+                onItemSelected(index);
+              } else {
+                onItemSelected(listItem);
+              }
+            }else{
+              if(returnIndexes){
+                List itemIndexes = List.generate(resultItems.length, (index) => items.indexOf(resultItems[index]));
+                onItemSelected(itemIndexes);
+              }else{
+                List selectedItems = List.generate(resultItems.length, (index) => resultItems[index]);
+                onItemSelected(selectedItems);
+              }
+            }
+          });
     }
-
-
 
     static showInputDialog(BuildContext context,){
 

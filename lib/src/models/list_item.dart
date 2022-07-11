@@ -9,10 +9,11 @@ class ListItem {
   final Color? titleColor;
   final Color? subtitleColor;
   final Color? iconOrImageColor;
+  final Color? checkBoxColor;
 
 
   ListItem({required this.title,this.subtitle,this.image,this.icon,
-           this.iconOrImageColor,this.titleColor,this.subtitleColor});
+           this.iconOrImageColor,this.titleColor,this.subtitleColor,this.checkBoxColor});
 
   String get itemKey => "$title${subtitle??""}";
 }
