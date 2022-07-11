@@ -1,5 +1,6 @@
 
 import 'package:dialogpack/dialogpack.dart';
+import 'package:dialogpack/src/models/list_item.dart';
 import 'package:flutter/material.dart';
 
 class SampleWidgetComplexListTest extends StatefulWidget {
@@ -16,6 +17,8 @@ class SampleWidgetComplexListTest extends StatefulWidget {
 
    @override
    Widget build(BuildContext context) {
+     List<ListItem> items = List.generate(5, (index) => ListItem(title: "Item $index"));
+
      return Scaffold(
        appBar: AppBar(title: const Text("Welcome"),),
        body: Container(
@@ -24,18 +27,16 @@ class SampleWidgetComplexListTest extends StatefulWidget {
            child: Column(
              mainAxisSize: MainAxisSize.min,
              children: [
-               Text(message),
+               Text(message,key: const ValueKey("text"),),
                const SizedBox(height: 10,),
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
-
-                   DialogManager.showSimpleListDialog(context,
+                   DialogManager.showComplexListDialog(context,
                        items: items,searchable: true,
                        onItemSelected: (item){
                          setState(() {
-                           message = "$item";
+                           message = "${item.title}";
                          });
                        }, returnIndexes: false);
 
@@ -46,9 +47,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
-
-                   DialogManager.showSimpleListDialog(context,
+                   DialogManager.showComplexListDialog(context,
                        items: items,searchable: true,
                        onItemSelected: (item){
                          setState(() {
@@ -59,6 +58,39 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                  },
                  child: const Text("Click Me for Index"),
                ),
+
+               const SizedBox(height: 10,),
+               TextButton(
+                 onPressed: (){
+
+                   DialogManager.showComplexListDialog(context,
+                       items: items,searchable: true,maxSelections: 3,
+                       onItemSelected: (item){
+                         setState(() {
+                           message = "Items ${List.generate(item.length, (index) => item[index].title)}";
+                         });
+                       }, returnIndexes: false);
+
+                 },
+                 child: const Text("Click Me for Multiple Items"),
+               ),
+
+               const SizedBox(height: 10,),
+               TextButton(
+                 onPressed: (){
+
+                   DialogManager.showComplexListDialog(context,
+                       items: items,searchable: true,maxSelections: 3,
+                       onItemSelected: (item){
+                         setState(() {
+                           message = "Indexes $item";
+                         });
+                       }, returnIndexes: true);
+
+                 },
+                 child: const Text("Click Me for Multiple Indexes"),
+               ),
+
 
              ],
            ),

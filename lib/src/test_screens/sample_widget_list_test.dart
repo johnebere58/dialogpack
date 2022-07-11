@@ -16,6 +16,8 @@ class SampleWidgetListTest extends StatefulWidget {
 
    @override
    Widget build(BuildContext context) {
+     List<String> items = List.generate(5, (index) => "Item $index");
+
      return Scaffold(
        appBar: AppBar(title: const Text("Welcome"),),
        body: Container(
@@ -29,7 +31,7 @@ class SampleWidgetListTest extends StatefulWidget {
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
+
 
                    DialogManager.showSimpleListDialog(context,
                        items: items,searchable: true,
@@ -46,7 +48,7 @@ class SampleWidgetListTest extends StatefulWidget {
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
+
 
                    DialogManager.showSimpleListDialog(context,
                        items: items,searchable: true,
@@ -64,7 +66,7 @@ class SampleWidgetListTest extends StatefulWidget {
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
+
 
                    DialogManager.showSimpleListDialog(context,
                        items: items,searchable: true,maxSelections: 3,
@@ -82,7 +84,7 @@ class SampleWidgetListTest extends StatefulWidget {
                TextButton(
                  onPressed: (){
 
-                   List<String> items = List.generate(5, (index) => "Item $index");
+
 
                    DialogManager.showSimpleListDialog(context,
                        items: items,searchable: true,maxSelections: 3,
