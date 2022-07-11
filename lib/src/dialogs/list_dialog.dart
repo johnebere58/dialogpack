@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/blocs/check_box_controller.dart';
+import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
 import 'package:dialogpack/src/utils/widgets/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/models/list_item.dart';
+import 'package:dialogpack/src/utils/widget_utils.dart';
 
 class ListDialog extends StatefulWidget {
   final String? title;
@@ -48,8 +50,8 @@ class ListDialogState extends State<ListDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    allItems = widget.items;
-    listItems = widget.items;
+    allItems = List.from(widget.items);
+    listItems = List.from(widget.items);
 
     Future.delayed(const Duration(milliseconds: 200),(){
       hideUI=false;
@@ -83,11 +85,13 @@ class ListDialogState extends State<ListDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(fit: StackFit.expand, children: <Widget>[
+    return Stack(fit: StackFit.expand,alignment: Alignment.center,
+        children: <Widget>[
       GestureDetector(
         onTap: () {
           closePage((){ Navigator.pop(context);});
         },
+        key: const ValueKey("tapToClose"),
         child: AnimatedOpacity(
           opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
           child: ClipRect(
@@ -110,13 +114,14 @@ class ListDialogState extends State<ListDialog> {
     Color titleColor = widget.titleColor ?? blackColor;
 
     return Center(
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        color: blackColor2,
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+        width: getScreenWidth(context)>500?500:getScreenWidth(context),
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          color: whiteColor,
+          elevation: 5,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +180,7 @@ class ListDialogState extends State<ListDialog> {
                             border: InputBorder.none,isDense: true),
                         style: textStyle(false, 16, black),
                         controller: _searchController,
-                        cursorColor: black,
+                        cursorColor: blackColor,
                         cursorWidth: 2,
                         focusNode: _focusNode,
                         keyboardType: TextInputType.text,
@@ -186,17 +191,22 @@ class ListDialogState extends State<ListDialog> {
                         },
                       ),
                     ),
-                    if(showCancel)GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showCancel = false;
-                          _searchController.text = "";
-                        });
-                        performSearch();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                        color: Colors.transparent,
+                    if(showCancel)Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                      color: Colors.transparent,
+                      height: 22,width: 22,
+                      child: TextButton(
+                        onPressed: (){
+                          setState(() {
+                            showCancel = false;
+                            _searchController.text = "";
+                          });
+                          performSearch();
+                        },
+                        style: TextButton.styleFrom(
+                          shape: const CircleBorder(),
+                          padding: EdgeInsets.zero
+                        ),
                         child: Icon(
                           Icons.close,
                           color: blackColor,
@@ -213,14 +223,15 @@ class ListDialogState extends State<ListDialog> {
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                     itemBuilder: (context, position) {
 
-                      ListItem listItem = allItems[position];
+                      ListItem listItem = listItems[position];
                       String? image = listItem.image;
                       IconData? icon = listItem.icon;
                       String title = listItem.title;
                       String? subtitle = listItem.subtitle;
                       Color titleColor = listItem.titleColor ?? blackColor;
                       Color subtitleColor = listItem.subtitleColor ?? blackColor2;
-                      Color iconOrImageColor = listItem.iconOrImageColor ?? blackColor2;
+                      Color iconOrImageColor = listItem.iconOrImageColor ?? blackColor;
+                      double iconSize = subtitle==null?18:25;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +246,7 @@ class ListDialogState extends State<ListDialog> {
                               handleSelection(position);
 
                               if(widget.maxSelection==1){
-                                Navigator.of(context).pop(selectedIds);
+                               closePage((){ Navigator.of(context).pop(selectedIds);});
                               }
 
                             },
@@ -257,13 +268,13 @@ class ListDialogState extends State<ListDialog> {
                                                child:
                                                icon!=null? Icon(
                                                  icon,
-                                                 size: 20,
+                                                 size: iconSize,
                                                  color: iconOrImageColor,
                                                )
                                                      :Image.asset(
                                                image!,
-                                               width: 20,
-                                               height: 20,
+                                               width: iconSize,
+                                               height: iconSize,
                                                color: iconOrImageColor,
                                              ),
                                              )
@@ -279,7 +290,7 @@ class ListDialogState extends State<ListDialog> {
                                                 false, 16, titleColor),
                                           ),
                                           if(subtitle!=null)Container(
-                                            margin: const EdgeInsets.only(top: 5),
+                                            margin: const EdgeInsets.only(top: 3),
                                             child: Text(
                                               subtitle,
                                               style: textStyle(
@@ -299,6 +310,7 @@ class ListDialogState extends State<ListDialog> {
                                         },
                                         defaultValue: selectedIds.contains(listItem.itemKey),
                                         key: ValueKey(listItem.itemKey),
+                                        // size: ,
                                         checkColor: widget.globalCheckBoxColor ?? listItem.checkBoxColor,
                                       )
                                     )
@@ -310,22 +322,22 @@ class ListDialogState extends State<ListDialog> {
                         ],
                       );
                     },
-                    itemCount: widget.items.length,
+                    itemCount: listItems.length,
                     shrinkWrap: true,
                   ),
                 ),
               ),
-              if (widget.maxSelection>1 && selectedIds.isNotEmpty)
+
                 Align(
                   alignment: Alignment.topRight,
-                  child: Container(
-//                      width: double.infinity,
-                      height: 40,
-                      margin: const EdgeInsets.all(10),
+                  child: AnimatedContainer(duration:const Duration(milliseconds: 500),
+                     width: double.infinity,
+                      height: (widget.maxSelection>1 && selectedIds.isNotEmpty)?40:0,
+                      margin: const EdgeInsets.fromLTRB(0,10,0,0),
                       child: TextButton(
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
+                                borderRadius: BorderRadius.circular(0)),
                             backgroundColor: buttonColor,
                           ),
                           onPressed: () {
@@ -369,7 +381,7 @@ class ListDialogState extends State<ListDialog> {
     setState(() {
 
     });
-    Future.delayed(const Duration(milliseconds: 100),(){
+    Future.delayed(const Duration(milliseconds: 300),(){
       Future.delayed(const Duration(milliseconds: 100),(){
         hideUI=true;
         setState(() {});

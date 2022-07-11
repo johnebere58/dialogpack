@@ -16,7 +16,7 @@ class CustomCheckBox extends StatefulWidget {
   final bool defaultValue;
   const CustomCheckBox({
     required this.onChecked(bool onChecked),this.title,
-    this.size=20.0,
+    this.size=18.0,
     this.textSize=14.0,
     this.checkColor,
     this.textColor,
@@ -76,9 +76,9 @@ class CustomCheckBox extends StatefulWidget {
                padding: const EdgeInsets.all(2),
                decoration: BoxDecoration(
                    shape: BoxShape.circle,
-                   color: checked?Colors.transparent: blackColor.withOpacity(bestOpacity),
+                   color: checked?Colors.transparent: blackColor.withOpacity(bestOpacity2),
                    border:
-                   Border.all(color:checkColor, width: 2)
+                   Border.all(color:checkColor, width: 1.5)
                ),
                child: AnimatedContainer(duration: const Duration(milliseconds: 600),
                  width: size,
@@ -91,7 +91,7 @@ class CustomCheckBox extends StatefulWidget {
                  child: Icon(
                    Icons.check,
                    size: size-4,
-                   color: !checked?transparent:checkColor,
+                   color: !checked?transparent:whiteColor,
                  ),
                ),
              ),

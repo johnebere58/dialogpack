@@ -26,6 +26,19 @@ import 'package:dialogpack/src/dialog_manager.dart';
          "Indexes [0, 2, 4]", complexList: true);
    });
 
+   testWidgets("Test if list dialog is dismissable", (tester)async{
+     await tester.pumpWidget( const MaterialApp(home: SampleWidgetListTest(),));
+     await tester.pumpAndSettle();
+
+     await tester.tap(find.text("Click Me"));
+     await tester.pumpAndSettle(const Duration(milliseconds: 500));
+
+     await tester.tap(find.byKey(const ValueKey("tapToClose")));
+     await tester.pumpAndSettle(const Duration(milliseconds: 500));
+
+     expect(find.text("Item 0"), findsNothing);
+   });
+
  }
 
  void testListDialog(String buttonText,String resultText,{bool complexList=false}){
@@ -44,8 +57,9 @@ import 'package:dialogpack/src/dialog_manager.dart';
      expect(find.text(resultText), findsOneWidget);
      expect(find.text(buttonText), findsOneWidget);
    });
-
  }
+
+
 
  void testListDialogWithMultipleSelection(String buttonText,String resultText,{bool complexList=false}){
 
@@ -60,17 +74,28 @@ import 'package:dialogpack/src/dialog_manager.dart';
      await tester.tap(find.text("Item 0"));
      await tester.tap(find.text("Item 2"));
      await tester.tap(find.text("Item 4"));
+
+     await tester.enterText(find.byType(TextField), "2");
+     await tester.pumpAndSettle(const Duration(milliseconds: 200));
+     expect(find.text("Item 0"), findsNothing);
+
+     await tester.tap(find.byIcon(Icons.close));
+     await tester.pumpAndSettle(const Duration(milliseconds: 200));
+     expect(find.text("Item 0"), findsOneWidget);
+
      await tester.pumpAndSettle(const Duration(milliseconds: 100));
      await tester.tap(find.text("Ok"));
      await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
      Text text = (find.byKey(const ValueKey("text")).evaluate().single.widget as Text);
-
      tester.printToConsole("Text data: ${text.data}");
+
      expect(find.text(resultText), findsOneWidget);
      expect(find.text(buttonText), findsOneWidget);
    });
 
  }
+
+
 
 

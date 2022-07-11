@@ -21,7 +21,7 @@ class MessageDialogModel{
     final Color? messageTextColor;
     final Color positiveTextColor;
     final Color negativeTextColor;
-    final Color neutralTextColor;
+    final Color? neutralTextColor;
     final bool autoDismissAfterClick;
 
     MessageDialogModel(
@@ -44,7 +44,7 @@ class MessageDialogModel{
       this.messageTextColor,
       this.positiveTextColor = Colors.blue,
       this.negativeTextColor = Colors.red,
-      this.neutralTextColor = Colors.black45,
+      this.neutralTextColor,
       this.autoDismissAfterClick = true,
  }
         );

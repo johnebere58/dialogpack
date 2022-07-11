@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -78,13 +80,14 @@ class MessageDialogState extends State<MessageDialog> {
           onTap: () {
             if (cancellable) closePage((){ Navigator.pop(context);});
           },
+          key: const ValueKey("tapToClose"),
           child: AnimatedOpacity(
             opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
             child: ClipRect(
                 child:BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
                     child: Container(
-                      color: blackColor.withOpacity(.7),
+                      color: Colors.black.withOpacity(.7),
                     ))
             ),
           ),
@@ -110,7 +113,9 @@ class MessageDialogState extends State<MessageDialog> {
     Function? neutralClick = messageDialogModel.onNeutralClicked;
     Color positiveTextColor = messageDialogModel.positiveTextColor;
     Color negativeTextColor = messageDialogModel.negativeTextColor;
-    Color neutralTextColor = messageDialogModel.neutralTextColor;
+    Color? neutralTextColor = messageDialogModel.neutralTextColor;
+    neutralTextColor =
+        neutralTextColor ?? (DialogManager.darkMode? default_white : Colors.black45);
     Color? messageTextColor = messageDialogModel.messageTextColor;
     Color? titleTextColor = messageDialogModel.titleTextColor;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
@@ -118,14 +123,10 @@ class MessageDialogState extends State<MessageDialog> {
     return Center(
       child: Container(
         margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-        // constraints: BoxConstraints(
-        //   maxWidth: getScreenWidth(context)>500?500
-        //       :double.infinity,
-        //   minWidth: getScreenWidth(context)/2
-        // ),
+        width: getScreenWidth(context)>500?500:getScreenWidth(context),
         child: Card(
           clipBehavior: Clip.antiAlias,
-          color: Colors.white,elevation: 5,
+          color: whiteColor,elevation: 5,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -186,7 +187,7 @@ class MessageDialogState extends State<MessageDialog> {
                 ),
               ),
 
-              addLine(1, blackColor.withOpacity(bestOpacity), 0, 0, 0, 0),
+              addLine(1, blackColor.withOpacity(bestOpacity2), 0, 0, 0, 0),
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,10,10,20),

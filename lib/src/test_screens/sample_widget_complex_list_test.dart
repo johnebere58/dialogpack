@@ -89,8 +89,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
 
                  },
                  child: const Text("Click Me for Multiple Indexes"),
-               ),
-
+               )
 
              ],
            ),

@@ -1,6 +1,4 @@
-
-
- import 'package:dialogpack/src/dialogs/list_dialog.dart';
+import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/models/list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
