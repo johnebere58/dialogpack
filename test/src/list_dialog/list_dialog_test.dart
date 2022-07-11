@@ -1,8 +1,8 @@
+import 'package:dialogpack/src/test_screens/sample_widget_list_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dialogpack/src/dialog_manager.dart';
 
-import 'sample_widget_list_test.dart';
 
  void main(){
 
