@@ -33,6 +33,6 @@ jobs:
       - name: Run tests
         run: flutter test
         
-      - name: Release APK
-        run: flutter build apk
+      - name: Flutter Runner
+        uses: jddeep/Flutter-Runner@1.2.0
   
