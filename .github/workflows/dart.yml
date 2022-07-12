@@ -35,6 +35,5 @@ jobs:
         run: flutter test
         
       - name: Release APK
-        uses: ShowMeThe/github_action_release@v0.01
-        with: 
-          GITHUB_TOKEN: secret.TOKEN
+        run: flutter build apk
+  
