@@ -26,4 +26,19 @@ jobs:
       - name: Run tests
         run: flutter test
         
+      - name: clean stale build and cache
+        uses: ./action
+        with:
+          args: clean
+
+      - name: install dependencies
+        uses: ./action
+        with:
+          args: pub get
+
+      - name: build apk
+        uses: ./action
+        with:
+          args: build apk --release
+        
   
