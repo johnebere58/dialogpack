@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - uses: britannio/action-install-flutter@v1.1
 
