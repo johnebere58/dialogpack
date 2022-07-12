@@ -19,7 +19,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - uses: britannio/action-install-flutter@v1.1
-      - uses: ShowMeThe/github_action_release@v0.01
 
       - name: Install dependencies
         run: flutter pub get
