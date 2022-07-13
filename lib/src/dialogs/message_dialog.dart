@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
-import 'package:gif_view/gif_view.dart';
+import 'package:flutter/services.dart';
+import 'package:gif/gif.dart';
 
 
 class MessageDialog extends StatefulWidget {
@@ -92,9 +93,19 @@ class MessageDialogState extends State<MessageDialog> {
             ),
           ),
         ),
-        page()
+        page(),
+        // if(widget.messageDialogModel.gif!=null)
+        //   Opacity(opacity: 1,child: Gif(
+        //   image: AssetImage("assets/${widget.messageDialogModel.gif}",package: "dialogpack",),
+        //   autostart: Autostart.once,
+        // ),)
       ]),
     );
+  }
+
+  Future<String> loadGif(String gif)async{
+    return await rootBundle
+        .loadString('packages/dialogpack/lib/assets/$gif');
   }
 
   Widget page() {
@@ -121,169 +132,206 @@ class MessageDialogState extends State<MessageDialog> {
     Color? titleTextColor = messageDialogModel.titleTextColor;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
+    bool hasImage = icon!=null || image!=null || gif!=null;
     return Center(
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-        width: getScreenWidth(context)>500?500:getScreenWidth(context),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          color: whiteColor,elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            margin:  EdgeInsets.fromLTRB(40, hasImage?(iconOrImageSize/2):0, 40, 0),
+            width: getScreenWidth(context)>500?500:getScreenWidth(context),
 
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20,20,20,15),
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              color: whiteColor,elevation: 5,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              child: Padding(
+                padding: EdgeInsets.only(top: hasImage?(iconOrImageSize/3):0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-
-                    if(icon!=null || image!=null || gif!=null)SizedBox(
-                        width: iconOrImageSize,height: iconOrImageSize,
-                        // margin: EdgeInsets.only(bottom: 10),
-                        child:
-                        gif!=null?GifView.asset(gif,loop: false,
-                          frameRate: 35,color: iconOrImageColor,
-                        ):
-                        (icon == null && image !=null)
-                            ? (Image.asset(
-                          image,
-                          color: iconOrImageColor,package: "dialogpack",
-                          // width: 45,
-                          // height: 45,
-                        ))
-                            : Icon(
-                          icon,
-                          color: iconOrImageColor,
-                          // size: 75,
-                        )
-                    ),
-
-                    addSpace(10),
-                    if(title!=null)Container(
-                      margin: const EdgeInsets.only(bottom: 5),
-                      child: Text(
-                        title,
-                        style: textStyle(true, 20, titleTextColor??blackColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Flexible(
-                      child: SingleChildScrollView(
-                        child: Text(
-                          message,
-                          style: textStyle(false,
-                              title==null?20:
-                              16,
-                              title==null?blackColor:( messageTextColor ?? blackColor2)),
-                          textAlign: TextAlign.center,
-//                                    maxLines: 1,
-                        ),
-                      ),
-                    ),
-                    if(message.isNotEmpty)addSpace(10),
-                  ],
-                ),
-              ),
-
-              addLine(1, blackColor.withOpacity(bestOpacity2), 0, 0, 0, 0),
-
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10,10,10,20),
-                child: Wrap(
-                  // mainAxisSize: MainAxisSize.min,
-                  alignment: WrapAlignment.center,
                   children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
-                          ),
-                          onPressed: () {
-                            if(autoDismiss){
-                              closePage(() async {
-                                Navigator.pop(context);
-                                await Future.delayed(const Duration(milliseconds: 200));
-                                if(positiveClick!=null)positiveClick();
-                              });
-                            }else{
-                              if(positiveClick!=null)positiveClick();
-                            }
-                          },
-                          child: Text(
-                            positiveText,
-                            maxLines: 1,
-                            style: textStyle(true, 18, positiveTextColor),
-                          )),
-                    ),
-                    // if(noText!=null)addSpaceWidth(10),
-                    if(negativeText!=null)Container(
-                        margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              // side: BorderSide(color: red0,width: 2)
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20,20,20,15),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+
+
+                          // addSpace(10),
+                          if(title!=null)Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              title,
+                              style: textStyle(true, 20, titleTextColor??blackColor),
+                              textAlign: TextAlign.center,
                             ),
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
                           ),
-//                                    color: blue3,
-                          onPressed: () {
-                            if(autoDismiss){
-                              closePage(()async{
-                                Navigator.pop(context);
-                                await Future.delayed(const Duration(milliseconds: 200));
-                                if(negativeClick!=null)negativeClick();
-                              });
-                            }else{
-                              if(negativeClick!=null)negativeClick();
-                            }
-                          },
-                          child: Text(
-                            negativeText,maxLines: 1,
-                            style: textStyle(true, 18, negativeTextColor),
-                          )),
-                    ),
-                    if(neutralText!=null)Container(
-                        margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              // side: BorderSide(color: red0,width: 2)
+                          Flexible(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                message,
+                                style: textStyle(false,
+                                    title==null?20:
+                                    16,
+                                    title==null?blackColor:( messageTextColor ?? blackColor2)),
+                                textAlign: TextAlign.center,
+//                                    maxLines: 1,
+                              ),
                             ),
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
                           ),
+                          if(message.isNotEmpty)addSpace(10),
+                        ],
+                      ),
+                    ),
+
+                    addLine(1, blackColor.withOpacity(bestOpacity2), 0, 0, 0, 0),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10,10,10,20),
+                      child: Wrap(
+                        // mainAxisSize: MainAxisSize.min,
+                        alignment: WrapAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25)),
+                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                                ),
+                                onPressed: () {
+                                  if(autoDismiss){
+                                    closePage(() async {
+                                      Navigator.pop(context);
+                                      await Future.delayed(const Duration(milliseconds: 200));
+                                      if(positiveClick!=null)positiveClick();
+                                    });
+                                  }else{
+                                    if(positiveClick!=null)positiveClick();
+                                  }
+                                },
+                                child: Text(
+                                  positiveText,
+                                  maxLines: 1,
+                                  style: textStyle(true, 18, positiveTextColor),
+                                )),
+                          ),
+                          // if(noText!=null)addSpaceWidth(10),
+                          if(negativeText!=null)Container(
+                              margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                    // side: BorderSide(color: red0,width: 2)
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                                ),
 //                                    color: blue3,
-                          onPressed: () {
-                            if(autoDismiss) {
-                              closePage(() async {
-                                Navigator.pop(context);
-                                await Future.delayed(
-                                    const Duration(milliseconds: 200));
-                                if (neutralClick != null) neutralClick();
-                              });
-                            }else{
-                              if (neutralClick != null) neutralClick();
-                            }
-                          },
-                          child: Text(
-                            neutralText,maxLines: 1,
-                            style: textStyle(true, 18, neutralTextColor),
-                          )),
+                                onPressed: () {
+                                  if(autoDismiss){
+                                    closePage(()async{
+                                      Navigator.pop(context);
+                                      await Future.delayed(const Duration(milliseconds: 200));
+                                      if(negativeClick!=null)negativeClick();
+                                    });
+                                  }else{
+                                    if(negativeClick!=null)negativeClick();
+                                  }
+                                },
+                                child: Text(
+                                  negativeText,maxLines: 1,
+                                  style: textStyle(true, 18, negativeTextColor),
+                                )),
+                          ),
+                          if(neutralText!=null)Container(
+                              margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                    // side: BorderSide(color: red0,width: 2)
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
+                                ),
+//                                    color: blue3,
+                                onPressed: () {
+                                  if(autoDismiss) {
+                                    closePage(() async {
+                                      Navigator.pop(context);
+                                      await Future.delayed(
+                                          const Duration(milliseconds: 200));
+                                      if (neutralClick != null) neutralClick();
+                                    });
+                                  }else{
+                                    if (neutralClick != null) neutralClick();
+                                  }
+                                },
+                                child: Text(
+                                  neutralText,maxLines: 1,
+                                  style: textStyle(true, 18, neutralTextColor),
+                                )),
+                          ),
+
+                        ],
+                      ),
                     ),
 
                   ],
                 ),
               ),
-
-            ],
+            ),
           ),
-        ),
+          if(hasImage)Container(
+              decoration: BoxDecoration(
+                  color: whiteColor,shape: BoxShape.circle
+              ),
+              width: iconOrImageSize,height: iconOrImageSize,
+              // margin: EdgeInsets.only(bottom: 10),
+              child:
+              gif!=null?
+              Gif(
+                image: AssetImage("assets/$gif",package: "dialogpack",),
+                color: iconOrImageColor,
+                placeholder: (c)=>Container(),
+                // controller: _controller, // if duration and fps is null, original gif fps will be used.
+                //fps: 30,
+                //duration: const Duration(seconds: 3),
+                autostart: Autostart.once,
+                // placeholder: (context) => const Text('Loading...'),
+                // onFetchCompleted: () {
+                //   _controller.reset();
+                //   _controller.forward();
+                // },
+              ):
+              // GifView.asset("packages/dialogpack/lib/assets/$gif",loop: false,
+              //   frameRate: 35,color: iconOrImageColor,
+              // )
+              // FutureBuilder(builder: (c,s){
+              //
+              //   if(!s.hasData)return Container();
+              //   return GifView.asset(s.data.toString(),loop: false,
+              //     frameRate: 35,color: iconOrImageColor,
+              //   );
+              // },future: loadGif(gif),)
+
+              (icon == null && image !=null)
+                  ? (Image.asset(
+                image,
+                color: iconOrImageColor,package: "dialogpack",
+                // width: 45,
+                // height: 45,
+              ))
+                  : Icon(
+                icon,
+                color: iconOrImageColor,
+                // size: 75,
+              )
+          ),
+
+        ],
       ),
     );
   }

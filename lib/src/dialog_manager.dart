@@ -75,8 +75,8 @@ class DialogManager{
             Widget? transition}){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
-            gif: 'dialogpack:assets/success.gif',
-            iconOrImageSize: 100,
+            gif: 'success2.gif',
+            iconOrImageSize: 120,
             iconOrImageColor: Colors.blue,
             message: message,title: title,
             onPositiveClicked: clickedYes,

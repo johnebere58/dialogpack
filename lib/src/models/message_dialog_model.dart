@@ -7,8 +7,6 @@ class MessageDialogModel{
     final String? gif;
     final String? assetImage;
     final IconData? icon;
-    final Color iconOrImageColor;
-    final double iconOrImageSize;
     final String? title;
     final String message;
     final String positiveClickText;
@@ -18,11 +16,6 @@ class MessageDialogModel{
     final Function? onNegativeClicked;
     final Function? onNeutralClicked;
     final bool cancellableOnTapOutside;
-    final Color? titleTextColor;
-    final Color? messageTextColor;
-    final Color positiveTextColor;
-    final Color negativeTextColor;
-    final Color? neutralTextColor;
     final bool autoDismissAfterClick;
 
     MessageDialogModel(
@@ -33,8 +26,6 @@ class MessageDialogModel{
       this.icon,
       this.assetImage,
       this.gif,
-      this.iconOrImageColor= Colors.blue,
-      this.iconOrImageSize = 60.0,
       this.positiveClickText = "Ok",
       this.negativeClickText,
       this.neutralClickText,
@@ -42,11 +33,6 @@ class MessageDialogModel{
       this.onNegativeClicked,
       this.onNeutralClicked,
       this.cancellableOnTapOutside=true,
-      this.titleTextColor,
-      this.messageTextColor,
-      this.positiveTextColor = Colors.blue,
-      this.negativeTextColor = Colors.red,
-      this.neutralTextColor,
       this.autoDismissAfterClick = true,
  }
         );
