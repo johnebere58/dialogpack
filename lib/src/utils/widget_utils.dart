@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/utils/transitions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dialogpack/src/utils/transitions.dart';
 
  Container addLine(
     double size, Color color, double left, double top, double right, double bottom) {
@@ -65,9 +65,9 @@ import 'package:dialogpack/src/utils/transitions.dart';
   },) :
   PageRouteBuilder(
       transitionsBuilder:
-      fade?Transition.fadeTransition:
-      slideUp?Transition.slideUpTransition:
-      transitionBuilder?? Transition.slideTransition,
+      fade?fadeTransition:
+      slideUp?slideUpTransition:
+      transitionBuilder?? slideTransition,
       transitionDuration: transitionDuration??const Duration(milliseconds: 300),
       opaque: opaque,
       pageBuilder: (context, _, __) {

@@ -2,11 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/models/button_placement.dart';
 import 'package:dialogpack/src/models/dialog_button_style.dart';
+import 'package:dialogpack/src/models/dialog_placement.dart';
 import 'package:dialogpack/src/models/dialog_style.dart';
+import 'package:dialogpack/src/models/icon_or_icon_placement.dart';
 import 'package:dialogpack/src/models/image_or_icon_style.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
+import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:dialogpack/src/utils/style_utils.dart';
+import 'package:dialogpack/src/utils/widgets/image_or_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -126,34 +131,56 @@ class MessageDialogState extends State<MessageDialog> {
     Function? negativeClick = messageDialogModel.onNegativeClicked;
     Function? neutralClick = messageDialogModel.onNeutralClicked;
 
+    //The message dialog style
     MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle ?? MessageDialogStyle(dialogButtonStyle: StyleUtils.defaultPositiveButton);
     Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
-    Color messageTextColor = messageDialogStyle.titleTextColor ?? blackColor2;
+    Color messageTextColor = messageDialogStyle.titleTextColor ?? (title==null? titleTextColor: blackColor2);
     double titleTextSize = messageDialogStyle.titleTextSize;
     double messageTextSize = messageDialogStyle.messageTextSize;
-    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle;
     Color positiveTextButtonColor = messageDialogStyle.positiveTextButtonColor;
     Color negativeTextButtonColor = messageDialogStyle.negativeTextButtonColor;
     Color neutralTextButtonColor = messageDialogStyle.neutralTextButtonColor;
-    DialogStyle dialogStyle = messageDialogStyle.dialogStyle;
-    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
+    //The dialog style
+    DialogStyle dialogStyle = messageDialogStyle.dialogStyle;
+    // String? appBanner = dialogStyle.appBanner;
+    double curvedRadius = dialogStyle.curvedRadius;
+    double elevation = dialogStyle.elevation;
+    DialogPlacement dialogPlacement = dialogStyle.dialogPlacement;
+    double margin = dialogStyle.margin;
+
+    //The imageOrIcon style
+    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
+    ImageOrIconPlacement imageOrIconPlacement = imageOrIconStyle.imageOrIconPlacement;
+    bool topImageStyle = imageOrIconPlacement==ImageOrIconPlacement.top;
+    double imageOrIconSize = imageOrIconStyle.size;
+
+    //The dialog button style
+    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle;
+    ButtonPlacment buttonPlacement = dialogButtonStyle.buttonPlacement;
+    ButtonStyle buttonStyle = dialogButtonStyle.buttonStyle;
+    double buttonSpacing = dialogButtonStyle.spacing;
+
+
     bool hasImage = icon!=null || image!=null || gif!=null;
-    return Align(alignment: Alignment.center,
+    return Align(
+        alignment: dialogPlacement==DialogPlacement.top? Alignment.topCenter:
+                    dialogPlacement==DialogPlacement.bottom? Alignment.bottomCenter
+                    :Alignment.center,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin:  EdgeInsets.fromLTRB(40, hasImage?(iconOrImageSize/2):0, 40, 0),
+            margin:  EdgeInsets.fromLTRB(margin, (margin+(hasImage?(imageOrIconSize/2):0)), margin, margin),
             width: getScreenWidth(context)>500?500:getScreenWidth(context),
 
             child: Card(
               clipBehavior: Clip.antiAlias,
-              color: whiteColor,elevation: 5,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              color: whiteColor,elevation: elevation,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(curvedRadius)),
               child: Padding(
-                padding: EdgeInsets.only(top: hasImage?(iconOrImageSize/3):0),
+                padding: EdgeInsets.only(top: topImageStyle && hasImage?(imageOrIconSize/3):0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -164,13 +191,16 @@ class MessageDialogState extends State<MessageDialog> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
 
+                          if(!topImageStyle && hasImage)
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 10),
+                                child: ImageOrIconWidget(messageDialogModel: messageDialogModel, imageOrIconStyle: imageOrIconStyle)),
 
-                          // addSpace(10),
                           if(title!=null)Container(
                             margin: const EdgeInsets.only(bottom: 5),
                             child: Text(
                               title,
-                              style: textStyle(true, 20, titleTextColor??blackColor),
+                              style: textStyle(true, titleTextSize, titleTextColor),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -179,9 +209,8 @@ class MessageDialogState extends State<MessageDialog> {
                               child: Text(
                                 message,
                                 style: textStyle(false,
-                                    title==null?20:
-                                    16,
-                                    title==null?blackColor:( messageTextColor ?? blackColor2)),
+                                    title==null?messageTextSize + 5: messageTextSize,
+                                    (messageTextColor)),
                                 textAlign: TextAlign.center,
 //                                    maxLines: 1,
                               ),
@@ -203,7 +232,7 @@ class MessageDialogState extends State<MessageDialog> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: ,
+                                style: buttonStyle,
                                 onPressed: () {
                                   if(autoDismiss){
                                     closePage(() async {
@@ -217,15 +246,14 @@ class MessageDialogState extends State<MessageDialog> {
                                 },
                                 child: Text(
                                   positiveText,
-                                  maxLines: 1,
+                                  style: TextStyle(color: positiveTextButtonColor),
                                 )),
                           ),
                           // if(noText!=null)addSpaceWidth(10),
                           if(negativeText!=null)Container(
                               margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: ,
-//                                    color: blue3,
+                                style: buttonStyle,
                                 onPressed: () {
                                   if(autoDismiss){
                                     closePage(()async{
@@ -238,13 +266,14 @@ class MessageDialogState extends State<MessageDialog> {
                                   }
                                 },
                                 child: Text(
-                                  negativeText,maxLines: 1,
+                                  negativeText,
+                                  style: TextStyle(color: negativeTextButtonColor),
                                 )),
                           ),
                           if(neutralText!=null)Container(
                               margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: ,
+                                style: buttonStyle,
                                 onPressed: () {
                                   if(autoDismiss) {
                                     closePage(() async {
@@ -258,7 +287,8 @@ class MessageDialogState extends State<MessageDialog> {
                                   }
                                 },
                                 child: Text(
-                                  neutralText,maxLines: 1,
+                                  neutralText,
+                                  style: TextStyle(color: neutralTextButtonColor),
                                 )),
                           ),
 
@@ -271,52 +301,8 @@ class MessageDialogState extends State<MessageDialog> {
               ),
             ),
           ),
-          if(hasImage)Container(
-              decoration: BoxDecoration(
-                  color: whiteColor,shape: BoxShape.circle
-              ),
-              width: iconOrImageSize,height: iconOrImageSize,
-              // margin: EdgeInsets.only(bottom: 10),
-              child:
-              gif!=null?
-              Gif(
-                image: AssetImage("assets/$gif",package: "dialogpack",),
-                color: iconOrImageColor,
-                placeholder: (c)=>Container(),
-                // controller: _controller, // if duration and fps is null, original gif fps will be used.
-                //fps: 30,
-                //duration: const Duration(seconds: 3),
-                autostart: Autostart.once,
-                // placeholder: (context) => const Text('Loading...'),
-                // onFetchCompleted: () {
-                //   _controller.reset();
-                //   _controller.forward();
-                // },
-              ):
-              // GifView.asset("packages/dialogpack/lib/assets/$gif",loop: false,
-              //   frameRate: 35,color: iconOrImageColor,
-              // )
-              // FutureBuilder(builder: (c,s){
-              //
-              //   if(!s.hasData)return Container();
-              //   return GifView.asset(s.data.toString(),loop: false,
-              //     frameRate: 35,color: iconOrImageColor,
-              //   );
-              // },future: loadGif(gif),)
-
-              (icon == null && image !=null)
-                  ? (Image.asset(
-                image,
-                color: iconOrImageColor,package: "dialogpack",
-                // width: 45,
-                // height: 45,
-              ))
-                  : Icon(
-                icon,
-                color: iconOrImageColor,
-                // size: 75,
-              )
-          ),
+          if(topImageStyle && hasImage)
+            ImageOrIconWidget(messageDialogModel: messageDialogModel, imageOrIconStyle: imageOrIconStyle),
 
         ],
       ),

@@ -7,7 +7,7 @@ class DialogStyle{
    final double curvedRadius;
    final double elevation;
    final DialogPlacement dialogPlacement;
-   final double? margin;
+   final double margin;
 
    const DialogStyle({this.appBanner,
      this.curvedRadius=15.0,
