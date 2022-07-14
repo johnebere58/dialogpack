@@ -1,5 +1,6 @@
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/models/list_item.dart';
+import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -13,10 +14,12 @@ class DialogManager{
 
     static bool initialized = false;
     static bool darkMode = false;
+    static MessageDialogStyle? globalMessageDialogStyle;
 
     ///very important please call this method first
-    static initialize({bool useDarkMode=false}){
+    static initialize({bool useDarkMode=false,messageDialogStyle}){
       darkMode = useDarkMode;
+      globalMessageDialogStyle = messageDialogStyle;
         if(!initialized) {
             Repository.startUp();
             initialized = true;

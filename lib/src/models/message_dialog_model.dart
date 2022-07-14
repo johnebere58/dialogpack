@@ -1,5 +1,6 @@
 
  import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
 
 class MessageDialogModel{
@@ -17,6 +18,7 @@ class MessageDialogModel{
     final Function? onNeutralClicked;
     final bool cancellableOnTapOutside;
     final bool autoDismissAfterClick;
+    final MessageDialogStyle? messageDialogStyle;
 
     MessageDialogModel(
     {
@@ -34,6 +36,7 @@ class MessageDialogModel{
       this.onNeutralClicked,
       this.cancellableOnTapOutside=true,
       this.autoDismissAfterClick = true,
+      this.messageDialogStyle,
  }
         );
  }

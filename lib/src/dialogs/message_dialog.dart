@@ -2,7 +2,11 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
-import 'package:dialogpack/src/utils/screen_utils.dart';
+import 'package:dialogpack/src/models/dialog_button_style.dart';
+import 'package:dialogpack/src/models/dialog_style.dart';
+import 'package:dialogpack/src/models/image_or_icon_style.dart';
+import 'package:dialogpack/src/models/message_dialog_style.dart';
+import 'package:dialogpack/src/utils/style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -115,25 +119,28 @@ class MessageDialogState extends State<MessageDialog> {
     String? gif = messageDialogModel.gif;
     String? title = messageDialogModel.title;
     String message = messageDialogModel.message;
-    Color iconOrImageColor = messageDialogModel.iconOrImageColor;
-    double iconOrImageSize = messageDialogModel.iconOrImageSize;
     String positiveText = messageDialogModel.positiveClickText;
     String? negativeText = messageDialogModel.negativeClickText;
     String? neutralText = messageDialogModel.neutralClickText;
     Function? positiveClick = messageDialogModel.onPositiveClicked;
     Function? negativeClick = messageDialogModel.onNegativeClicked;
     Function? neutralClick = messageDialogModel.onNeutralClicked;
-    Color positiveTextColor = messageDialogModel.positiveTextColor;
-    Color negativeTextColor = messageDialogModel.negativeTextColor;
-    Color? neutralTextColor = messageDialogModel.neutralTextColor;
-    neutralTextColor =
-        neutralTextColor ?? (DialogManager.darkMode? default_white : Colors.black45);
-    Color? messageTextColor = messageDialogModel.messageTextColor;
-    Color? titleTextColor = messageDialogModel.titleTextColor;
+
+    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle ?? MessageDialogStyle(dialogButtonStyle: StyleUtils.defaultPositiveButton);
+    Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
+    Color messageTextColor = messageDialogStyle.titleTextColor ?? blackColor2;
+    double titleTextSize = messageDialogStyle.titleTextSize;
+    double messageTextSize = messageDialogStyle.messageTextSize;
+    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle;
+    Color positiveTextButtonColor = messageDialogStyle.positiveTextButtonColor;
+    Color negativeTextButtonColor = messageDialogStyle.negativeTextButtonColor;
+    Color neutralTextButtonColor = messageDialogStyle.neutralTextButtonColor;
+    DialogStyle dialogStyle = messageDialogStyle.dialogStyle;
+    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
     bool hasImage = icon!=null || image!=null || gif!=null;
-    return Center(
+    return Align(alignment: Alignment.center,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -196,11 +203,7 @@ class MessageDialogState extends State<MessageDialog> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25)),
-                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
-                                ),
+                                style: ,
                                 onPressed: () {
                                   if(autoDismiss){
                                     closePage(() async {
@@ -215,20 +218,13 @@ class MessageDialogState extends State<MessageDialog> {
                                 child: Text(
                                   positiveText,
                                   maxLines: 1,
-                                  style: textStyle(true, 18, positiveTextColor),
                                 )),
                           ),
                           // if(noText!=null)addSpaceWidth(10),
                           if(negativeText!=null)Container(
                               margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                    // side: BorderSide(color: red0,width: 2)
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
-                                ),
+                                style: ,
 //                                    color: blue3,
                                 onPressed: () {
                                   if(autoDismiss){
@@ -243,20 +239,12 @@ class MessageDialogState extends State<MessageDialog> {
                                 },
                                 child: Text(
                                   negativeText,maxLines: 1,
-                                  style: textStyle(true, 18, negativeTextColor),
                                 )),
                           ),
                           if(neutralText!=null)Container(
                               margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: TextButton(
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                    // side: BorderSide(color: red0,width: 2)
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0)
-                                ),
-//                                    color: blue3,
+                                style: ,
                                 onPressed: () {
                                   if(autoDismiss) {
                                     closePage(() async {
@@ -271,7 +259,6 @@ class MessageDialogState extends State<MessageDialog> {
                                 },
                                 child: Text(
                                   neutralText,maxLines: 1,
-                                  style: textStyle(true, 18, neutralTextColor),
                                 )),
                           ),
 

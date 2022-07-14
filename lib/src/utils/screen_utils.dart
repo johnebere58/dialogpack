@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-double getScreenHeight(context){
-  return MediaQuery.of(context).size.height;
-}
+class ScreenUtils{
 
-double getScreenWidth(context){
-  return MediaQuery.of(context).size.width;
+  static double getScreenHeight(context){
+    return MediaQuery.of(context).size.height;
+  }
+
+  static double getScreenWidth(context){
+    return MediaQuery.of(context).size.width;
+  }
+
 }

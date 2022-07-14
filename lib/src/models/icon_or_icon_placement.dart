@@ -1,0 +1,4 @@
+
+ enum ImageOrIconPlacement{
+  normal, top
+ }

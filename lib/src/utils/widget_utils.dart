@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/utils/transitions.dart';
 
-Container addLine(
+ Container addLine(
     double size, Color color, double left, double top, double right, double bottom) {
   return Container(
     height: size,
@@ -16,23 +16,23 @@ Container addLine(
 }
 
 ///Add a custom margin line [hm = horizontal margin] [vm = vertical margin]
-Widget customDivider({double hm=0,double vm=0}){
+ Widget customDivider({double hm=0,double vm=0}){
   return addLine(.5, blackColor.withOpacity(bestOpacity), hm, vm, hm, vm);
 }
 
-SizedBox addSpace(double size) {
+ SizedBox addSpace(double size) {
   return SizedBox(
     height: size,
   );
 }
 
-addSpaceWidth(double size) {
+ addSpaceWidth(double size) {
   return SizedBox(
     width: size,
   );
 }
 
-TextStyle textStyle(bool bold, double size, color,
+ TextStyle textStyle(bool bold, double size, color,
     {underlined = false, bool withShadow = false,
       double shadowOffset=4.0,
       bool crossed=false,
@@ -52,7 +52,7 @@ TextStyle textStyle(bool bold, double size, color,
       crossed?TextDecoration.lineThrough:underlined ? TextDecoration.underline : TextDecoration.none);
 }
 
-launchNewScreen(BuildContext context, item, {Function(dynamic d)? result,
+ launchNewScreen(BuildContext context, item, {Function(dynamic d)? result,
   opaque = false,bool replace=false,
   transitionBuilder,transitionDuration,bool scale=false,
   slideUp=false,slide=false,fade=false,bool ignoreIOS=true}) {
@@ -65,10 +65,9 @@ launchNewScreen(BuildContext context, item, {Function(dynamic d)? result,
   },) :
   PageRouteBuilder(
       transitionsBuilder:
-      fade?fadeTransition:
-      slideUp?slideUpTransition:
-      transitionBuilder??
-          slideTransition,
+      fade?Transition.fadeTransition:
+      slideUp?Transition.slideUpTransition:
+      transitionBuilder?? Transition.slideTransition,
       transitionDuration: transitionDuration??const Duration(milliseconds: 300),
       opaque: opaque,
       pageBuilder: (context, _, __) {
@@ -94,6 +93,7 @@ launchNewScreen(BuildContext context, item, {Function(dynamic d)? result,
   });
 
 }
+
 
 
 
