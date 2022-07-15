@@ -103,11 +103,14 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
     dialogButtonStyle == DialogButtonStyle.transparent? StyleUtils.buttonStyle1:
     dialogButtonStyle == DialogButtonStyle.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
+    double borderRadius = messageDialogStyle.buttonCornerRadius;
 
     if(text==null)return Container();
-    return SizedBox(width: double.infinity,height: 50,
+    return Container(
+      margin: EdgeInsets.all(messageDialogStyle.buttonSpacing),
+      width: double.infinity,height: 50,
       child: TextButton(onPressed: onClick,
-        style: buttonStyle(color:color),
+        style: buttonStyle(color:color,borderRadius:borderRadius),
        child: Text(text,)
       ),
     );

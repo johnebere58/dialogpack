@@ -33,7 +33,7 @@ class StyleUtils {
             borderRadius: BorderRadius.circular(borderRadius),
             side: BorderSide(
               color: color,
-              width: 1.5,
+              width: 1.0,
             )
         ) ,
         backgroundColor: Colors.transparent,primary: color,

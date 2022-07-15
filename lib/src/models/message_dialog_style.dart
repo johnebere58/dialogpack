@@ -21,22 +21,24 @@ class MessageDialogStyle{
    final MessageDialogStyle? messageDialogStyle;
    final ImageOrIconStyle imageOrIconStyle;
    final ButtonPlacement buttonPlacement;
+   final double buttonCornerRadius;
 
    MessageDialogStyle(
        {
          this.titleTextColor,
          this.messageTextColor,
-         this.dialogButtonStyle = DialogButtonStyle.filled,
+         this.dialogButtonStyle = DialogButtonStyle.stroked,
+         this.buttonPlacement=ButtonPlacement.wrapped,
          this.positiveTextButtonColor=Colors.blue,
          this.negativeTextButtonColor=Colors.red,
          this.neutralTextButtonColor=Colors.green,
          this.dialogStyle = const DialogStyle(),
          this.titleTextSize=25.0,
          this.messageTextSize=17.0,
-         this.buttonSpacing=0.0,
+         this.buttonSpacing=5.0,
          this.messageDialogStyle,
-         this.buttonPlacement=ButtonPlacement.wrapped,
-         this.imageOrIconStyle=const ImageOrIconStyle()
+         this.imageOrIconStyle=const ImageOrIconStyle(),
+         this.buttonCornerRadius = 25.0
        }
        );
 
