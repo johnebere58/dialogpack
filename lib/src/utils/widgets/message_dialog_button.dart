@@ -1,5 +1,7 @@
 import 'package:dialogpack/src/dialog_manager.dart';
 import 'package:dialogpack/src/models/button_placement.dart';
+import 'package:dialogpack/src/models/dialog_button_alignment.dart';
+import 'package:dialogpack/src/models/dialog_button_fit.dart';
 import 'package:dialogpack/src/models/dialog_button_style.dart';
 import 'package:dialogpack/src/models/message_dialog_model.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
@@ -39,7 +41,7 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
   @override
   Widget build(BuildContext context) {
 
-    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle
+    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.messageDialogStyle
         ?? MessageDialogStyle();
 
     ButtonPlacement buttonPlacement = messageDialogStyle.buttonPlacement;
@@ -56,15 +58,22 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
     Widget negativeButton = button(text: negativeText,color: negativeTextButtonColor,onClick: widget.negativeButtonClick);
     Widget neutralButton = button(text: neutralText,color: neutralTextButtonColor,onClick: widget.neutralButtonClick);
 
+    DialogButtonAlignment dialogButtonAlignment = messageDialogStyle.dialogButtonAlignment;
+    bool alignLeft = dialogButtonAlignment==DialogButtonAlignment.left;
+    bool alignCenter = dialogButtonAlignment==DialogButtonAlignment.center;
+    // bool alignRight = dialogButtonAlignment==DialogButtonAlignment.right;
+
     if(buttonPlacement==ButtonPlacement.wrapped) {
       return Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: alignLeft?CrossAxisAlignment.start:alignCenter?CrossAxisAlignment.center:CrossAxisAlignment.end,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(fit: FlexFit.tight,
+              Flexible(
                   child: positiveButton),
-              if(negativeText != null)Flexible(fit: FlexFit.tight,
+              if(negativeText != null)Flexible(
                   child: negativeButton),
             ],
           ),
@@ -73,21 +82,26 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
       );
     }
     if(buttonPlacement==ButtonPlacement.row) {
-      return Row(
-        children: [
-          Flexible(fit: FlexFit.tight,
-              child: positiveButton),
-          if(negativeText != null)Flexible(fit: FlexFit.tight,
-              child: negativeButton),
-          if(neutralText != null)Flexible(fit: FlexFit.tight,
-              child: neutralButton),
+      return Align(
+        alignment: alignLeft?Alignment.topLeft:alignCenter?Alignment.center:Alignment.topRight,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+                child: positiveButton),
+            if(negativeText != null)Flexible(
+                child: negativeButton),
+            if(neutralText != null)Flexible(
+                child: neutralButton),
 
-        ],
+          ],
+        ),
       );
     }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: alignLeft?CrossAxisAlignment.start:alignCenter?CrossAxisAlignment.center:CrossAxisAlignment.end,
       children: [
         positiveButton,
         if(negativeText!=null)negativeButton,
@@ -100,18 +114,20 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
     DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle;
     Function buttonStyle =
-    dialogButtonStyle == DialogButtonStyle.transparent? StyleUtils.buttonStyle1:
+    dialogButtonStyle == DialogButtonStyle.normal? StyleUtils.buttonStyle1:
     dialogButtonStyle == DialogButtonStyle.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
     double borderRadius = messageDialogStyle.buttonCornerRadius;
+    DialogButtonFit dialogButtonFit = messageDialogStyle.dialogButtonFit;
 
     if(text==null)return Container();
     return Container(
+      height: 40,
+      width: dialogButtonFit==DialogButtonFit.stretch?(double.infinity):null,
       margin: EdgeInsets.all(messageDialogStyle.buttonSpacing),
-      width: double.infinity,height: 50,
       child: TextButton(onPressed: onClick,
         style: buttonStyle(color:color,borderRadius:borderRadius),
-       child: Text(text,)
+       child: Text(text,style: TextStyle(fontSize: messageDialogStyle.actionTextSize),)
       ),
     );
   }

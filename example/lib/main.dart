@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: const EdgeInsets.fromLTRB(15,0,15,20),
                     child: TextButton(onPressed: (){
 
-                      DialogManager.showFailedDialog(context,
+                      DialogManager.showFailedDialog(context,title: "Oops!",
                           message: "Your image failed to upload", clickedYes: (){
                             showSnackBar("Clicked Ok");
                           });

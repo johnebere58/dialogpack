@@ -16,55 +16,55 @@ import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
 import 'package:flutter/services.dart';
 
-
 class MessageDialog extends StatefulWidget {
   final MessageDialogModel messageDialogModel;
-  final String dialogId; ///Specify dialogId if you wish to terminate this dialog manually
+  final String dialogId;
+
+  ///Specify dialogId if you wish to terminate this dialog manually
 
   const MessageDialog(
-  {required this.messageDialogModel,this.dialogId=DEFAULT_MESSAGE_DIALOG_ID, Key? key}):super(key:key);
+      {required this.messageDialogModel,
+      this.dialogId = DEFAULT_MESSAGE_DIALOG_ID,
+      Key? key})
+      : super(key: key);
 
   @override
   MessageDialogState createState() => MessageDialogState();
 }
 
 class MessageDialogState extends State<MessageDialog> {
-
   final List<StreamSubscription> _streamSubscriptions = [];
   late MessageDialogModel messageDialogModel;
-  bool showBack=false;
-  bool hideUI=true;
+  bool showBack = false;
+  bool hideUI = true;
 
   @override
   void initState() {
     messageDialogModel = widget.messageDialogModel;
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 200),(){
-      hideUI=false;
+    Future.delayed(const Duration(milliseconds: 200), () {
+      hideUI = false;
       setState(() {});
     });
-    Future.delayed(const Duration(milliseconds: 500),(){
-      showBack=true;
-      setState(() {
-
-      });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      showBack = true;
+      setState(() {});
     });
 
-    _streamSubscriptions.add(
-      MessageDialogController.instance.stream.listen((String? id) {
-        if(id == widget.dialogId){
-          closePage(() async {
-            Navigator.pop(context);
-          });
-        }
-      })
-    );
+    _streamSubscriptions
+        .add(MessageDialogController.instance.stream.listen((String? id) {
+      if (id == widget.dialogId) {
+        closePage(() async {
+          Navigator.pop(context);
+        });
+      }
+    }));
   }
 
   @override
   void dispose() {
-    for(StreamSubscription stream in _streamSubscriptions) {
+    for (StreamSubscription stream in _streamSubscriptions) {
       stream.cancel();
     }
     super.dispose();
@@ -72,34 +72,40 @@ class MessageDialogState extends State<MessageDialog> {
 
   @override
   Widget build(BuildContext context) {
-
     bool cancellable = messageDialogModel.cancellableOnTapOutside;
 
     return WillPopScope(
       onWillPop: () {
-
-        if (cancellable)closePage((){ Navigator.pop(context);});
+        if (cancellable) {
+          closePage(() {
+            Navigator.pop(context);
+          });
+        }
 
         return Future.value(false);
       },
       child: Stack(fit: StackFit.expand, children: <Widget>[
         GestureDetector(
           onTap: () {
-            if (cancellable) closePage((){ Navigator.pop(context);});
+            if (cancellable) {
+              closePage(() {
+                Navigator.pop(context);
+              });
+            }
           },
           key: const ValueKey("tapToClose"),
           child: AnimatedOpacity(
-            opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
+            opacity: showBack ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
             child: ClipRect(
-                child:BackdropFilter(
+                child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
                     child: Container(
                       color: Colors.black.withOpacity(.7),
-                    ))
-            ),
+                    ))),
           ),
         ),
-        page(),
+        SafeArea(child: page()),
         // if(widget.messageDialogModel.gif!=null)
         //   Opacity(opacity: 1,child: Gif(
         //   image: AssetImage("assets/${widget.messageDialogModel.gif}",package: "dialogpack",),
@@ -109,13 +115,11 @@ class MessageDialogState extends State<MessageDialog> {
     );
   }
 
-  Future<String> loadGif(String gif)async{
-    return await rootBundle
-        .loadString('packages/dialogpack/lib/assets/$gif');
+  Future<String> loadGif(String gif) async {
+    return await rootBundle.loadString('packages/dialogpack/lib/assets/$gif');
   }
 
   Widget page() {
-
     IconData? icon = messageDialogModel.icon;
     String? image = messageDialogModel.assetImage;
     String? gif = messageDialogModel.gif;
@@ -126,11 +130,14 @@ class MessageDialogState extends State<MessageDialog> {
     Function? neutralClick = messageDialogModel.onNeutralClicked;
 
     //The message dialog style
-    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle
-        ?? MessageDialogStyle();
+    MessageDialogStyle messageDialogStyle =
+        messageDialogModel.messageDialogStyle ??
+            DialogManager.messageDialogStyle ??
+            MessageDialogStyle();
 
     Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
-    Color messageTextColor = messageDialogStyle.titleTextColor ?? (title==null? titleTextColor: blackColor2);
+    Color messageTextColor = messageDialogStyle.titleTextColor ??
+        (title == null ? titleTextColor : blackColor2);
     double titleTextSize = messageDialogStyle.titleTextSize;
     double messageTextSize = messageDialogStyle.messageTextSize;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
@@ -145,128 +152,157 @@ class MessageDialogState extends State<MessageDialog> {
 
     //The imageOrIcon style
     ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
-    ImageOrIconPlacement imageOrIconPlacement = imageOrIconStyle.imageOrIconPlacement;
-    bool topImageStyle = imageOrIconPlacement==ImageOrIconPlacement.top;
+    ImageOrIconPlacement imageOrIconPlacement =
+        imageOrIconStyle.imageOrIconPlacement;
+    bool topImageStyle = imageOrIconPlacement == ImageOrIconPlacement.top;
     double imageOrIconSize = imageOrIconStyle.size;
 
-    bool hasImage = icon!=null || image!=null || gif!=null;
+    bool hasImage = icon != null || image != null || gif != null;
+
+    double topOffset = messageDialogStyle.dialogStyle.dialogPlacement == DialogPlacement.top? 30:0;
+
     return Align(
-        alignment: dialogPlacement==DialogPlacement.top? Alignment.topCenter:
-                    dialogPlacement==DialogPlacement.bottom? Alignment.bottomCenter
-                    :Alignment.center,
+      alignment: dialogPlacement == DialogPlacement.top
+          ? Alignment.topCenter
+          : dialogPlacement == DialogPlacement.bottom
+              ? Alignment.bottomCenter
+              : Alignment.center,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin:  EdgeInsets.fromLTRB(margin, (hasImage&&topImageStyle)?(imageOrIconSize/2):margin, margin, margin),
-            width: getScreenWidth(context)>500?500:getScreenWidth(context),
-
+            margin: EdgeInsets.fromLTRB(
+                margin,
+                ((hasImage && topImageStyle) ? (topOffset + (imageOrIconSize / 2)) : margin),
+                margin,
+                margin),
+            width:
+                getScreenWidth(context) > 500 ? 500 : getScreenWidth(context),
             child: Card(
               clipBehavior: Clip.antiAlias,
-              color: whiteColor,elevation: elevation,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(curvedRadius)),
+              color: whiteColor,
+              elevation: elevation,margin: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(curvedRadius)),
               child: Padding(
-                padding: EdgeInsets.only(top: topImageStyle && hasImage?(imageOrIconSize/3):0),
+                padding: EdgeInsets.only(
+                    top: topImageStyle && hasImage ? (imageOrIconSize / 3) : 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20,20,20,15),
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-
-                          if(!topImageStyle && hasImage)
+                          if (!topImageStyle && hasImage)
                             Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                child: ImageOrIconWidget(messageDialogModel: messageDialogModel,messageDialogStyle: messageDialogStyle,)),
-
-                          if(title!=null)Container(
-                            margin: const EdgeInsets.only(bottom: 5),
-                            child: Text(
-                              title,
-                              style: textStyle(true, titleTextSize, titleTextColor),
-                              textAlign: TextAlign.center,
+                                margin: const EdgeInsets.only(bottom: 15),
+                                child: ImageOrIconWidget(
+                                  messageDialogModel: messageDialogModel,
+                                  messageDialogStyle: messageDialogStyle,
+                                )),
+                          if (title != null)
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 5),
+                              child: Text(
+                                title,
+                                style: textStyle(
+                                    true, titleTextSize, titleTextColor),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
                           Flexible(
                             child: SingleChildScrollView(
                               child: Text(
                                 message,
-                                style: textStyle(false,
-                                    title==null?messageTextSize + 5: messageTextSize,
+                                style: textStyle(
+                                    false,
+                                    title == null
+                                        ? messageTextSize + 5
+                                        : messageTextSize,
                                     (messageTextColor)),
                                 textAlign: TextAlign.center,
 //                                    maxLines: 1,
                               ),
                             ),
                           ),
-                          if(message.isNotEmpty)addSpace(10),
+                          // if (message.isNotEmpty) addSpace(10),
                         ],
                       ),
                     ),
-
-                    addLine(1, blackColor.withOpacity(bestOpacity2), 0, 0, 0, 0),
-
-                  MessageDialogButton(messageDialogModel: messageDialogModel,
-                    messageDialogStyle: messageDialogStyle,
-                    positiveButtonClick: (){
-    if(autoDismiss){
-    closePage(() async {
-    Navigator.pop(context);
-    await Future.delayed(const Duration(milliseconds: 200));
-    if(positiveClick!=null)positiveClick();
-    });
-    }else{
-    if(positiveClick!=null)positiveClick();
-    }
-    }, negativeButtonClick: (){
-    if(autoDismiss){
-    closePage(()async{
-    Navigator.pop(context);
-    await Future.delayed(const Duration(milliseconds: 200));
-    if(negativeClick!=null)negativeClick();
-    });
-    }else{
-    if(negativeClick!=null)negativeClick();
-    }
-    }, neutralButtonClick: (){
-    if(autoDismiss) {
-    closePage(() async {
-    Navigator.pop(context);
-    await Future.delayed(
-    const Duration(milliseconds: 200));
-    if (neutralClick != null) neutralClick();
-    });
-    }else{
-    if (neutralClick != null) neutralClick();
-    }
-    })
-
+                    if(messageDialogStyle.showButtonDivider)addLine(
+                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, messageDialogStyle.buttonSpacing==0?0:5),
+                    if(!messageDialogStyle.showButtonDivider)addSpace(messageDialogStyle.buttonSpacing==0?0:5),
+                    Padding(
+                      padding: EdgeInsets.all(messageDialogStyle.buttonSpacing==0?0:messageDialogStyle.buttonSpacing),
+                      child: MessageDialogButton(
+                          messageDialogModel: messageDialogModel,
+                          messageDialogStyle: messageDialogStyle,
+                          positiveButtonClick: () {
+                            if (autoDismiss) {
+                              closePage(() async {
+                                Navigator.pop(context);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 200));
+                                if (positiveClick != null) positiveClick();
+                              });
+                            } else {
+                              if (positiveClick != null) positiveClick();
+                            }
+                          },
+                          negativeButtonClick: () {
+                            if (autoDismiss) {
+                              closePage(() async {
+                                Navigator.pop(context);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 200));
+                                if (negativeClick != null) negativeClick();
+                              });
+                            } else {
+                              if (negativeClick != null) negativeClick();
+                            }
+                          },
+                          neutralButtonClick: () {
+                            if (autoDismiss) {
+                              closePage(() async {
+                                Navigator.pop(context);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 200));
+                                if (neutralClick != null) neutralClick();
+                              });
+                            } else {
+                              if (neutralClick != null) neutralClick();
+                            }
+                          }),
+                    )
                   ],
                 ),
               ),
             ),
           ),
-          if(topImageStyle && hasImage)
-            ImageOrIconWidget(messageDialogModel: messageDialogModel,messageDialogStyle: messageDialogStyle,),
-
+          if (topImageStyle && hasImage)
+            Container(
+              margin: EdgeInsets.only(top: topOffset),
+              child: ImageOrIconWidget(
+                messageDialogModel: messageDialogModel,
+                messageDialogStyle: messageDialogStyle,
+              ),
+            ),
         ],
       ),
     );
   }
 
-  closePage(onClosed){
-    showBack=false;
-    if(mounted)setState(() {});
-    Future.delayed(const Duration(milliseconds: 300),(){
-      Future.delayed(const Duration(milliseconds: 100),(){
-        hideUI=true;
-        if(mounted )setState(() {});
+  closePage(onClosed) {
+    showBack = false;
+    if (mounted) setState(() {});
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        hideUI = true;
+        if (mounted) setState(() {});
       });
       onClosed();
     });
   }
 }
-

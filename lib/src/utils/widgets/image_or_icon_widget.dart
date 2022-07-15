@@ -44,27 +44,25 @@ class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
             color: whiteColor,shape: BoxShape.circle
         ),
         width: imageOrIconSize,height: imageOrIconSize,
+        padding: EdgeInsets.all(imageOrIconPadding),
         child:
-        Padding(
-          padding: EdgeInsets.all(imageOrIconPadding),
-          child: gif!=null?
-          Gif(
-            image: AssetImage(gif,package: "dialogpack",),
-            color: imageOrIconColor,
-            placeholder: (c)=>Container(),
-            autostart: Autostart.once,
-          ):
+        gif!=null?
+        Gif(
+          image: AssetImage(gif,package: "dialogpack",),
+          color: imageOrIconColor,
+          placeholder: (c)=>Container(),
+          autostart: Autostart.once,
+        ):
 
-          (icon == null && image !=null)
-              ? (Image.asset(
-            image,
-            color: imageOrIconColor,package: "dialogpack",
-          ))
-              : Icon(
-            icon,
-            color: imageOrIconColor,
-            // size: 75,
-          ),
+        (icon == null && image !=null)
+            ? (Image.asset(
+          image,
+          color: imageOrIconColor,package: "dialogpack",
+        ))
+            : Icon(
+          icon,
+          color: imageOrIconColor,
+          size: imageOrIconSize,
         )
     );
   }

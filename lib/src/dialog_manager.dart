@@ -19,17 +19,19 @@ class DialogManager{
 
     static bool initialized = false;
     static bool darkMode = false;
-    static MessageDialogStyle? globalMessageDialogStyle;
+    static MessageDialogStyle? _globalMessageDialogStyle;
 
     ///very important please call this method first
     static initialize({bool useDarkMode=false,messageDialogStyle}){
       darkMode = useDarkMode;
-      globalMessageDialogStyle = messageDialogStyle;
+      _globalMessageDialogStyle = messageDialogStyle;
         if(!initialized) {
             Repository.startUp();
             initialized = true;
         }
     }
+
+    static MessageDialogStyle? get messageDialogStyle => _globalMessageDialogStyle;
 
     static void switchToDarkMode(){
       darkMode = true;
@@ -85,7 +87,8 @@ class DialogManager{
         MessageDialogModel(
             gif: 'assets/success2.gif',
             message: message,title: title,
-            onPositiveClicked: clickedYes,messageDialogStyle: MessageDialogStyle(
+            onPositiveClicked: clickedYes,
+            messageDialogStyle: MessageDialogStyle(
           imageOrIconStyle: const ImageOrIconStyle(size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
         )
         )),
@@ -102,6 +105,10 @@ class DialogManager{
             icon: Icons.error_outline,
             message: message,title: title,
             onPositiveClicked: clickedYes,
+            messageDialogStyle: MessageDialogStyle(
+              positiveTextButtonColor: Colors.black,
+                imageOrIconStyle: const ImageOrIconStyle(size: 80,imageOrIconPlacement: ImageOrIconPlacement.normal,color: Colors.red)
+            )
         )),
             transitionBuilder: transition??slideUpTransition);
     }

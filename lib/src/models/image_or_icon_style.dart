@@ -13,7 +13,7 @@ class ImageOrIconStyle{
 
   const ImageOrIconStyle(
   {
-    this.size=60,
+    this.size=60.0,
     // this.shape=const CircleBorder(side: BorderSide.none),
     this.color = Colors.blue,
     this.margin = 0.0,

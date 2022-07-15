@@ -11,6 +11,7 @@ class StyleUtils {
         borderRadius: BorderRadius.circular(borderRadius),
         side: BorderSide.none
       ) ,
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       backgroundColor: Colors.transparent,primary: color,
       textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
     );
@@ -22,6 +23,7 @@ class StyleUtils {
         borderRadius: BorderRadius.circular(borderRadius),
         side: BorderSide.none
       ) ,
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       backgroundColor: color, primary: Colors.white,
       textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
     );
@@ -36,6 +38,7 @@ class StyleUtils {
               width: 1.0,
             )
         ) ,
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         backgroundColor: Colors.transparent,primary: color,
         textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
     );
