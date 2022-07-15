@@ -1,5 +1,7 @@
 
  import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/models/button_placement.dart';
+import 'package:dialogpack/src/models/image_or_icon_style.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,8 @@ class MessageDialogModel{
     final bool cancellableOnTapOutside;
     final bool autoDismissAfterClick;
     final MessageDialogStyle? messageDialogStyle;
+    final ImageOrIconStyle imageOrIconStyle;
+    final ButtonPlacement buttonPlacement;
 
     MessageDialogModel(
     {
@@ -37,6 +41,8 @@ class MessageDialogModel{
       this.cancellableOnTapOutside=true,
       this.autoDismissAfterClick = true,
       this.messageDialogStyle,
+      this.buttonPlacement=ButtonPlacement.wrapped,
+      this.imageOrIconStyle=const ImageOrIconStyle()
  }
         );
  }

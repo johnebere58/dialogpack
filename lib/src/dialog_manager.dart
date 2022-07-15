@@ -1,4 +1,7 @@
+import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
+import 'package:dialogpack/src/models/button_placement.dart';
+import 'package:dialogpack/src/models/dialog_button_style.dart';
 import 'package:dialogpack/src/models/list_item.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +82,6 @@ class DialogManager{
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             gif: 'assets/success2.gif',
-            iconOrImageSize: 120,
-            iconOrImageColor: Colors.blue,
             message: message,title: title,
             onPositiveClicked: clickedYes,
         )),
@@ -94,7 +95,7 @@ class DialogManager{
             Widget? transition}){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
-            icon: Icons.error_outline,iconOrImageColor: Colors.red,
+            icon: Icons.error_outline,
             message: message,title: title,
             onPositiveClicked: clickedYes,
         )),

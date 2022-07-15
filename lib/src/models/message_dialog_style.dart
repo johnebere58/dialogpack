@@ -1,4 +1,5 @@
 
+import 'package:dialogpack/src/models/button_placement.dart';
 import 'package:dialogpack/src/models/dialog_button_style.dart';
 import 'package:dialogpack/src/models/dialog_style.dart';
 import 'package:dialogpack/src/models/image_or_icon_style.dart';
@@ -16,20 +17,20 @@ class MessageDialogStyle{
    final Color negativeTextButtonColor;
    final Color neutralTextButtonColor;
    final DialogStyle dialogStyle;
-   final ImageOrIconStyle imageOrIconStyle;
+   final double buttonSpacing;
 
    MessageDialogStyle(
        {
          this.titleTextColor,
          this.messageTextColor,
-         required this.dialogButtonStyle,
+         this.dialogButtonStyle = DialogButtonStyle.transparent,
          this.positiveTextButtonColor=Colors.blue,
          this.negativeTextButtonColor=Colors.red,
          this.neutralTextButtonColor=Colors.green,
          this.dialogStyle = const DialogStyle(),
-         this.imageOrIconStyle = const ImageOrIconStyle(),
          this.titleTextSize=25.0,
-         this.messageTextSize=17.0
+         this.messageTextSize=17.0,
+         this.buttonSpacing=0.0
        }
        );
 

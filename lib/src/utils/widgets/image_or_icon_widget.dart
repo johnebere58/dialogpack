@@ -5,23 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 
 class ImageOrIconWidget extends StatefulWidget {
-  final ImageOrIconStyle imageOrIconStyle;
   final MessageDialogModel messageDialogModel;
-  const ImageOrIconWidget({required this.messageDialogModel,required this.imageOrIconStyle,Key? key}) : super(key: key);
+  const ImageOrIconWidget({required this.messageDialogModel,Key? key}) : super(key: key);
 
   @override
-  _ImageOrIconWidgetState createState() => _ImageOrIconWidgetState();
+  ImageOrIconWidgetState createState() => ImageOrIconWidgetState();
 }
 
-class _ImageOrIconWidgetState extends State<ImageOrIconWidget> {
+class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
 
   late ImageOrIconStyle imageOrIconStyle;
   late MessageDialogModel messageDialogModel;
   @override
   void initState() {
     super.initState();
-    imageOrIconStyle = widget.imageOrIconStyle;
     messageDialogModel = widget.messageDialogModel;
+    imageOrIconStyle = messageDialogModel.imageOrIconStyle;
   }
 
   @override
