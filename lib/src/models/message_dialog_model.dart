@@ -21,8 +21,6 @@ class MessageDialogModel{
     final bool cancellableOnTapOutside;
     final bool autoDismissAfterClick;
     final MessageDialogStyle? messageDialogStyle;
-    final ImageOrIconStyle imageOrIconStyle;
-    final ButtonPlacement buttonPlacement;
 
     MessageDialogModel(
     {
@@ -41,8 +39,6 @@ class MessageDialogModel{
       this.cancellableOnTapOutside=true,
       this.autoDismissAfterClick = true,
       this.messageDialogStyle,
-      this.buttonPlacement=ButtonPlacement.wrapped,
-      this.imageOrIconStyle=const ImageOrIconStyle()
  }
         );
  }

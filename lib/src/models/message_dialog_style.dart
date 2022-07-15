@@ -18,19 +18,25 @@ class MessageDialogStyle{
    final Color neutralTextButtonColor;
    final DialogStyle dialogStyle;
    final double buttonSpacing;
+   final MessageDialogStyle? messageDialogStyle;
+   final ImageOrIconStyle imageOrIconStyle;
+   final ButtonPlacement buttonPlacement;
 
    MessageDialogStyle(
        {
          this.titleTextColor,
          this.messageTextColor,
-         this.dialogButtonStyle = DialogButtonStyle.transparent,
+         this.dialogButtonStyle = DialogButtonStyle.filled,
          this.positiveTextButtonColor=Colors.blue,
          this.negativeTextButtonColor=Colors.red,
          this.neutralTextButtonColor=Colors.green,
          this.dialogStyle = const DialogStyle(),
          this.titleTextSize=25.0,
          this.messageTextSize=17.0,
-         this.buttonSpacing=0.0
+         this.buttonSpacing=0.0,
+         this.messageDialogStyle,
+         this.buttonPlacement=ButtonPlacement.wrapped,
+         this.imageOrIconStyle=const ImageOrIconStyle()
        }
        );
 

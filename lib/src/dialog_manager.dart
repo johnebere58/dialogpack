@@ -2,6 +2,8 @@ import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/models/button_placement.dart';
 import 'package:dialogpack/src/models/dialog_button_style.dart';
+import 'package:dialogpack/src/models/icon_or_icon_placement.dart';
+import 'package:dialogpack/src/models/image_or_icon_style.dart';
 import 'package:dialogpack/src/models/list_item.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +85,9 @@ class DialogManager{
         MessageDialogModel(
             gif: 'assets/success2.gif',
             message: message,title: title,
-            onPositiveClicked: clickedYes,
+            onPositiveClicked: clickedYes,messageDialogStyle: MessageDialogStyle(
+          imageOrIconStyle: const ImageOrIconStyle(size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
+        )
         )),
             transitionBuilder: transition??slideUpTransition);
     }

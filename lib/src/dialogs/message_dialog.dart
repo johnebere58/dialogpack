@@ -128,6 +128,7 @@ class MessageDialogState extends State<MessageDialog> {
     //The message dialog style
     MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle
         ?? MessageDialogStyle();
+
     Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
     Color messageTextColor = messageDialogStyle.titleTextColor ?? (title==null? titleTextColor: blackColor2);
     double titleTextSize = messageDialogStyle.titleTextSize;
@@ -143,7 +144,7 @@ class MessageDialogState extends State<MessageDialog> {
     double margin = dialogStyle.margin;
 
     //The imageOrIcon style
-    ImageOrIconStyle imageOrIconStyle = messageDialogModel.imageOrIconStyle;
+    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
     ImageOrIconPlacement imageOrIconPlacement = imageOrIconStyle.imageOrIconPlacement;
     bool topImageStyle = imageOrIconPlacement==ImageOrIconPlacement.top;
     double imageOrIconSize = imageOrIconStyle.size;
@@ -157,7 +158,7 @@ class MessageDialogState extends State<MessageDialog> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin:  EdgeInsets.fromLTRB(margin, (margin+(hasImage?(imageOrIconSize/2):0)), margin, margin),
+            margin:  EdgeInsets.fromLTRB(margin, (hasImage&&topImageStyle)?(imageOrIconSize/2):margin, margin, margin),
             width: getScreenWidth(context)>500?500:getScreenWidth(context),
 
             child: Card(
@@ -179,7 +180,7 @@ class MessageDialogState extends State<MessageDialog> {
                           if(!topImageStyle && hasImage)
                             Container(
                                 margin: const EdgeInsets.only(bottom: 10),
-                                child: ImageOrIconWidget(messageDialogModel: messageDialogModel,)),
+                                child: ImageOrIconWidget(messageDialogModel: messageDialogModel,messageDialogStyle: messageDialogStyle,)),
 
                           if(title!=null)Container(
                             margin: const EdgeInsets.only(bottom: 5),
@@ -208,7 +209,8 @@ class MessageDialogState extends State<MessageDialog> {
 
                     addLine(1, blackColor.withOpacity(bestOpacity2), 0, 0, 0, 0),
 
-                    MessageDialogButton(messageDialogModel: messageDialogModel,
+                  MessageDialogButton(messageDialogModel: messageDialogModel,
+                    messageDialogStyle: messageDialogStyle,
                     positiveButtonClick: (){
     if(autoDismiss){
     closePage(() async {
@@ -248,7 +250,7 @@ class MessageDialogState extends State<MessageDialog> {
             ),
           ),
           if(topImageStyle && hasImage)
-            ImageOrIconWidget(messageDialogModel: messageDialogModel,),
+            ImageOrIconWidget(messageDialogModel: messageDialogModel,messageDialogStyle: messageDialogStyle,),
 
         ],
       ),
