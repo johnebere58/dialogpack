@@ -19,7 +19,7 @@ class MessageDialogSample extends StatefulWidget {
    double dialogCurveRadius = 20.0;
    double dialogElevation = 5.0;
    DialogPlacement dialogPlacement = DialogPlacement.center;
-   DialogEntrance dialogEntrance = DialogEntrance.slide_up;
+   DialogEntrance dialogEntrance = DialogEntrance.scale;
    double dialogMargin = 40.0;
    double titleTextSize = 20.0;
    double messageTextSize = 20.0;
@@ -46,7 +46,7 @@ class MessageDialogSample extends StatefulWidget {
   }
 
   void resetStyle(){
-    DialogManager.globalMessageDialogStyle = MessageDialogStyle(
+    DialogManager.defaultMessageDialogStyle = MessageDialogStyle(
       titleTextSize: titleTextSize,
       // titleTextColor: ,
       showButtonDivider: showDivider,
@@ -68,7 +68,6 @@ class MessageDialogSample extends StatefulWidget {
         curvedRadius: dialogCurveRadius,
         // appBanner: ,
         elevation: dialogElevation,
-        dialogEntrance: dialogEntrance
       ),
       dialogButtonStyle: dialogButtonStyle,
       dialogButtonFit: dialogButtonFit,
@@ -87,6 +86,19 @@ class MessageDialogSample extends StatefulWidget {
      return Scaffold(
          appBar: AppBar(
            title: const Text('Message Dialog'),
+           actions: [
+             Container(
+               height: 45,
+               margin: const EdgeInsets.all(10),
+               child: TextButton(onPressed: (){
+                 showMessageDialog();
+               },
+                   style: TextButton.styleFrom(
+                     primary: Colors.black,backgroundColor: Colors.white
+                   ),
+                   child:const Text("Show Dialog",)),
+             )
+           ],
          ),
          backgroundColor: Colors.white,
          body: SingleChildScrollView(
@@ -168,10 +180,11 @@ class MessageDialogSample extends StatefulWidget {
                      groupedCheckBox("Entrance",
                          DialogEntrance.values.indexOf(dialogEntrance),
                          ["Slide Up","Scale","Slide Left","Fade In"], (item){
-                       setState(() {
-                         dialogEntrance = DialogEntrance.values[item];
-                       });
-                     },returnIndex: true),
+                           setState(() {
+                             dialogEntrance = DialogEntrance.values[item];
+                           });
+                           DialogManager.defaultEntrance = dialogEntrance;
+                         },returnIndex: true),
 
                      groupedCheckBox("Curve Radius",dialogCurveRadius, generateNumbers(start: 0, multiplier: 5), (item){
                        setState(() {
@@ -333,23 +346,7 @@ class MessageDialogSample extends StatefulWidget {
                  margin: const EdgeInsets.fromLTRB(15,5,15,0),
                  child: TextButton(onPressed: (){
 
-                   DialogManager.showMessageDialog(context,
-                       messageDialogModel:
-                       MessageDialogModel(title: "Welcome",
-                           message: "This is a sample message dialog and this is the little gift we have to offer",
-                           onPositiveClicked: (){
-                             showSnackBar("Clicked Yes");
-                           },
-                           onNegativeClicked: (){
-                             showSnackBar("Clicked No");
-                           },
-                           onNeutralClicked: (){
-                             showSnackBar("Clicked Maybe");
-                           },
-                           positiveClickText: "Yes, Agree",
-                           negativeClickText: showNegativeButton?"No, Ignore":null,
-                           neutralClickText: showNeutralButton?"Maybe, Later":null));
-
+                  showMessageDialog();
                  },
                      style: TextButton.styleFrom(
                          backgroundColor: Colors.blue
@@ -481,5 +478,25 @@ class MessageDialogSample extends StatefulWidget {
 
    List generateNumbers({required int start, required int multiplier, int size=6}){
      return List.generate(size, (index) => start+(index*multiplier));
+   }
+
+   void showMessageDialog(){
+     DialogManager.showMessageDialog(context,
+         messageDialogModel:
+         MessageDialogModel(title: "Welcome",
+             message: "This is a sample message dialog and this is the little gift we have to offer",
+             onPositiveClicked: (){
+               showSnackBar("Clicked Yes");
+             },
+             onNegativeClicked: (){
+               showSnackBar("Clicked No");
+             },
+             onNeutralClicked: (){
+               showSnackBar("Clicked Maybe");
+             },
+             positiveClickText: "Yes, Agree",
+             negativeClickText: showNegativeButton?"No, Ignore":null,
+             neutralClickText: showNeutralButton?"Maybe, Later":null));
+
    }
  }

@@ -14,13 +14,17 @@ class DialogManager{
 
     static bool initialized = false;
     static bool darkMode = false;
-    static MessageDialogStyle globalMessageDialogStyle = MessageDialogStyle();
+    static MessageDialogStyle defaultMessageDialogStyle = MessageDialogStyle();
+    static DialogEntrance defaultEntrance = DialogEntrance.scale;
 
     ///very important please call this method first
-    static initialize({bool useDarkMode=false,MessageDialogStyle? messageDialogStyle}){
+    static initialize({bool useDarkMode=false,MessageDialogStyle? messageDialogStyle, DialogEntrance? dialogEntrance}){
       darkMode = useDarkMode;
       if(messageDialogStyle!=null){
-        globalMessageDialogStyle = messageDialogStyle;
+        defaultMessageDialogStyle = messageDialogStyle;
+      }
+      if(dialogEntrance!=null){
+        defaultEntrance=dialogEntrance;
       }
         if(!initialized) {
             Repository.startUp();
@@ -40,13 +44,13 @@ class DialogManager{
     /// You can add your custom [transition] to slide in the dialog
     ///
     static showMessageDialog(BuildContext context,
-        {required MessageDialogModel messageDialogModel}){
+        {required MessageDialogModel messageDialogModel, Widget? transition}){
       if(!initialized){
           throw Exception("Please call [${DialogManager.initialize()}] first");
       }
 
       launchNewScreen(context, MessageDialog(messageDialogModel: messageDialogModel),
-      transitionBuilder: getTransition(messageDialogModel));
+      transitionBuilder: transition ?? defaultTransition);
     }
 
     /// Use this method to dismiss any dialog using the optional [dialogId]
@@ -71,7 +75,7 @@ class DialogManager{
             onPositiveClicked: clickedYes,
             onNegativeClicked: clickedNo
         )),
-            transitionBuilder: transition??slideUpTransition);
+            transitionBuilder: transition??defaultTransition);
     }
 
     /// use this method to show a message dialog for a successful operation
@@ -88,7 +92,7 @@ class DialogManager{
           imageOrIconStyle: const ImageOrIconStyle(size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
           ),inheritStyle: true
         )),
-            transitionBuilder: transition??slideUpTransition);
+            transitionBuilder: transition??defaultTransition);
     }
 
     /// use this method to show a message dialog for a failed operation
@@ -109,7 +113,7 @@ class DialogManager{
                     size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
             ),inheritStyle: false
         )),
-            transitionBuilder: transition??slideUpTransition);
+            transitionBuilder: transition??defaultTransition);
     }
 
     static _showListDialog(BuildContext context,{
@@ -128,7 +132,7 @@ class DialogManager{
         buttonColor: buttonColor,
         titleColor: titleColor,
         searchable: searchable,),
-          transitionBuilder: slideUpTransition,
+          transitionBuilder: defaultTransition,
           result: (dynamic _){
             if(_==null)return;
             List<String> selectedIds = _ ;
@@ -300,17 +304,24 @@ class DialogManager{
 
     }
 
-    static dynamic getTransition(MessageDialogModel messageDialogModel){
-      MessageDialogStyle? messageDialogStyle = messageDialogModel.messageDialogStyle;
-      if(messageDialogStyle!=null){
-        DialogStyle? dialogStyle = messageDialogStyle.dialogStyle;
-        if(dialogStyle!=null){
-          DialogEntrance dialogEntrance = dialogStyle.dialogEntrance;
-          if(dialogEntrance==DialogEntrance.slide_left)return slideTransition;
-          if(dialogEntrance==DialogEntrance.scale)return scaleTransition;
-          if(dialogEntrance==DialogEntrance.fade_in)return fadeTransition;
-        }
-      }
-      return slideUpTransition;
-    }
+    // static dynamic getTransition(MessageDialogModel messageDialogModel){
+    //   MessageDialogStyle? messageDialogStyle = messageDialogModel.messageDialogStyle;
+    //   if(messageDialogStyle!=null){
+    //     DialogStyle? dialogStyle = messageDialogStyle.dialogStyle;
+    //     if(dialogStyle!=null){
+    //       DialogEntrance dialogEntrance = dialogStyle.dialogEntrance;
+    //       if(dialogEntrance==DialogEntrance.slide_left)return slideTransition;
+    //       if(dialogEntrance==DialogEntrance.scale)return scaleTransition;
+    //       if(dialogEntrance==DialogEntrance.fade_in)return fadeTransition;
+    //     }
+    //   }
+    //   return scaleTransition;
+    // }
+
+    static get defaultTransition =>
+        defaultEntrance==DialogEntrance.slide_left?slideTransition:
+        defaultEntrance==DialogEntrance.scale?scaleTransition:
+        defaultEntrance==DialogEntrance.fade_in?fadeTransition:
+            slideUpTransition
+    ;
  }

@@ -125,9 +125,9 @@ class MessageDialogState extends State<MessageDialog> {
     Function? neutralClick = messageDialogModel.onNeutralClicked;
 
     //The message dialog style
-    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle;
+    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.defaultMessageDialogStyle;
     if(messageDialogModel.inheritStyle) {
-      messageDialogStyle = messageDialogStyle.inherit(DialogManager.globalMessageDialogStyle);
+      messageDialogStyle = messageDialogStyle.inherit(DialogManager.defaultMessageDialogStyle);
     }
       else{
       messageDialogStyle = messageDialogStyle.inherit(MessageDialogStyle());

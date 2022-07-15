@@ -8,7 +8,7 @@ class DialogStyle{
    final double curvedRadius;
    final double elevation;
    final DialogPlacement dialogPlacement;
-   final DialogEntrance dialogEntrance;
+   // final DialogEntrance dialogEntrance;
    final double margin;
 
    const DialogStyle({this.appBanner,
@@ -16,7 +16,7 @@ class DialogStyle{
      this.elevation=5.0,
      this.dialogPlacement=DialogPlacement.center,
      this.margin=40.0,
-     this.dialogEntrance=DialogEntrance.slide_up
+     // this.dialogEntrance=DialogEntrance.scale
    });
 
 }
