@@ -2,11 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
-import 'package:dialogpack/src/models/dialog_placement.dart';
-import 'package:dialogpack/src/models/dialog_style.dart';
-import 'package:dialogpack/src/models/icon_or_icon_placement.dart';
-import 'package:dialogpack/src/models/image_or_icon_style.dart';
-import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:dialogpack/src/utils/widgets/image_or_icon_widget.dart';
 import 'package:dialogpack/src/utils/widgets/message_dialog_button.dart';
@@ -132,8 +127,12 @@ class MessageDialogState extends State<MessageDialog> {
     //The message dialog style
     MessageDialogStyle messageDialogStyle =
         messageDialogModel.messageDialogStyle ??
-            DialogManager.messageDialogStyle ??
-            MessageDialogStyle();
+            DialogManager.globalMessageDialogStyle;
+    if(messageDialogModel.inheritStyle){
+      messageDialogStyle = messageDialogStyle.inherit(DialogManager.globalMessageDialogStyle);
+    // }else{
+      // messageDialogStyle = messageDialogStyle.inherit(MessageDialogStyle());
+    // }
 
     Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
     Color messageTextColor = messageDialogStyle.titleTextColor ??
@@ -232,8 +231,8 @@ class MessageDialogState extends State<MessageDialog> {
                       ),
                     ),
                     if(messageDialogStyle.showButtonDivider)addLine(
-                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, messageDialogStyle.buttonSpacing==0?0:5),
-                    if(!messageDialogStyle.showButtonDivider)addSpace(messageDialogStyle.buttonSpacing==0?0:5),
+                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, messageDialogStyle.buttonSpacing==0?0:10),
+                    if(!messageDialogStyle.showButtonDivider)addSpace(messageDialogStyle.buttonSpacing==0?10:0),
                     Padding(
                       padding: EdgeInsets.all(messageDialogStyle.buttonSpacing==0?0:messageDialogStyle.buttonSpacing),
                       child: MessageDialogButton(

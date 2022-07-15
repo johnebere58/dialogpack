@@ -13,7 +13,7 @@ class StyleUtils {
       ) ,
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       backgroundColor: Colors.transparent,primary: color,
-      textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
+      textStyle: const TextStyle(fontWeight: FontWeight.bold,)
     );
   }
 
@@ -25,7 +25,7 @@ class StyleUtils {
       ) ,
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       backgroundColor: color, primary: Colors.white,
-      textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
+      textStyle: const TextStyle(fontWeight: FontWeight.bold,)
     );
   }
 
@@ -40,7 +40,7 @@ class StyleUtils {
         ) ,
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         backgroundColor: Colors.transparent,primary: color,
-        textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)
+        textStyle: const TextStyle(fontWeight: FontWeight.bold,)
     );
   }
 

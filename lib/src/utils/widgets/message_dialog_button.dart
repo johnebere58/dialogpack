@@ -1,4 +1,3 @@
-import 'package:dialogpack/src/dialog_manager.dart';
 import 'package:dialogpack/src/models/button_placement.dart';
 import 'package:dialogpack/src/models/dialog_button_alignment.dart';
 import 'package:dialogpack/src/models/dialog_button_fit.dart';
@@ -41,24 +40,21 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
   @override
   Widget build(BuildContext context) {
 
-    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.messageDialogStyle
-        ?? MessageDialogStyle();
-
-    ButtonPlacement buttonPlacement = messageDialogStyle.buttonPlacement;
+    ButtonPlacement buttonPlacement = messageDialogStyle.buttonPlacement!;
     String positiveText = messageDialogModel.positiveClickText;
     String? negativeText = messageDialogModel.negativeClickText;
     String? neutralText = messageDialogModel.neutralClickText;
 
 
-    Color positiveTextButtonColor = messageDialogStyle.positiveTextButtonColor;
-    Color negativeTextButtonColor = messageDialogStyle.negativeTextButtonColor;
-    Color neutralTextButtonColor = messageDialogStyle.neutralTextButtonColor;
+    Color positiveTextButtonColor = messageDialogStyle.positiveTextButtonColor!;
+    Color negativeTextButtonColor = messageDialogStyle.negativeTextButtonColor!;
+    Color neutralTextButtonColor = messageDialogStyle.neutralTextButtonColor!;
 
     Widget positiveButton = button(text: positiveText,color: positiveTextButtonColor,onClick: widget.positiveButtonClick);
     Widget negativeButton = button(text: negativeText,color: negativeTextButtonColor,onClick: widget.negativeButtonClick);
     Widget neutralButton = button(text: neutralText,color: neutralTextButtonColor,onClick: widget.neutralButtonClick);
 
-    DialogButtonAlignment dialogButtonAlignment = messageDialogStyle.dialogButtonAlignment;
+    DialogButtonAlignment dialogButtonAlignment = messageDialogStyle.dialogButtonAlignment!;
     bool alignLeft = dialogButtonAlignment==DialogButtonAlignment.left;
     bool alignCenter = dialogButtonAlignment==DialogButtonAlignment.center;
     // bool alignRight = dialogButtonAlignment==DialogButtonAlignment.right;
@@ -112,22 +108,22 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
   Widget button({required String? text,required Color? color, required Function() onClick}){
 
-    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle;
+    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle!;
     Function buttonStyle =
     dialogButtonStyle == DialogButtonStyle.normal? StyleUtils.buttonStyle1:
     dialogButtonStyle == DialogButtonStyle.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
-    double borderRadius = messageDialogStyle.buttonCornerRadius;
-    DialogButtonFit dialogButtonFit = messageDialogStyle.dialogButtonFit;
+    double borderRadius = messageDialogStyle.dialogButtonCornerRadius!;
+    DialogButtonFit dialogButtonFit = messageDialogStyle.dialogButtonFit!;
 
     if(text==null)return Container();
     return Container(
-      height: 40,
+      height: 50,
       width: dialogButtonFit==DialogButtonFit.stretch?(double.infinity):null,
-      margin: EdgeInsets.all(messageDialogStyle.buttonSpacing),
+      margin: EdgeInsets.all(messageDialogStyle.buttonSpacing!),
       child: TextButton(onPressed: onClick,
         style: buttonStyle(color:color,borderRadius:borderRadius),
-       child: Text(text,style: TextStyle(fontSize: messageDialogStyle.actionTextSize),)
+       child: Text(text,style: TextStyle(fontSize: messageDialogStyle.dialogButtonTextSize),)
       ),
     );
   }

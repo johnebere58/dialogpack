@@ -1,5 +1,5 @@
 
-import 'package:dialogpack/src/models/icon_or_icon_placement.dart';
+import 'package:dialogpack/src/models/image_or_icon_placement.dart';
 import 'package:flutter/material.dart';
 
 class ImageOrIconStyle{

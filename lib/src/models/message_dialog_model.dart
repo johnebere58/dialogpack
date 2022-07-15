@@ -21,6 +21,7 @@ class MessageDialogModel{
     final bool cancellableOnTapOutside;
     final bool autoDismissAfterClick;
     final MessageDialogStyle? messageDialogStyle;
+    final bool inheritStyle;
 
     MessageDialogModel(
     {
@@ -39,6 +40,7 @@ class MessageDialogModel{
       this.cancellableOnTapOutside=true,
       this.autoDismissAfterClick = true,
       this.messageDialogStyle,
- }
+      this.inheritStyle=false
+   }
         );
  }

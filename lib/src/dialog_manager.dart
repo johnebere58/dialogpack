@@ -1,8 +1,7 @@
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/models/button_placement.dart';
-import 'package:dialogpack/src/models/dialog_button_style.dart';
-import 'package:dialogpack/src/models/icon_or_icon_placement.dart';
+import 'package:dialogpack/src/models/image_or_icon_placement.dart';
 import 'package:dialogpack/src/models/image_or_icon_style.dart';
 import 'package:dialogpack/src/models/list_item.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
@@ -19,19 +18,17 @@ class DialogManager{
 
     static bool initialized = false;
     static bool darkMode = false;
-    static MessageDialogStyle? _globalMessageDialogStyle;
+    static MessageDialogStyle globalMessageDialogStyle = MessageDialogStyle();
 
     ///very important please call this method first
     static initialize({bool useDarkMode=false,messageDialogStyle}){
       darkMode = useDarkMode;
-      _globalMessageDialogStyle = messageDialogStyle;
+      globalMessageDialogStyle = messageDialogStyle;
         if(!initialized) {
             Repository.startUp();
             initialized = true;
         }
     }
-
-    static MessageDialogStyle? get messageDialogStyle => _globalMessageDialogStyle;
 
     static void switchToDarkMode(){
       darkMode = true;
@@ -88,9 +85,9 @@ class DialogManager{
             gif: 'assets/success2.gif',
             message: message,title: title,
             onPositiveClicked: clickedYes,
-            messageDialogStyle: MessageDialogStyle(
+            messageDialogStyle: MessageDialogStyle.empty(
           imageOrIconStyle: const ImageOrIconStyle(size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
-        )
+          ),inheritStyle: true
         )),
             transitionBuilder: transition??slideUpTransition);
     }
@@ -107,6 +104,7 @@ class DialogManager{
             onPositiveClicked: clickedYes,
             messageDialogStyle: MessageDialogStyle(
               positiveTextButtonColor: Colors.black,
+                buttonSpacing: 0,dialogButtonCornerRadius: 0,
                 imageOrIconStyle: const ImageOrIconStyle(size: 80,imageOrIconPlacement: ImageOrIconPlacement.normal,color: Colors.red)
             )
         )),

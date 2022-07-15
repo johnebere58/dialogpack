@@ -1,8 +1,6 @@
 
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
-import 'package:dialogpack/src/models/image_or_icon_style.dart';
-import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 
@@ -23,7 +21,7 @@ class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
   void initState() {
     super.initState();
     messageDialogModel = widget.messageDialogModel;
-    imageOrIconStyle = widget.messageDialogStyle.imageOrIconStyle;
+    imageOrIconStyle = widget.messageDialogStyle.imageOrIconStyle!;
   }
 
   @override
