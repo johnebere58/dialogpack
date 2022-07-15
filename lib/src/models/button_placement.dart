@@ -1,4 +1,4 @@
 
  enum ButtonPlacement{
-   row, column, wrapped
+   wrapped, row, column
  }

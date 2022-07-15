@@ -15,6 +15,32 @@ import 'package:flutter/material.dart';
     child: child,
   );
 }
+
+Widget scaleTransition (
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+    ){
+
+  return
+    ScaleTransition(
+      scale: Tween<double>(
+        begin: 0.9,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.fastOutSlowIn,
+        ),
+      ),
+      child: FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+    );
+}
+
  Widget slideUpTransition(BuildContext context, Animation<double> animation,
     Animation<double> secondaryAnimation, Widget child) {
   var begin = const Offset(0.0, 1.0);

@@ -118,7 +118,7 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
     if(text==null)return Container();
     return Container(
-      height: 50,
+      height: messageDialogStyle.dialogButtonHeight,
       width: dialogButtonFit==DialogButtonFit.stretch?(double.infinity):null,
       margin: EdgeInsets.all(messageDialogStyle.buttonSpacing!),
       child: TextButton(onPressed: onClick,

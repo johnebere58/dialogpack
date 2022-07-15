@@ -18,23 +18,24 @@ class MessageDialogSample extends StatefulWidget {
    // bool showAppBanner = false;
    double dialogCurveRadius = 20.0;
    double dialogElevation = 5.0;
-   int dialogPlacement = 1;
+   DialogPlacement dialogPlacement = DialogPlacement.center;
+   DialogEntrance dialogEntrance = DialogEntrance.slide_up;
    double dialogMargin = 40.0;
-
    double titleTextSize = 20.0;
    double messageTextSize = 20.0;
    bool showDivider = false;
-   int imageOrIconPlacement = 0;
+   ImageOrIconPlacement imageOrIconPlacement = ImageOrIconPlacement.normal;
    double imageOrIconSize = 60.0;
    double imageOrIconPadding = 20.0;
    double imageOrIconMargin = 5.0;
-   int dialogButtonStyle = 0;
-   int dialogButtonFit = 0;
-   int dialogButtonAlignment = 0;
+   DialogButtonStyle dialogButtonStyle = DialogButtonStyle.normal;
+   DialogButtonFit dialogButtonFit = DialogButtonFit.normal;
+   DialogButtonAlignment dialogButtonAlignment = DialogButtonAlignment.center;
    double dialogButtonSpacing = 5.0;
    double dialogButtonTextSize = 18.0;
-   int buttonPlacement = 0;
+   ButtonPlacement buttonPlacement = ButtonPlacement.wrapped;
    double dialogButtonCornerRadius = 5.0;
+   double dialogButtonHeight = 45.0;
 
 
    @override
@@ -55,7 +56,7 @@ class MessageDialogSample extends StatefulWidget {
       messageTextSize: messageTextSize,
       // messageTextColor: ,
       imageOrIconStyle: ImageOrIconStyle(
-        imageOrIconPlacement: ImageOrIconPlacement.values[imageOrIconPlacement],
+        imageOrIconPlacement:imageOrIconPlacement,
         size: imageOrIconSize,
         padding: imageOrIconPadding,
         // color: ,
@@ -63,18 +64,20 @@ class MessageDialogSample extends StatefulWidget {
       ),
       dialogStyle: DialogStyle(
         margin: dialogMargin,
-        dialogPlacement: DialogPlacement.values[dialogPlacement],
+        dialogPlacement: dialogPlacement,
         curvedRadius: dialogCurveRadius,
         // appBanner: ,
         elevation: dialogElevation,
+        dialogEntrance: dialogEntrance
       ),
-      dialogButtonStyle: DialogButtonStyle.values[dialogButtonStyle],
-      dialogButtonFit: DialogButtonFit.values[dialogButtonFit],
-      dialogButtonAlignment: DialogButtonAlignment.values[dialogButtonAlignment],
+      dialogButtonStyle: dialogButtonStyle,
+      dialogButtonFit: dialogButtonFit,
+      dialogButtonAlignment: dialogButtonAlignment,
       buttonSpacing: dialogButtonSpacing,
       dialogButtonTextSize: dialogButtonTextSize,
-      buttonPlacement: ButtonPlacement.values[buttonPlacement],
+      buttonPlacement: buttonPlacement,
       dialogButtonCornerRadius: dialogButtonCornerRadius,
+      dialogButtonHeight: dialogButtonHeight,
     );
   }
 
@@ -97,11 +100,13 @@ class MessageDialogSample extends StatefulWidget {
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
-                     // const Text("Styling",style: TextStyle(
-                     //     fontWeight: FontWeight.bold,
-                     //     fontSize: 22
-                     // ),),
-                     // const SizedBox(height: 15,),
+                    const Center(
+                       child:  Text("Default Style",style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                           fontSize: 22
+                       ),),
+                     ),
+                     const SizedBox(height: 15,),
 
                      checkButton(useDarkMode, "Use Dark Mode", (){
                        setState(() {
@@ -129,32 +134,6 @@ class MessageDialogSample extends StatefulWidget {
                        });
                      }),
 
-
-                     groupedCheckBox("Dialog Curve Radius",dialogCurveRadius, generateNumbers(start: 0, multiplier: 5), (item){
-                       setState(() {
-                         dialogCurveRadius = double.parse(item.toString());
-                       });
-                     }),
-
-                     groupedCheckBox("Dialog Elevation",dialogElevation, generateNumbers(start: 0, multiplier: 5), (item){
-                       setState(() {
-                         dialogElevation = double.parse(item.toString());
-                       });
-                     }),
-
-                     groupedCheckBox("Dialog Placement",dialogPlacement, ["Top","Center","Bottom"], (item){
-                       setState(() {
-                         dialogPlacement = item;
-                       });
-                     },returnIndex: true),
-
-
-                     groupedCheckBox("Dialog Margin",dialogMargin, generateNumbers(start: 0, multiplier: 10), (item){
-                       setState(() {
-                         dialogMargin = double.parse(item.toString());
-                       });
-                     }),
-
                      groupedCheckBox("Title Text Size",titleTextSize, generateNumbers(start: 14, multiplier: 2), (item){
                        setState(() {
                          titleTextSize = double.parse(item.toString());
@@ -166,10 +145,84 @@ class MessageDialogSample extends StatefulWidget {
                          messageTextSize = double.parse(item.toString());
                        });
                      }),
+                   ],
+                 ),
+               ),
 
-                     groupedCheckBox("Image/Icon Placement",imageOrIconPlacement, ["Normal","Top"], (item){
+               Container(
+                 width: double.infinity,
+                 padding: const EdgeInsets.all(10),
+                 margin: const EdgeInsets.fromLTRB(15,15,15,15),
+                 color: Colors.black.withOpacity(.05),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                      const Center(
+                        child: Text("Dialog Box Style",style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                           fontSize: 22
+                     ),),
+                      ),
+                     const SizedBox(height: 15,),
+
+                     groupedCheckBox("Entrance",
+                         DialogEntrance.values.indexOf(dialogEntrance),
+                         ["Slide Up","Scale","Slide Left","Fade In"], (item){
                        setState(() {
-                         imageOrIconPlacement = item;
+                         dialogEntrance = DialogEntrance.values[item];
+                       });
+                     },returnIndex: true),
+
+                     groupedCheckBox("Curve Radius",dialogCurveRadius, generateNumbers(start: 0, multiplier: 5), (item){
+                       setState(() {
+                         dialogCurveRadius = double.parse(item.toString());
+                       });
+                     }),
+
+                     groupedCheckBox("Elevation",dialogElevation, generateNumbers(start: 0, multiplier: 5), (item){
+                       setState(() {
+                         dialogElevation = double.parse(item.toString());
+                       });
+                     }),
+
+                     groupedCheckBox("Placement",
+                         DialogPlacement.values.indexOf(dialogPlacement),
+                         ["Top","Center","Bottom"], (item){
+                       setState(() {
+                         dialogPlacement = DialogPlacement.values[item];
+                       });
+                     },returnIndex: true),
+
+
+                     groupedCheckBox("Margin",dialogMargin, generateNumbers(start: 0, multiplier: 10), (item){
+                       setState(() {
+                         dialogMargin = double.parse(item.toString());
+                       });
+                     }),
+                   ],
+                 ),
+               ),
+
+               Container(
+                 width: double.infinity,
+                 padding: const EdgeInsets.all(10),
+                 margin: const EdgeInsets.fromLTRB(15,15,15,15),
+                 color: Colors.black.withOpacity(.05),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     const Center(
+                       child: Text("Dialog Image/Icon Style",style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                           fontSize: 22
+                       ),),
+                     ),
+                     const SizedBox(height: 15,),
+
+                     groupedCheckBox("Image/Icon Placement",
+                         ImageOrIconPlacement.values.indexOf(imageOrIconPlacement), ["Normal","Top"], (item){
+                       setState(() {
+                         imageOrIconPlacement = ImageOrIconPlacement.values[item];
                        });
                      },returnIndex: true),
 
@@ -189,59 +242,89 @@ class MessageDialogSample extends StatefulWidget {
                          imageOrIconMargin = double.parse(item.toString());
                        });
                      }),
+                   ],
+                 ),
+               ),
 
-                     groupedCheckBox("Dialog Button Style",dialogButtonStyle,
+               Container(
+                 width: double.infinity,
+                 padding: const EdgeInsets.all(10),
+                 margin: const EdgeInsets.fromLTRB(15,15,15,15),
+                 color: Colors.black.withOpacity(.05),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                    const Center(
+                       child:  Text("Button Style",style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                           fontSize: 22
+                       ),),
+                     ),
+                     const SizedBox(height: 15,),
+
+                     groupedCheckBox("Style",
+                         DialogButtonStyle.values.indexOf(dialogButtonStyle),
                          ["Normal","Filled","Stroked"], (item){
                        setState(() {
-                         dialogButtonStyle = item;
+                         dialogButtonStyle = DialogButtonStyle.values[item];
                        });
                      },returnIndex: true),
 
-                     groupedCheckBox("Dialog Button Fit",dialogButtonFit,
+                     groupedCheckBox("Fit",DialogButtonFit.values.indexOf(dialogButtonFit),
                          ["Normal","Stretched"], (item){
                        setState(() {
-                         dialogButtonFit = item;
+                         dialogButtonFit = DialogButtonFit.values[item];
                        });
                      },returnIndex: true),
 
-                     groupedCheckBox("Dialog Button Alignment",dialogButtonAlignment,
+                     groupedCheckBox("Alignment",
+                         DialogButtonAlignment.values.indexOf(dialogButtonAlignment),
                          ["Left","Center","Right"], (item){
                        setState(() {
-                         dialogButtonAlignment = item;
+                         dialogButtonAlignment = DialogButtonAlignment.values[item];
                        });
                      },returnIndex: true),
 
-                     groupedCheckBox("Dialog Button Placement",buttonPlacement,
+                     groupedCheckBox("Placement",ButtonPlacement.values.indexOf(buttonPlacement),
                          ["Wrapped","Row","Column"], (item){
                        setState(() {
-                         buttonPlacement = item;
+                         buttonPlacement = ButtonPlacement.values[item];
                        });
                      },returnIndex: true),
 
-                     groupedCheckBox("Dialog Button Spacing",dialogButtonSpacing,
+                     groupedCheckBox("Spacing",dialogButtonSpacing,
                          generateNumbers(start: 0, multiplier: 3), (item){
                        setState(() {
                          dialogButtonSpacing = double.parse(item.toString());
                        });
                      }),
 
-                     groupedCheckBox("Dialog Button TextSize",dialogButtonTextSize,
+                     groupedCheckBox("TextSize",dialogButtonTextSize,
                          generateNumbers(start: 14, multiplier: 2), (item){
                        setState(() {
                          dialogButtonTextSize = double.parse(item.toString());
                        });
                      }),
 
-                     groupedCheckBox("Dialog Button Corner Radius",dialogButtonCornerRadius,
+                     groupedCheckBox("Corner Radius",dialogButtonCornerRadius,
                          generateNumbers(start: 0, multiplier: 5), (item){
                        setState(() {
                          dialogButtonCornerRadius = double.parse(item.toString());
                        });
                      }),
+                     groupedCheckBox("Height",dialogButtonHeight,
+                         generateNumbers(start: 35, multiplier: 5), (item){
+                       setState(() {
+                         dialogButtonHeight = double.parse(item.toString());
+                       });
+                     }),
+
 
                    ],
                  ),
                ),
+
+
 
 
                Container(

@@ -53,11 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               height: 40,
               width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(15,20,15,20),
+              margin: const EdgeInsets.fromLTRB(15,30,15,20),
               child: TextButton(onPressed: (){
                 Navigator.push(context, PageRouteBuilder(
                     pageBuilder: (context, _, __) {
-                      return MessageDialogSample();
+                      return const MessageDialogSample();
                     }));
               },
                   style: TextButton.styleFrom(

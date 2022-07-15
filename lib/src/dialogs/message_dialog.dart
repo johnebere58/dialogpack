@@ -125,24 +125,23 @@ class MessageDialogState extends State<MessageDialog> {
     Function? neutralClick = messageDialogModel.onNeutralClicked;
 
     //The message dialog style
-    MessageDialogStyle messageDialogStyle =
-        messageDialogModel.messageDialogStyle ??
-            DialogManager.globalMessageDialogStyle;
-    if(messageDialogModel.inheritStyle){
+    MessageDialogStyle messageDialogStyle = messageDialogModel.messageDialogStyle ?? DialogManager.globalMessageDialogStyle;
+    if(messageDialogModel.inheritStyle) {
       messageDialogStyle = messageDialogStyle.inherit(DialogManager.globalMessageDialogStyle);
-    // }else{
-      // messageDialogStyle = messageDialogStyle.inherit(MessageDialogStyle());
-    // }
+    }
+      else{
+      messageDialogStyle = messageDialogStyle.inherit(MessageDialogStyle());
+    }
 
     Color titleTextColor = messageDialogStyle.titleTextColor ?? blackColor;
     Color messageTextColor = messageDialogStyle.titleTextColor ??
         (title == null ? titleTextColor : blackColor2);
-    double titleTextSize = messageDialogStyle.titleTextSize;
-    double messageTextSize = messageDialogStyle.messageTextSize;
+    double titleTextSize = messageDialogStyle.titleTextSize!;
+    double messageTextSize = messageDialogStyle.messageTextSize!;
     bool autoDismiss = messageDialogModel.autoDismissAfterClick;
 
     //The dialog style
-    DialogStyle dialogStyle = messageDialogStyle.dialogStyle;
+    DialogStyle dialogStyle = messageDialogStyle.dialogStyle!;
     // String? appBanner = dialogStyle.appBanner;
     double curvedRadius = dialogStyle.curvedRadius;
     double elevation = dialogStyle.elevation;
@@ -150,7 +149,7 @@ class MessageDialogState extends State<MessageDialog> {
     double margin = dialogStyle.margin;
 
     //The imageOrIcon style
-    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle;
+    ImageOrIconStyle imageOrIconStyle = messageDialogStyle.imageOrIconStyle!;
     ImageOrIconPlacement imageOrIconPlacement =
         imageOrIconStyle.imageOrIconPlacement;
     bool topImageStyle = imageOrIconPlacement == ImageOrIconPlacement.top;
@@ -158,8 +157,9 @@ class MessageDialogState extends State<MessageDialog> {
 
     bool hasImage = icon != null || image != null || gif != null;
 
-    double topOffset = messageDialogStyle.dialogStyle.dialogPlacement == DialogPlacement.top? 30:0;
+    double topOffset = messageDialogStyle.dialogStyle!.dialogPlacement == DialogPlacement.top? 30:0;
 
+    double buttonSpacing = messageDialogStyle.buttonSpacing!;
     return Align(
       alignment: dialogPlacement == DialogPlacement.top
           ? Alignment.topCenter
@@ -230,11 +230,11 @@ class MessageDialogState extends State<MessageDialog> {
                         ],
                       ),
                     ),
-                    if(messageDialogStyle.showButtonDivider)addLine(
-                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, messageDialogStyle.buttonSpacing==0?0:10),
-                    if(!messageDialogStyle.showButtonDivider)addSpace(messageDialogStyle.buttonSpacing==0?10:0),
+                    if(messageDialogStyle.showButtonDivider!)addLine(
+                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, buttonSpacing==0?0:10),
+                    if(!messageDialogStyle.showButtonDivider!)addSpace(buttonSpacing==0?10:0),
                     Padding(
-                      padding: EdgeInsets.all(messageDialogStyle.buttonSpacing==0?0:messageDialogStyle.buttonSpacing),
+                      padding: EdgeInsets.all(buttonSpacing==0?0:buttonSpacing),
                       child: MessageDialogButton(
                           messageDialogModel: messageDialogModel,
                           messageDialogStyle: messageDialogStyle,

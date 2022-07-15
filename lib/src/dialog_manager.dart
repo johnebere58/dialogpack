@@ -1,15 +1,11 @@
+import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
-import 'package:dialogpack/src/models/button_placement.dart';
-import 'package:dialogpack/src/models/image_or_icon_placement.dart';
-import 'package:dialogpack/src/models/image_or_icon_style.dart';
-import 'package:dialogpack/src/models/list_item.dart';
-import 'package:dialogpack/src/models/message_dialog_style.dart';
+import 'package:dialogpack/src/models/dialog_entrance.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
 import 'package:dialogpack/src/dialogs/message_dialog.dart';
-import 'package:dialogpack/src/models/message_dialog_model.dart';
 import 'package:dialogpack/src/repository/repository.dart';
 import 'package:dialogpack/src/utils/transitions.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
@@ -21,9 +17,11 @@ class DialogManager{
     static MessageDialogStyle globalMessageDialogStyle = MessageDialogStyle();
 
     ///very important please call this method first
-    static initialize({bool useDarkMode=false,messageDialogStyle}){
+    static initialize({bool useDarkMode=false,MessageDialogStyle? messageDialogStyle}){
       darkMode = useDarkMode;
-      globalMessageDialogStyle = messageDialogStyle;
+      if(messageDialogStyle!=null){
+        globalMessageDialogStyle = messageDialogStyle;
+      }
         if(!initialized) {
             Repository.startUp();
             initialized = true;
@@ -42,13 +40,13 @@ class DialogManager{
     /// You can add your custom [transition] to slide in the dialog
     ///
     static showMessageDialog(BuildContext context,
-        {required MessageDialogModel messageDialogModel,Widget? transition}){
+        {required MessageDialogModel messageDialogModel}){
       if(!initialized){
           throw Exception("Please call [${DialogManager.initialize()}] first");
       }
 
       launchNewScreen(context, MessageDialog(messageDialogModel: messageDialogModel),
-      transitionBuilder: transition??slideUpTransition);
+      transitionBuilder: getTransition(messageDialogModel));
     }
 
     /// Use this method to dismiss any dialog using the optional [dialogId]
@@ -63,7 +61,8 @@ class DialogManager{
             String negativeText="No",
             Function? clickedNo,
             String? title,
-            Widget? transition}){
+          Widget? transition
+        }){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             message: message,title: title,
@@ -78,8 +77,8 @@ class DialogManager{
     /// use this method to show a message dialog for a successful operation
     static showSuccessDialog(BuildContext context,
         {required String message,Function? clickedYes,
-            String? title,
-            Widget? transition}){
+            String? title,Widget? transition
+        }){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             gif: 'assets/success2.gif',
@@ -96,17 +95,19 @@ class DialogManager{
     static showFailedDialog(BuildContext context,
         {required String message,Function? clickedYes,
             String? title,
-            Widget? transition}){
+          Widget? transition
+        }){
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
-            icon: Icons.error_outline,
+            gif: 'assets/failed.gif',
             message: message,title: title,
             onPositiveClicked: clickedYes,
-            messageDialogStyle: MessageDialogStyle(
-              positiveTextButtonColor: Colors.black,
-                buttonSpacing: 0,dialogButtonCornerRadius: 0,
-                imageOrIconStyle: const ImageOrIconStyle(size: 80,imageOrIconPlacement: ImageOrIconPlacement.normal,color: Colors.red)
-            )
+            messageDialogStyle: MessageDialogStyle.empty(
+              positiveTextButtonColor: blackColor,
+                imageOrIconStyle: const ImageOrIconStyle(
+                    color: Colors.red,
+                    size: 100,imageOrIconPlacement: ImageOrIconPlacement.top)
+            ),inheritStyle: false
         )),
             transitionBuilder: transition??slideUpTransition);
     }
@@ -114,7 +115,7 @@ class DialogManager{
     static _showListDialog(BuildContext context,{
       required List<ListItem> listItems,
       required Function(List<ListItem> item) onItemSelected,
-      String? title,Widget? transition,
+      String? title,
       bool searchable=false,
       int maxSelections = 1,
       Color? buttonColor,
@@ -127,7 +128,7 @@ class DialogManager{
         buttonColor: buttonColor,
         titleColor: titleColor,
         searchable: searchable,),
-          transitionBuilder: transition??slideUpTransition,
+          transitionBuilder: slideUpTransition,
           result: (dynamic _){
             if(_==null)return;
             List<String> selectedIds = _ ;
@@ -170,7 +171,7 @@ class DialogManager{
     static showSimpleListDialog(BuildContext context,{
       required List<String> items,
       required Function(dynamic item) onItemSelected,
-      String? title,Widget? transition,
+      String? title,
       bool returnIndexes=false,
       bool searchable=false,
       int maxSelections = 1,
@@ -188,7 +189,6 @@ class DialogManager{
       _showListDialog(context, listItems: listItems,
           title: title,
           searchable: searchable,
-          transition: transition,
           maxSelections: maxSelections,
           titleColor: titleColor,
           buttonColor: buttonColor,
@@ -244,7 +244,7 @@ class DialogManager{
     static showComplexListDialog(BuildContext context,{
       required List<ListItem> items,
       required Function(dynamic item) onItemSelected,
-      String? title,Widget? transition,
+      String? title,
       bool returnIndexes=false,
       bool searchable=false,
       int maxSelections = 1,
@@ -258,7 +258,6 @@ class DialogManager{
       _showListDialog(context, listItems: items,
           title: title,
           searchable: searchable,
-          transition: transition,
           maxSelections: maxSelections,
           titleColor: titleColor,
           buttonColor: buttonColor,
@@ -301,4 +300,17 @@ class DialogManager{
 
     }
 
+    static dynamic getTransition(MessageDialogModel messageDialogModel){
+      MessageDialogStyle? messageDialogStyle = messageDialogModel.messageDialogStyle;
+      if(messageDialogStyle!=null){
+        DialogStyle? dialogStyle = messageDialogStyle.dialogStyle;
+        if(dialogStyle!=null){
+          DialogEntrance dialogEntrance = dialogStyle.dialogEntrance;
+          if(dialogEntrance==DialogEntrance.slide_left)return slideTransition;
+          if(dialogEntrance==DialogEntrance.scale)return scaleTransition;
+          if(dialogEntrance==DialogEntrance.fade_in)return fadeTransition;
+        }
+      }
+      return slideUpTransition;
+    }
  }

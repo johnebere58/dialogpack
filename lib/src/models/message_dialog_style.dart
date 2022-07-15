@@ -10,6 +10,7 @@ class MessageDialogStyle{
    final double? titleTextSize;
    final double? messageTextSize;
    final double? dialogButtonTextSize;
+   final double? dialogButtonHeight;
    final DialogButtonStyle? dialogButtonStyle;
    final Color? positiveTextButtonColor;
    final Color? negativeTextButtonColor;
@@ -38,12 +39,13 @@ class MessageDialogStyle{
          this.titleTextSize=25.0,
          this.messageTextSize=17.0,
          this.dialogButtonTextSize=18.0,
+         this.dialogButtonHeight=45,
          this.buttonSpacing=5.0,
          this.imageOrIconStyle=const ImageOrIconStyle(),
          this.dialogButtonCornerRadius = 5.0,
          this.showButtonDivider=false
-       }
-       );
+       });
+
    MessageDialogStyle.empty(
        {
          this.titleTextColor,
@@ -59,6 +61,7 @@ class MessageDialogStyle{
          this.titleTextSize,
          this.messageTextSize,
          this.dialogButtonTextSize,
+         this.dialogButtonHeight,
          this.buttonSpacing,
          this.imageOrIconStyle,
          this.dialogButtonCornerRadius,
@@ -85,36 +88,8 @@ class MessageDialogStyle{
        titleTextColor: titleTextColor ?? messageDialogStyle.titleTextColor,
        titleTextSize: titleTextSize ?? messageDialogStyle.titleTextSize,
        dialogButtonCornerRadius: dialogButtonCornerRadius ?? messageDialogStyle.dialogButtonCornerRadius,
-       dialogButtonTextSize: dialogButtonTextSize ?? messageDialogStyle.dialogButtonTextSize
+       dialogButtonTextSize: dialogButtonTextSize ?? messageDialogStyle.dialogButtonTextSize,
+       dialogButtonHeight: dialogButtonHeight ?? messageDialogStyle.dialogButtonHeight
        );
 }
-/*
-   MessageDialogStyle copyWith(
-       {
-     Color? titleTextColor,
-     String? messageTextColor,
-     double? titleTextSize,
-     double? messageTextSize,
-     double? dialogButtonTextSize,
-     DialogButtonStyle? dialogButtonStyle,
-     Color? positiveTextButtonColor,
-     Color? negativeTextButtonColor,
-     Color? neutralTextButtonColor,
-     DialogStyle? dialogStyle,
-     double? buttonSpacing,
-     ImageOrIconStyle? imageOrIconStyle,
-     ButtonPlacement? buttonPlacement,
-     DialogButtonFit? dialogButtonFit,
-     DialogButtonAlignment? dialogButtonAlignment,
-     double? dialogButtonCornerRadius,
-     bool? showButtonDivider
-}){
-     return MessageDialogStyle(
-       buttonPlacement: this.buttonPlacement ?? buttonPlacement,
-       buttonSpacing: this.buttonSpacing ?? buttonSpacing,
-     );
-   }*/
-
-
-
 }
