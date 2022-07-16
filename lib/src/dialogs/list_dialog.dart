@@ -377,6 +377,7 @@ class ListDialogState extends State<ListDialog> {
       if(listDialogModel.maxSelection==1){
         selectedIds.clear();
       }else if(selectedIds.length >= listDialogModel.maxSelection){
+        CheckBoxController.instance.uncheck(id: valueKey);
         showError("Max selection reached");
         return;
       }
