@@ -11,6 +11,7 @@ class MessageDialogStyle{
    final double? messageTextSize;
    final double? dialogButtonTextSize;
    final double? dialogButtonHeight;
+   final double? itemSpacing;
    final DialogButtonStyle? dialogButtonStyle;
    final Color? positiveTextButtonColor;
    final Color? negativeTextButtonColor;
@@ -38,6 +39,7 @@ class MessageDialogStyle{
          this.dialogStyle = const DialogStyle(),
          this.titleTextSize=25.0,
          this.messageTextSize=17.0,
+         this.itemSpacing=15.0,
          this.dialogButtonTextSize=18.0,
          this.dialogButtonHeight=45,
          this.buttonSpacing=5.0,
@@ -59,6 +61,7 @@ class MessageDialogStyle{
          this.neutralTextButtonColor,
          this.dialogStyle,
          this.titleTextSize,
+         this.itemSpacing,
          this.messageTextSize,
          this.dialogButtonTextSize,
          this.dialogButtonHeight,
@@ -89,7 +92,8 @@ class MessageDialogStyle{
        titleTextSize: titleTextSize ?? messageDialogStyle.titleTextSize,
        dialogButtonCornerRadius: dialogButtonCornerRadius ?? messageDialogStyle.dialogButtonCornerRadius,
        dialogButtonTextSize: dialogButtonTextSize ?? messageDialogStyle.dialogButtonTextSize,
-       dialogButtonHeight: dialogButtonHeight ?? messageDialogStyle.dialogButtonHeight
+       dialogButtonHeight: dialogButtonHeight ?? messageDialogStyle.dialogButtonHeight,
+         itemSpacing: itemSpacing ?? messageDialogStyle.itemSpacing
        );
 }
 }

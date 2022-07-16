@@ -1,5 +1,6 @@
 
 import 'package:dialogpack/dialogpack.dart';
+import 'package:dialogpack/src/models/list_dialog_model.dart';
 import 'package:dialogpack/src/models/list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                  onPressed: (){
 
                    DialogManager.showComplexListDialog(context,
-                       items: items,searchable: true,
+                       listDialogModel: ListDialogModel(listItems: items,searchable: true),
                        onItemSelected: (item){
                          setState(() {
                            message = "${item.title}";
@@ -48,7 +49,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                  onPressed: (){
 
                    DialogManager.showComplexListDialog(context,
-                       items: items,searchable: true,
+                       listDialogModel: ListDialogModel(listItems: items,searchable: true),
                        onItemSelected: (item){
                          setState(() {
                            message = "Index $item";
@@ -64,7 +65,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                  onPressed: (){
 
                    DialogManager.showComplexListDialog(context,
-                       items: items,searchable: true,maxSelections: 3,
+                       listDialogModel: ListDialogModel(listItems: items,searchable: true,maxSelection: 3),
                        onItemSelected: (item){
                          setState(() {
                            message = "Items ${List.generate(item.length, (index) => item[index].title)}";
@@ -80,7 +81,7 @@ class SampleWidgetComplexListTest extends StatefulWidget {
                  onPressed: (){
 
                    DialogManager.showComplexListDialog(context,
-                       items: items,searchable: true,maxSelections: 3,
+                       listDialogModel: ListDialogModel(listItems: items,searchable: true,maxSelection: 3),
                        onItemSelected: (item){
                          setState(() {
                            message = "Indexes $item";

@@ -8,14 +8,14 @@ class ImageOrIconStyle{
   final double padding;
   final double margin;
   // final ShapeBorder shape;
-  final Color color;
+  final Color? color;
   final ImageOrIconPlacement imageOrIconPlacement;
 
   const ImageOrIconStyle(
   {
     this.size=60.0,
     // this.shape=const CircleBorder(side: BorderSide.none),
-    this.color = Colors.blue,
+    this.color,
     this.margin = 0.0,
     this.padding = 0.0,
     this.imageOrIconPlacement = ImageOrIconPlacement.normal

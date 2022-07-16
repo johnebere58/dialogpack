@@ -32,7 +32,7 @@ class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
     String? gif = messageDialogModel.gif;
     double imageOrIconSize = imageOrIconStyle.size;
     // ShapeBorder shape = imageOrIconStyle.shape;
-    Color imageOrIconColor = imageOrIconStyle.color;
+    Color? imageOrIconColor = imageOrIconStyle.color;
     double imageOrIconMargin = imageOrIconStyle.margin;
     double imageOrIconPadding = imageOrIconStyle.padding;
 
@@ -46,7 +46,7 @@ class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
         child:
         gif!=null?
         Gif(
-          image: AssetImage(gif,package: "dialogpack",),
+          image: AssetImage(gif,package: messageDialogModel.assetPackage,),
           color: imageOrIconColor,
           placeholder: (c)=>Container(),
           autostart: Autostart.once,
@@ -54,8 +54,9 @@ class ImageOrIconWidgetState extends State<ImageOrIconWidget> {
 
         (icon == null && image !=null)
             ? (Image.asset(
-          image,
-          color: imageOrIconColor,package: "dialogpack",
+          image,fit: BoxFit.cover,
+          height: imageOrIconSize,
+          color: imageOrIconColor,package: messageDialogModel.assetPackage,
         ))
             : Icon(
           icon,

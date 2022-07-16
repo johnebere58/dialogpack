@@ -1,34 +1,22 @@
 import 'dart:ui';
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/blocs/check_box_controller.dart';
+import 'package:dialogpack/src/dialog_manager.dart';
+import 'package:dialogpack/src/models/dialog_placement.dart';
+import 'package:dialogpack/src/models/dialog_style.dart';
+import 'package:dialogpack/src/models/list_dialog_model.dart';
+import 'package:dialogpack/src/models/list_dialog_style.dart';
 import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
 import 'package:dialogpack/src/utils/widgets/custom_check_box.dart';
+import 'package:dialogpack/src/utils/widgets/list_dialog_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/models/list_item.dart';
-import 'package:dialogpack/src/utils/widget_utils.dart';
 
 class ListDialog extends StatefulWidget {
-  final String? title;
-  final Color? buttonColor;
-  final Color? titleColor;
-  final Color? globalCheckBoxColor;
-  final List<ListItem> items;
-  // final List<ListItem>? defaultSelections; /// for multiple selection list
-  final bool searchable;
-  final int maxSelection; // for multiple list selection
-  final String? buttonText;
 
-  const ListDialog(this.items,
-      {this.title,
-        // this.defaultSelections,
-        this.buttonColor,
-        this.titleColor,
-        this.globalCheckBoxColor,
-        this.searchable=false,
-        this.maxSelection = 1,
-        this.buttonText,
-        Key? key}):super(key:key);
+  final ListDialogModel listDialogModel;
+  const ListDialog({required this.listDialogModel, Key? key}):super(key:key);
 
   @override
   ListDialogState createState() => ListDialogState();
@@ -36,6 +24,7 @@ class ListDialog extends StatefulWidget {
 
 class ListDialogState extends State<ListDialog> {
 
+  late ListDialogModel listDialogModel;
   late List<ListItem> allItems;
   late List<ListItem> listItems;
   final List<String> selectedIds = [];
@@ -50,8 +39,10 @@ class ListDialogState extends State<ListDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    allItems = List.from(widget.items);
-    listItems = List.from(widget.items);
+    listDialogModel = widget.listDialogModel;
+    List items = listDialogModel.listItems;
+    allItems = List.from(items);
+    listItems = List.from(items);
 
     Future.delayed(const Duration(milliseconds: 200),(){
       hideUI=false;
@@ -109,28 +100,51 @@ class ListDialogState extends State<ListDialog> {
 
   Widget page() {
 
-    String? title = widget.title;
-    Color buttonColor = widget.buttonColor ?? blackColor;
-    Color titleColor = widget.titleColor ?? blackColor;
+    //The list dialog style
+    ListDialogStyle listDialogStyle = listDialogModel.listDialogStyle ?? DialogManager.defaultListDialogStyle;
+    if(listDialogModel.inheritStyle) {
+      listDialogStyle = listDialogStyle.inherit(DialogManager.defaultListDialogStyle);
+    }
+    else{
+      listDialogStyle = listDialogStyle.inherit(ListDialogStyle());
+    }
 
-    return Center(
+    String? title = listDialogModel.title;
+    Color buttonColor = listDialogStyle.buttonColor ?? blackColor;
+    Color titleColor = listDialogStyle.titleTextColor ?? blackColor;
+
+    //The dialog style
+    DialogStyle dialogStyle = listDialogStyle.dialogStyle!;
+    // String? appBanner = dialogStyle.appBanner;
+    double curvedRadius = dialogStyle.curvedRadius;
+    double elevation = dialogStyle.elevation;
+    DialogPlacement dialogPlacement = dialogStyle.dialogPlacement;
+    double margin = dialogStyle.margin;
+    double itemSpacing = listDialogStyle.itemSpacing!;
+
+    return Align(
+      alignment: dialogPlacement == DialogPlacement.top
+          ? Alignment.topCenter
+          : dialogPlacement == DialogPlacement.bottom
+          ? Alignment.bottomCenter
+          : Alignment.center,
       child: Container(
-        margin: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+        margin: EdgeInsets.fromLTRB(
+            margin,
+            margin,
+            margin,
+            margin),
         width: getScreenWidth(context)>500?500:getScreenWidth(context),
         child: Card(
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: Clip.antiAlias,margin: EdgeInsets.zero,
           color: whiteColor,
-          elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          elevation: elevation,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(curvedRadius)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              if(title!=null)Padding(
-                padding: const EdgeInsets.only(left: 20,top: 20),
-                child: Text(title, style: textStyle(false, 16, titleColor),
-                ),
-              ),
+
               AnimatedContainer(duration: const Duration(milliseconds: 500),
                 width: double.infinity,
                 height: errorText.isEmpty?0:40,
@@ -138,9 +152,14 @@ class ListDialogState extends State<ListDialog> {
                 padding: const EdgeInsets.fromLTRB(10,0,10,0),
                 child:Center(child: Text(errorText,style: textStyle(true, 14, white),)),
               ),
-              if(widget.searchable)Container(
+              if(title!=null)Padding(
+                padding: EdgeInsets.fromLTRB(20,itemSpacing + 10,20,0),
+                child: Text(title, style: textStyle(true, listDialogStyle.titleTextSize!, titleColor),
+                ),
+              ),
+              if(listDialogModel.searchable)Container(
                 height: 45,
-                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                margin: EdgeInsets.fromLTRB(0, itemSpacing, 0, 0),
                 // decoration: BoxDecoration(
                 //     color: white.withOpacity(.8),
                 //     borderRadius: BorderRadius.circular(25),
@@ -153,7 +172,7 @@ class ListDialogState extends State<ListDialog> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   //mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    addSpaceWidth(10),
+                    addSpaceWidth(20),
                     Icon(
                       Icons.search,
                       color: blackColor2,
@@ -166,7 +185,7 @@ class ListDialogState extends State<ListDialog> {
                       child: TextField(
                         textInputAction: TextInputAction.search,
                         textCapitalization: TextCapitalization.sentences,
-                        autofocus: true,
+                        autofocus: false,
                         onSubmitted: (_) {
                           performSearch();
                         },
@@ -217,10 +236,11 @@ class ListDialogState extends State<ListDialog> {
                   ],
                 ),
               ),
+              if(!listDialogModel.searchable)addSpace(itemSpacing),
               Flexible(fit: FlexFit.loose,
                 child: Scrollbar(
                   child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     itemBuilder: (context, position) {
 
                       ListItem listItem = listItems[position];
@@ -237,7 +257,7 @@ class ListDialogState extends State<ListDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          position == 0
+                          position == 0 || !listDialogStyle.showButtonDivider!
                               ? Container()
                               : customDivider(),
                           GestureDetector(
@@ -245,7 +265,7 @@ class ListDialogState extends State<ListDialog> {
 
                               handleSelection(position);
 
-                              if(widget.maxSelection==1){
+                              if(listDialogModel.maxSelection==1){
                                closePage((){ Navigator.of(context).pop(selectedIds);});
                               }
 
@@ -255,7 +275,7 @@ class ListDialogState extends State<ListDialog> {
                               width: double.infinity,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                     EdgeInsets.fromLTRB(0, itemSpacing, 0, itemSpacing),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment:
@@ -302,7 +322,7 @@ class ListDialogState extends State<ListDialog> {
                                       ),
                                     ),
 
-                                    if(widget.maxSelection>1)Container(
+                                    if(listDialogModel.maxSelection>1)Container(
                                       margin: const EdgeInsets.only(left: 5),
                                       child: CustomCheckBox(
                                         onChecked: (b){
@@ -311,7 +331,7 @@ class ListDialogState extends State<ListDialog> {
                                         defaultValue: selectedIds.contains(listItem.itemKey),
                                         key: ValueKey(listItem.itemKey),
                                         // size: ,
-                                        checkColor: widget.globalCheckBoxColor ?? listItem.checkBoxColor,
+                                        checkColor: listDialogStyle.globalCheckBoxColor ?? listItem.checkBoxColor,
                                       )
                                     )
                                   ],
@@ -328,26 +348,16 @@ class ListDialogState extends State<ListDialog> {
                 ),
               ),
 
-                Align(
-                  alignment: Alignment.topRight,
-                  child: AnimatedContainer(duration:const Duration(milliseconds: 500),
-                     width: double.infinity,
-                      height: (widget.maxSelection>1 && selectedIds.isNotEmpty)?40:0,
-                      margin: const EdgeInsets.fromLTRB(0,10,0,0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0)),
-                            backgroundColor: buttonColor,
-                          ),
-                          onPressed: () {
-                            closePage((){ Navigator.pop(context,selectedIds);});
-                          },
-                          child: Text(
-                            widget.buttonText ?? "Ok",
-                            style: textStyle(true, 16, whiteColor),
-                          ))),
-                )
+                AnimatedContainer(duration:const Duration(milliseconds: 500),
+                   width: double.infinity,
+                    height: (listDialogModel.maxSelection>1 && selectedIds.isNotEmpty)?40:0,
+                    margin:  EdgeInsets.fromLTRB(0,itemSpacing,0,0),
+                    child:
+    ListDialogButton(listDialogStyle: listDialogStyle,listDialogModel: listDialogModel,
+    buttonClick: (){
+      closePage((){ Navigator.pop(context,selectedIds);});
+    },)
+                  )
               //gradientLine(alpha: .1)
             ],
           ),
@@ -364,9 +374,9 @@ class ListDialogState extends State<ListDialog> {
       selectedIds.remove(valueKey);
       CheckBoxController.instance.uncheck(id: valueKey);
     }else{
-      if(widget.maxSelection==1){
+      if(listDialogModel.maxSelection==1){
         selectedIds.clear();
-      }else if(selectedIds.length >= widget.maxSelection){
+      }else if(selectedIds.length >= listDialogModel.maxSelection){
         showError("Max selection reached");
         return;
       }

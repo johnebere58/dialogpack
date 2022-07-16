@@ -9,6 +9,7 @@ class MessageDialogModel{
 
     final String? gif;
     final String? assetImage;
+    final String? assetPackage;
     final IconData? icon;
     final String? title;
     final String message;
@@ -30,6 +31,7 @@ class MessageDialogModel{
       this.title,
       this.icon,
       this.assetImage,
+      this.assetPackage,
       this.gif,
       this.positiveClickText = "Ok",
       this.negativeClickText,
@@ -40,7 +42,7 @@ class MessageDialogModel{
       this.cancellableOnTapOutside=true,
       this.autoDismissAfterClick = true,
       this.messageDialogStyle,
-      this.inheritStyle=false
+      this.inheritStyle=true
    }
         );
  }

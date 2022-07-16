@@ -154,12 +154,16 @@ class MessageDialogState extends State<MessageDialog> {
         imageOrIconStyle.imageOrIconPlacement;
     bool topImageStyle = imageOrIconPlacement == ImageOrIconPlacement.top;
     double imageOrIconSize = imageOrIconStyle.size;
+    double imageOrIconMargin = imageOrIconStyle.margin;
 
     bool hasImage = icon != null || image != null || gif != null;
 
     double topOffset = messageDialogStyle.dialogStyle!.dialogPlacement == DialogPlacement.top? 30:0;
 
     double buttonSpacing = messageDialogStyle.buttonSpacing!;
+    double itemSpacing = messageDialogStyle.itemSpacing!;
+
+    bool showButtonDivider = messageDialogStyle.showButtonDivider??false;
     return Align(
       alignment: dialogPlacement == DialogPlacement.top
           ? Alignment.topCenter
@@ -172,7 +176,7 @@ class MessageDialogState extends State<MessageDialog> {
           Container(
             margin: EdgeInsets.fromLTRB(
                 margin,
-                ((hasImage && topImageStyle) ? (topOffset + (imageOrIconSize / 2)) : margin),
+                ((hasImage && topImageStyle) ? (topOffset + (imageOrIconSize / 2) + imageOrIconMargin) : margin),
                 margin,
                 margin),
             width:
@@ -196,14 +200,14 @@ class MessageDialogState extends State<MessageDialog> {
                         children: [
                           if (!topImageStyle && hasImage)
                             Container(
-                                margin: const EdgeInsets.only(bottom: 15),
+                                margin: EdgeInsets.only(bottom: itemSpacing),
                                 child: ImageOrIconWidget(
                                   messageDialogModel: messageDialogModel,
                                   messageDialogStyle: messageDialogStyle,
                                 )),
                           if (title != null)
                             Container(
-                              margin: const EdgeInsets.only(bottom: 5),
+                              margin:  EdgeInsets.only(bottom: itemSpacing),
                               child: Text(
                                 title,
                                 style: textStyle(
@@ -230,9 +234,9 @@ class MessageDialogState extends State<MessageDialog> {
                         ],
                       ),
                     ),
-                    if(messageDialogStyle.showButtonDivider!)addLine(
-                        1, blackColor.withOpacity(bestOpacity2), 0, 10, 0, buttonSpacing==0?0:10),
-                    if(!messageDialogStyle.showButtonDivider!)addSpace(buttonSpacing==0?10:0),
+                    if(showButtonDivider)addLine(
+                        1, blackColor.withOpacity(bestOpacity2), 0, buttonSpacing==0?0:itemSpacing,0,0),
+                    if(!showButtonDivider)addSpace(buttonSpacing==0?itemSpacing:0),
                     Padding(
                       padding: EdgeInsets.all(buttonSpacing==0?0:buttonSpacing),
                       child: MessageDialogButton(
