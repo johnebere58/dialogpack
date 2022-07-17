@@ -1,9 +1,8 @@
 
 import 'package:dialogpack/src/blocs/check_box_controller.dart';
-import 'package:flutter/material.dart';
+import 'package:dialogpack/src/blocs/loading_controller.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
-import 'package:gif/gif.dart';
 
  GetIt getIt = GetIt.instance..allowReassignment = true;
 
@@ -18,6 +17,8 @@ import 'package:gif/gif.dart';
      getIt.registerSingleton<MessageDialogController>(MessageDialogController());
 
      getIt.registerSingleton<CheckBoxController>(CheckBoxController());
+
+     getIt.registerSingleton<LoadingController>(LoadingController());
 
 
    }

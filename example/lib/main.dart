@@ -1,7 +1,7 @@
-import 'package:dialogpack_example/input_dialog_sample.dart';
-import 'package:dialogpack_example/list_dialog_sample.dart';
-import 'package:dialogpack_example/message_dialog_sample.dart';
-import 'package:dialogpack_example/popup_dialog_sample.dart';
+import 'package:dialogpack_example/samples/input_dialog_sample.dart';
+import 'package:dialogpack_example/samples/list_dialog_sample.dart';
+import 'package:dialogpack_example/samples/message_dialog_sample.dart';
+import 'package:dialogpack_example/samples/popup_dialog_sample.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/dialogpack.dart';
 
@@ -118,6 +118,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Popup Dialog Sample",
                     style: TextStyle(color: Colors.white,fontSize: 16),)),
             ),
+
+            Container(
+              height: 40,
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(15,0,15,20),
+              child: TextButton(onPressed: (){
+                DialogManager.showLoading(context,message: "Please wait");
+              },
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue
+                  ),
+                  child: const Text("Loading Dialog Sample",
+                    style: TextStyle(color: Colors.white,fontSize: 16),)),
+            ),
+
 
 
           ],

@@ -1,7 +1,9 @@
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/blocs/loading_controller.dart';
 import 'package:dialogpack/src/dialogs/input_dialog.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
+import 'package:dialogpack/src/dialogs/loading_dialog.dart';
 import 'package:dialogpack/src/dialogs/popup_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
@@ -68,7 +70,7 @@ class DialogManager{
     static showMessageDialog(BuildContext context,
         {required MessageDialogModel messageDialogModel, DialogEntrance? dialogEntrance}){
       if(!initialized){
-          throw Exception("Please call [${DialogManager.initialize()}] first");
+          throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
       }
 
       launchNewScreen(context, MessageDialog(messageDialogModel: messageDialogModel),
@@ -89,6 +91,9 @@ class DialogManager{
             String? title,
           DialogEntrance? dialogEntrance
         }){
+        if(!initialized){
+          throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+        }
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             message: message,title: title,
@@ -105,6 +110,9 @@ class DialogManager{
         {required String message,Function? clickedYes,
             String? title,DialogEntrance? dialogEntrance
         }){
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             gif: 'assets/success2.gif',assetPackage: "dialogpack",
@@ -123,6 +131,9 @@ class DialogManager{
             String? title,
           DialogEntrance? dialogEntrance
         }){
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
         launchNewScreen(context, MessageDialog(messageDialogModel:
         MessageDialogModel(
             gif: 'assets/failed.gif',assetPackage: "dialogpack",
@@ -197,7 +208,10 @@ class DialogManager{
       Color? buttonColor,
       Color? titleColor,
       ListDialogStyle? listDialogStyle, DialogEntrance? dialogEntrance}){
-      
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
+
       if(maxSelections<1){
         throw UnimplementedError("[maxSelections] cannot be less than 1");
       }
@@ -265,6 +279,9 @@ class DialogManager{
       bool returnIndexes=false,  DialogEntrance? dialogEntrance
       }){
 
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
 
       _showListDialog(context, listDialogModel: listDialogModel,dialogEntrance: dialogEntrance,
           onItemSelected: (List<ListItem> resultItems){
@@ -301,6 +318,10 @@ class DialogManager{
       bool inheritStyle=true,
       DialogEntrance? dialogEntrance}){
 
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
+
       InputDialogModel inputDialogModel = InputDialogModel(
           inputItems: inputItems,
           inheritStyle: inheritStyle,
@@ -325,6 +346,9 @@ class DialogManager{
       PopupDialogStyle? popupDialogStyle,
       DialogEntrance? dialogEntrance}){
 
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
 
       launchNewScreen(context,
           PopupDialog(popupDialogModel: PopupDialogModel(
@@ -335,14 +359,30 @@ class DialogManager{
           transitionBuilder: getTransition(dialogEntrance:dialogEntrance??DialogEntrance.slide_down));
     }
 
-    static showProgressDialog(BuildContext context,){
+    static void showLoading(BuildContext context,
+        {String? message, bool cancellable = true}) {
 
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
+
+      launchNewScreen(
+          context,
+          LoadingDialog(
+            message: message,
+            cancelable: cancellable,
+          ),
+          transitionBuilder:fadeTransition,
+          transitionDuration: const Duration(milliseconds: 800));
     }
 
-    static showBottomListDialog(BuildContext context,){
+    static void hideLoading() {
+      if(!initialized){
+        throw UnimplementedError("Please call [${DialogManager.initialize()}] first");
+      }
 
+      LoadingController.instance.streamController.add(false);
     }
-
 
     static dynamic getTransition({DialogEntrance? dialogEntrance}) {
       dialogEntrance = dialogEntrance ?? defaultEntrance;
