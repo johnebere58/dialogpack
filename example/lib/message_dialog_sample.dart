@@ -43,7 +43,8 @@ class MessageDialogSample extends StatefulWidget {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // resetStyle();
+    useDarkMode = DialogManager.darkMode;
+    resetStyle();
   }
 
   void resetStyle(){

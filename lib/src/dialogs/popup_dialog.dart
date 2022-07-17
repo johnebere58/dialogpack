@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
-import 'package:dialogpack/src/models/popup_dialog_model.dart';
-import 'package:dialogpack/src/models/popup_dialog_style.dart';
 import 'package:dialogpack/src/utils/screen_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/utils/widget_utils.dart';
@@ -19,6 +17,7 @@ class PopupDialog extends StatefulWidget {
 
 class PopupDialogState extends State<PopupDialog> {
   late PopupDialogModel popupDialogModel;
+  late PopupDialogStyle popupDialogStyle;
   bool showBack = false;
   bool hideUI = true;
 
@@ -26,36 +25,8 @@ class PopupDialogState extends State<PopupDialog> {
   void initState() {
     super.initState();
     popupDialogModel = widget.popupDialogModel;
-
-    Future.delayed(const Duration(milliseconds: 200), () {
-      hideUI = false;
-      setState(() {});
-    });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      showBack = true;
-      setState(() {});
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(Duration(
-        milliseconds: popupDialogModel.durationInMilliseconds
-      ),(){
-        Navigator.pop(context);
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: IgnorePointer(ignoring: true, child: page()));
-  }
-
-  Widget page() {
-    IconData? icon = popupDialogModel.icon;
-    String message = popupDialogModel.message;
-
     //The message dialog style
-    PopupDialogStyle popupDialogStyle = popupDialogModel.popupDialogStyle ??
+    popupDialogStyle = popupDialogModel.popupDialogStyle ??
         DialogManager.defaultPopupDialogStyle;
     if (popupDialogModel.inheritStyle) {
       popupDialogStyle =
@@ -64,8 +35,55 @@ class PopupDialogState extends State<PopupDialog> {
       popupDialogStyle = popupDialogStyle.inherit(PopupDialogStyle());
     }
 
-    Color messageTextColor = popupDialogStyle.titleTextColor ?? white;
-    Color boxColor = popupDialogStyle.boxColor ?? Colors.blue;
+    Future.delayed(const Duration(milliseconds: 200), () {
+      hideUI = false;
+      setState(() {});
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      showBack = true;
+      if(mounted)setState(() {});
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration(
+        milliseconds: popupDialogModel.durationInMilliseconds
+      ),(){
+       closePage((){ Navigator.pop(context);});
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    DialogStyle dialogStyle = popupDialogStyle.dialogStyle!;
+    DialogPlacement dialogPlacement = dialogStyle.dialogPlacement;
+    double margin = dialogStyle.margin;
+    return Stack(fit: StackFit.expand, children: <Widget>[
+      GestureDetector(
+        onTap: () {
+          closePage(() {
+            Navigator.pop(context);
+          });
+        },
+        key: const ValueKey("tapToClose"),
+        child: AnimatedOpacity(
+          opacity: showBack ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child: Container(
+    color: Colors.black.withOpacity(.7),
+    ),
+        ),
+      ),
+      dialogPlacement==DialogPlacement.top && margin==0?page():SafeArea(child: page()),
+    ]);
+  }
+
+  Widget page() {
+    IconData? icon = popupDialogModel.icon;
+    String message = popupDialogModel.message;
+
+    Color messageTextColor = popupDialogStyle.messageTextColor ?? whiteColor;
+    Color boxColor = popupDialogStyle.boxColor ?? blackColor;
     double messageTextSize = popupDialogStyle.messageTextSize!;
 
     //The dialog style
@@ -75,6 +93,7 @@ class PopupDialogState extends State<PopupDialog> {
     DialogPlacement dialogPlacement = dialogStyle.dialogPlacement;
     double margin = dialogStyle.margin;
 
+    double topOffset = dialogPlacement==DialogPlacement.top && margin==0?50:0;
 
     return Align(
       alignment: dialogPlacement == DialogPlacement.top
@@ -97,17 +116,15 @@ class PopupDialogState extends State<PopupDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(curvedRadius)),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                padding:  EdgeInsets.fromLTRB(20, 20 +topOffset, 20, 20),
                 child: Row(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin:const EdgeInsets.only(right: 8),
+                    if(icon!=null)Container(
+                      margin:const EdgeInsets.only(right: 10),
                       child:
                           Icon(icon,color: messageTextColor,size: messageTextSize,),
                     ),
-                    // Icon(Icons.error_outline,color: white,),
-                    addSpaceWidth(10),
                     Flexible(
                       fit: FlexFit.tight,
                       child: Text(
@@ -136,7 +153,7 @@ class PopupDialogState extends State<PopupDialog> {
         hideUI = true;
         if (mounted) setState(() {});
       });
-      onClosed();
+      if(mounted)onClosed();
     });
   }
 }

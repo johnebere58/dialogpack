@@ -23,7 +23,7 @@ class PopupDialogSample extends StatefulWidget {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // resetStyle();
+    resetStyle();
   }
 
   void resetStyle(){
@@ -33,7 +33,6 @@ class PopupDialogSample extends StatefulWidget {
         margin: dialogMargin,
         dialogPlacement: dialogPlacement,
         curvedRadius: dialogCurveRadius,
-        // appBanner: ,
         elevation: dialogElevation,
       ),
     );
@@ -58,7 +57,7 @@ class PopupDialogSample extends StatefulWidget {
                        margin: const EdgeInsets.all(10),
                        child: TextButton(onPressed: (){
                          DialogManager.showPopupDialog(context,
-                         message: "This is a simple popup",);
+                         message: "This is a simple popup",dialogEntrance: dialogEntrance);
                        },
                            style: TextButton.styleFrom(
                                primary: Colors.white,backgroundColor: Colors.blue
@@ -70,7 +69,15 @@ class PopupDialogSample extends StatefulWidget {
                        margin: const EdgeInsets.all(10),
                        child: TextButton(onPressed: (){
                          DialogManager.showPopupDialog(context,
-                           message: "This is a simple popup",icon: Icons.info_outline);
+                           message: "This is a simple popup",icon: Icons.info_outline,
+                             dialogEntrance: dialogEntrance,
+                         popupDialogStyle: PopupDialogStyle(
+                           boxColor: Colors.red,messageTextSize: messageTextSize,
+                           dialogStyle: DialogStyle(
+                             dialogPlacement: dialogPlacement,elevation: dialogElevation,
+                             curvedRadius: dialogCurveRadius,margin: dialogMargin
+                           ),
+                         ));
                        },
                            style: TextButton.styleFrom(
                                primary: Colors.white,backgroundColor: Colors.blue

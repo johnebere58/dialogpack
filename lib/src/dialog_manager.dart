@@ -3,8 +3,6 @@ import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/input_dialog.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
 import 'package:dialogpack/src/dialogs/popup_dialog.dart';
-import 'package:dialogpack/src/models/popup_dialog_model.dart';
-import 'package:dialogpack/src/models/popup_dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -22,7 +20,8 @@ class DialogManager{
     static InputDialogStyle defaultInputDialogStyle = InputDialogStyle();
     static PopupDialogStyle defaultPopupDialogStyle = PopupDialogStyle(dialogStyle:
     const DialogStyle(
-      dialogPlacement: DialogPlacement.top,margin: 0.0,elevation: 0,curvedRadius: 0
+      dialogPlacement: DialogPlacement.top,margin: 0.0,elevation: 0,curvedRadius: 0,
+
     ),);
     static DialogEntrance defaultEntrance = DialogEntrance.scale;
 
@@ -324,15 +323,16 @@ class DialogManager{
       bool inheritStyle=true,
       int durationInMilliseconds=2500,
       PopupDialogStyle? popupDialogStyle,
-      DialogEntrance dialogEntrance=DialogEntrance.slide_down}){
+      DialogEntrance? dialogEntrance}){
 
 
       launchNewScreen(context,
           PopupDialog(popupDialogModel: PopupDialogModel(
-            message: message,icon: icon,inheritStyle: inheritStyle,durationInMilliseconds: durationInMilliseconds,
-            popupDialogStyle: popupDialogStyle
+            message: message,icon: icon,inheritStyle: inheritStyle,
+              durationInMilliseconds: durationInMilliseconds,
+             popupDialogStyle: popupDialogStyle
           )),
-          transitionBuilder: getTransition(dialogEntrance:dialogEntrance),);
+          transitionBuilder: getTransition(dialogEntrance:dialogEntrance??DialogEntrance.slide_down));
     }
 
     static showProgressDialog(BuildContext context,){

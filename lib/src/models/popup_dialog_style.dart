@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 
 class PopupDialogStyle{
 
-   final Color? titleTextColor;
+   final Color? messageTextColor;
    final Color? boxColor;
    final double? messageTextSize;
    final DialogStyle? dialogStyle;
 
    PopupDialogStyle(
        {
-         this.titleTextColor,
+         this.messageTextColor,
          this.boxColor,
-         this.dialogStyle = const DialogStyle(),
+         this.dialogStyle = const DialogStyle(dialogPlacement: DialogPlacement.top,margin: 0.0,elevation: 0,curvedRadius: 0,),
          this.messageTextSize=18.0,
        });
 
    PopupDialogStyle.empty(
        {
-         this.titleTextColor,
+         this.messageTextColor,
          this.boxColor,
          this.dialogStyle,
          this.messageTextSize,
@@ -29,7 +29,7 @@ class PopupDialogStyle{
 
    PopupDialogStyle inherit(PopupDialogStyle popupDialogStyle){
      return PopupDialogStyle.empty(
-         titleTextColor: titleTextColor ?? popupDialogStyle.titleTextColor,
+         messageTextColor: messageTextColor ?? popupDialogStyle.messageTextColor,
          boxColor: boxColor ?? popupDialogStyle.boxColor,
          dialogStyle: dialogStyle ?? popupDialogStyle.dialogStyle,
          messageTextSize: messageTextSize ?? popupDialogStyle.messageTextSize,
