@@ -94,7 +94,7 @@ class ListDialogState extends State<ListDialog> {
           ),
         ),
       ),
-      page()
+          SafeArea(child: page()),
     ]);
   }
 

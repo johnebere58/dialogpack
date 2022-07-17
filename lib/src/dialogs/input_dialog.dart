@@ -70,7 +70,7 @@ class InputDialogState extends State<InputDialog> {
           ),
         ),
       ),
-      page()
+          SafeArea(child: page()),
     ]);
   }
 
