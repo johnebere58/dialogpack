@@ -43,7 +43,7 @@ class MessageDialogSample extends StatefulWidget {
   void initState() {
     // TODO: implement initState
     super.initState();
-    resetStyle();
+    // resetStyle();
   }
 
   void resetStyle(){
@@ -100,7 +100,8 @@ class MessageDialogSample extends StatefulWidget {
                        height: 45,
                        margin: const EdgeInsets.all(10),
                        child: TextButton(onPressed: (){
-                         showMessageDialog();
+                         // showMessageDialog();
+                         DialogManager.showMessageDialog(context, messageDialogModel: MessageDialogModel(message: "Hello John"));
                        },
                            style: TextButton.styleFrom(
                                primary: Colors.white,backgroundColor: Colors.blue

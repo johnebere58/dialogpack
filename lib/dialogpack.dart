@@ -19,3 +19,5 @@ export 'package:dialogpack/src/models/input_dialog_model.dart';
 export 'package:dialogpack/src/models/input_dialog_style.dart';
 export 'package:dialogpack/src/models/input_design.dart';
 export 'package:dialogpack/src/models/input_item.dart';
+export 'package:dialogpack/src/models/popup_dialog_model.dart';
+export 'package:dialogpack/src/models/popup_dialog_style.dart';

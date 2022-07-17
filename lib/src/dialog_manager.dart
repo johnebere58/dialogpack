@@ -2,9 +2,9 @@ import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialogs/input_dialog.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
-import 'package:dialogpack/src/models/input_dialog_model.dart';
-import 'package:dialogpack/src/models/input_dialog_style.dart';
-import 'package:dialogpack/src/models/input_item.dart';
+import 'package:dialogpack/src/dialogs/popup_dialog.dart';
+import 'package:dialogpack/src/models/popup_dialog_model.dart';
+import 'package:dialogpack/src/models/popup_dialog_style.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -20,6 +20,10 @@ class DialogManager{
     static MessageDialogStyle defaultMessageDialogStyle = MessageDialogStyle();
     static ListDialogStyle defaultListDialogStyle = ListDialogStyle();
     static InputDialogStyle defaultInputDialogStyle = InputDialogStyle();
+    static PopupDialogStyle defaultPopupDialogStyle = PopupDialogStyle(dialogStyle:
+    const DialogStyle(
+      dialogPlacement: DialogPlacement.top,margin: 0.0,elevation: 0,curvedRadius: 0
+    ),);
     static DialogEntrance defaultEntrance = DialogEntrance.scale;
 
     ///very important please call this method first
@@ -27,6 +31,7 @@ class DialogManager{
       MessageDialogStyle? messageDialogStyle,
       ListDialogStyle? listDialogStyle,
       InputDialogStyle? inputDialogStyle,
+      PopupDialogStyle? popupDialogStyle,
       DialogEntrance? dialogEntrance}){
       darkMode = useDarkMode;
       if(messageDialogStyle!=null){
@@ -37,6 +42,9 @@ class DialogManager{
       }
       if(inputDialogStyle!=null){
         defaultInputDialogStyle = inputDialogStyle;
+      }
+      if(popupDialogStyle!=null){
+        defaultPopupDialogStyle = popupDialogStyle;
       }
       if(dialogEntrance!=null){
         defaultEntrance=dialogEntrance;
@@ -310,6 +318,23 @@ class DialogManager{
       });
     }
 
+    static showPopupDialog(BuildContext context,{
+      required String message,
+      IconData? icon,
+      bool inheritStyle=true,
+      int durationInMilliseconds=1500,
+      PopupDialogStyle? popupDialogStyle,
+      DialogEntrance? dialogEntrance}){
+
+
+      launchNewScreen(context,
+          PopupDialog(popupDialogModel: PopupDialogModel(
+            message: message,icon: icon,inheritStyle: inheritStyle,durationInMilliseconds: durationInMilliseconds,
+            popupDialogStyle: popupDialogStyle
+          )),
+          transitionBuilder: getTransition(dialogEntrance:dialogEntrance),);
+    }
+
     static showProgressDialog(BuildContext context,){
 
     }
@@ -318,23 +343,6 @@ class DialogManager{
 
     }
 
-    static poptopMessage(){
-
-    }
-
-    // static dynamic getTransition(MessageDialogModel messageDialogModel){
-    //   MessageDialogStyle? messageDialogStyle = messageDialogModel.messageDialogStyle;
-    //   if(messageDialogStyle!=null){
-    //     DialogStyle? dialogStyle = messageDialogStyle.dialogStyle;
-    //     if(dialogStyle!=null){
-    //       DialogEntrance dialogEntrance = dialogStyle.dialogEntrance;
-    //       if(dialogEntrance==DialogEntrance.slide_left)return slideTransition;
-    //       if(dialogEntrance==DialogEntrance.scale)return scaleTransition;
-    //       if(dialogEntrance==DialogEntrance.fade_in)return fadeTransition;
-    //     }
-    //   }
-    //   return scaleTransition;
-    // }
 
     static dynamic getTransition({DialogEntrance? dialogEntrance}) {
       dialogEntrance = dialogEntrance ?? defaultEntrance;
