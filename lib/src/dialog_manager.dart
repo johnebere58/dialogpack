@@ -1,9 +1,10 @@
 import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
+import 'package:dialogpack/src/dialogs/input_dialog.dart';
 import 'package:dialogpack/src/dialogs/list_dialog.dart';
-import 'package:dialogpack/src/models/dialog_entrance.dart';
-import 'package:dialogpack/src/models/list_dialog_model.dart';
-import 'package:dialogpack/src/models/list_dialog_style.dart';
+import 'package:dialogpack/src/models/input_dialog_model.dart';
+import 'package:dialogpack/src/models/input_dialog_style.dart';
+import 'package:dialogpack/src/models/input_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/src/assets/string_assets.dart';
 import 'package:dialogpack/src/blocs/message_dialog_controller.dart';
@@ -18,16 +19,24 @@ class DialogManager{
     static bool darkMode = false;
     static MessageDialogStyle defaultMessageDialogStyle = MessageDialogStyle();
     static ListDialogStyle defaultListDialogStyle = ListDialogStyle();
+    static InputDialogStyle defaultInputDialogStyle = InputDialogStyle();
     static DialogEntrance defaultEntrance = DialogEntrance.scale;
 
     ///very important please call this method first
-    static initialize({bool useDarkMode=false,MessageDialogStyle? messageDialogStyle,ListDialogStyle? listDialogStyle, DialogEntrance? dialogEntrance}){
+    static initialize({bool useDarkMode=false,
+      MessageDialogStyle? messageDialogStyle,
+      ListDialogStyle? listDialogStyle,
+      InputDialogStyle? inputDialogStyle,
+      DialogEntrance? dialogEntrance}){
       darkMode = useDarkMode;
       if(messageDialogStyle!=null){
         defaultMessageDialogStyle = messageDialogStyle;
       }
       if(listDialogStyle!=null){
         defaultListDialogStyle = listDialogStyle;
+      }
+      if(inputDialogStyle!=null){
+        defaultInputDialogStyle = inputDialogStyle;
       }
       if(dialogEntrance!=null){
         defaultEntrance=dialogEntrance;
@@ -180,7 +189,7 @@ class DialogManager{
       String? buttonText,
       Color? buttonColor,
       Color? titleColor,
-      ListDialogStyle? listDialogStyle,}){
+      ListDialogStyle? listDialogStyle, DialogEntrance? dialogEntrance}){
       
       if(maxSelections<1){
         throw UnimplementedError("[maxSelections] cannot be less than 1");
@@ -193,7 +202,7 @@ class DialogManager{
       ListDialogModel listDialogModel = ListDialogModel(listItems: listItems,
       title: title,listDialogStyle: listDialogStyle,maxSelection: maxSelections,searchable: searchable);
 
-      _showListDialog(context, listDialogModel: listDialogModel,
+      _showListDialog(context, listDialogModel: listDialogModel,dialogEntrance: dialogEntrance,
           onItemSelected: (List<ListItem> resultItems){
             if(maxSelections==1) {
               ListItem listItem = resultItems[0];
@@ -246,11 +255,11 @@ class DialogManager{
     static showComplexListDialog(BuildContext context,{
       required ListDialogModel listDialogModel,
       required Function(dynamic item) onItemSelected,
-      bool returnIndexes=false,
+      bool returnIndexes=false,  DialogEntrance? dialogEntrance
       }){
 
 
-      _showListDialog(context, listDialogModel: listDialogModel,
+      _showListDialog(context, listDialogModel: listDialogModel,dialogEntrance: dialogEntrance,
           onItemSelected: (List<ListItem> resultItems){
         int maxSelections = listDialogModel.maxSelection;
         List<ListItem> items = listDialogModel.listItems;
@@ -276,8 +285,29 @@ class DialogManager{
           });
     }
 
-    static showInputDialog(BuildContext context,){
+    static showInputDialog(BuildContext context,{
+      required List<InputItem> inputItems,
+      required Function(List<String>) onSummit,
+      String? title,
+      String buttonText="Ok",
+      InputDialogStyle? inputDialogStyle,
+      bool inheritStyle=true,
+      DialogEntrance? dialogEntrance}){
 
+      InputDialogModel inputDialogModel = InputDialogModel(
+          inputItems: inputItems,
+          inheritStyle: inheritStyle,
+          title: title,
+          buttonText: buttonText,
+          inputDialogStyle: inputDialogStyle);
+
+      launchNewScreen(context,
+          InputDialog(inputDialogModel: inputDialogModel),
+          transitionBuilder: getTransition(dialogEntrance:dialogEntrance),
+      result: (_){
+        if(_==null)return;
+        onSummit(_);
+      });
     }
 
     static showProgressDialog(BuildContext context,){

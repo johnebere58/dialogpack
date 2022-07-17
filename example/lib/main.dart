@@ -1,5 +1,6 @@
 import 'package:dialogpack_example/list_dialog_sample.dart';
 import 'package:dialogpack_example/message_dialog_sample.dart';
+import 'package:dialogpack_example/sample_widget_input_test.dart';
 import 'package:flutter/material.dart';
 import 'package:dialogpack/dialogpack.dart';
 
@@ -80,6 +81,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       backgroundColor: Colors.blue
                   ),
                   child: const Text("List Dialog Sample",
+                    style: TextStyle(color: Colors.white,fontSize: 16),)),
+            ),
+
+         Container(
+              height: 40,
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(15,0,15,20),
+              child: TextButton(onPressed: (){
+                Navigator.push(context, PageRouteBuilder(
+                    pageBuilder: (context, _, __) {
+                      return const SampleWidgetInputTest();
+                    }));
+              },
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue
+                  ),
+                  child: const Text("Input Dialog Sample",
                     style: TextStyle(color: Colors.white,fontSize: 16),)),
             ),
 

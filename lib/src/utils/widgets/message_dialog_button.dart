@@ -1,7 +1,7 @@
 import 'package:dialogpack/src/models/button_placement.dart';
 import 'package:dialogpack/src/models/dialog_button_alignment.dart';
 import 'package:dialogpack/src/models/dialog_button_fit.dart';
-import 'package:dialogpack/src/models/dialog_button_style.dart';
+import 'package:dialogpack/src/models/dialog_button_design.dart';
 import 'package:dialogpack/src/models/message_dialog_model.dart';
 import 'package:dialogpack/src/models/message_dialog_style.dart';
 import 'package:dialogpack/src/utils/style_utils.dart';
@@ -108,10 +108,10 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
   Widget button({required String? text,required Color? color, required Function() onClick}){
 
-    DialogButtonStyle dialogButtonStyle = messageDialogStyle.dialogButtonStyle!;
+    DialogButtonDesign dialogButtonStyle = messageDialogStyle.dialogButtonStyle!;
     Function buttonStyle =
-    dialogButtonStyle == DialogButtonStyle.normal? StyleUtils.buttonStyle1:
-    dialogButtonStyle == DialogButtonStyle.filled? StyleUtils.buttonStyle2:
+    dialogButtonStyle == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
+    dialogButtonStyle == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
     double borderRadius = messageDialogStyle.dialogButtonCornerRadius!;
     DialogButtonFit dialogButtonFit = messageDialogStyle.dialogButtonFit!;

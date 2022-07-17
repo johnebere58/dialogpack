@@ -26,7 +26,7 @@ class ListDialogSample extends StatefulWidget {
    double messageTextSize = 20.0;
    double itemSpacing = 15;
    bool showDivider = false;
-   DialogButtonStyle dialogButtonStyle = DialogButtonStyle.normal;
+   DialogButtonDesign dialogButtonStyle = DialogButtonDesign.normal;
    DialogButtonFit dialogButtonFit = DialogButtonFit.normal;
    DialogButtonAlignment dialogButtonAlignment = DialogButtonAlignment.center;
    double dialogButtonSpacing = 5.0;
@@ -365,10 +365,10 @@ class ListDialogSample extends StatefulWidget {
                            const SizedBox(height: 15,),
 
                            groupedCheckBox("Style",
-                               DialogButtonStyle.values.indexOf(dialogButtonStyle),
+                               DialogButtonDesign.values.indexOf(dialogButtonStyle),
                                ["Normal","Filled","Stroked"], (item){
                                  setState(() {
-                                   dialogButtonStyle = DialogButtonStyle.values[item];
+                                   dialogButtonStyle = DialogButtonDesign.values[item];
                                  });
                                },returnIndex: true),
 

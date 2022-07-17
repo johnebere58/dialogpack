@@ -29,7 +29,7 @@ class MessageDialogSample extends StatefulWidget {
    double imageOrIconSize = 60.0;
    double imageOrIconPadding = 0.0;
    double imageOrIconMargin = 5.0;
-   DialogButtonStyle dialogButtonStyle = DialogButtonStyle.normal;
+   DialogButtonDesign dialogButtonStyle = DialogButtonDesign.normal;
    DialogButtonFit dialogButtonFit = DialogButtonFit.normal;
    DialogButtonAlignment dialogButtonAlignment = DialogButtonAlignment.center;
    double dialogButtonSpacing = 5.0;
@@ -348,10 +348,10 @@ class MessageDialogSample extends StatefulWidget {
                            const SizedBox(height: 15,),
 
                            groupedCheckBox("Style",
-                               DialogButtonStyle.values.indexOf(dialogButtonStyle),
+                               DialogButtonDesign.values.indexOf(dialogButtonStyle),
                                ["Normal","Filled","Stroked"], (item){
                              setState(() {
-                               dialogButtonStyle = DialogButtonStyle.values[item];
+                               dialogButtonStyle = DialogButtonDesign.values[item];
                              });
                            },returnIndex: true),
 

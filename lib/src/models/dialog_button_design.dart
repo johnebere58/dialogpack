@@ -1,5 +1,5 @@
 
-enum DialogButtonStyle {
+enum DialogButtonDesign {
   normal, filled, stroked
 }
 
