@@ -14,7 +14,7 @@ class PopupDialogSample extends StatefulWidget {
    double dialogCurveRadius = 0.0;
    double dialogElevation = 0.0;
    DialogPlacement dialogPlacement = DialogPlacement.top;
-   DialogEntrance dialogEntrance = DialogEntrance.scale;
+   DialogEntrance dialogEntrance = DialogEntrance.slide_down;
    double dialogMargin = 0.0;
    double messageTextSize = 18.0;
 

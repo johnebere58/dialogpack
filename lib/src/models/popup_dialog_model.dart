@@ -16,7 +16,7 @@ class PopupDialogModel{
       this.icon,
       this.popupDialogStyle,
       this.inheritStyle=true,
-      this.durationInMilliseconds=1500
+      this.durationInMilliseconds=2500
    }
         );
  }

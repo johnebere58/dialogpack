@@ -322,9 +322,9 @@ class DialogManager{
       required String message,
       IconData? icon,
       bool inheritStyle=true,
-      int durationInMilliseconds=1500,
+      int durationInMilliseconds=2500,
       PopupDialogStyle? popupDialogStyle,
-      DialogEntrance? dialogEntrance}){
+      DialogEntrance dialogEntrance=DialogEntrance.slide_down}){
 
 
       launchNewScreen(context,
