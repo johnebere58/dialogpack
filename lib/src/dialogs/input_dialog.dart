@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:dialogpack/dialogpack.dart';
 import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:dialogpack/src/dialog_manager.dart';
 import 'package:dialogpack/src/models/dialog_placement.dart';
@@ -146,10 +147,13 @@ class InputDialogState extends State<InputDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          position == 0 || !inputDialogStyle.showButtonDivider!
+                          InputTextField(textController: textController, inputDialogStyle: inputDialogStyle, inputItem: inputItem,
+                          marginTop: itemSpacing/2,),
+                          inputDialogStyle.inputDesign!=InputDesign.normal
                               ? Container()
-                              : customDivider(),
-                          InputTextField(textController: textController, inputDialogStyle: inputDialogStyle, inputItem: inputItem,marginBottom: itemSpacing/2,marginTop: itemSpacing/2,),
+                              : addLine(
+                              1, blackColor.withOpacity(bestOpacity2), 0, itemSpacing/2,0,itemSpacing/2),
+
                         ],
                       );
                     },

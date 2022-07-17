@@ -1,3 +1,4 @@
+import 'package:dialogpack_example/input_dialog_sample.dart';
 import 'package:dialogpack_example/list_dialog_sample.dart';
 import 'package:dialogpack_example/message_dialog_sample.dart';
 import 'package:dialogpack_example/sample_widget_input_test.dart';
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextButton(onPressed: (){
                 Navigator.push(context, PageRouteBuilder(
                     pageBuilder: (context, _, __) {
-                      return ListDialogSample();
+                      return const ListDialogSample();
                     }));
               },
                   style: TextButton.styleFrom(
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextButton(onPressed: (){
                 Navigator.push(context, PageRouteBuilder(
                     pageBuilder: (context, _, __) {
-                      return const SampleWidgetInputTest();
+                      return const InputDialogSample();
                     }));
               },
                   style: TextButton.styleFrom(

@@ -350,7 +350,9 @@ class ListDialogState extends State<ListDialog> {
 
                 AnimatedContainer(duration:const Duration(milliseconds: 500),
                    width: double.infinity,
-                    height: (listDialogModel.maxSelection>1 && selectedIds.isNotEmpty)?40:0,
+                    height: (listDialogModel.maxSelection>1 && selectedIds.isNotEmpty)?(
+                        listDialogStyle.buttonSpacing! + listDialogStyle.dialogButtonHeight!
+                    ):0,
                     margin:  EdgeInsets.fromLTRB(0,itemSpacing,0,0),
                     child:
     ListDialogButton(listDialogStyle: listDialogStyle,listDialogModel: listDialogModel,

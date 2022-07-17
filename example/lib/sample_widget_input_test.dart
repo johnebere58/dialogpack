@@ -33,7 +33,7 @@ class SampleWidgetInputTest extends StatefulWidget {
                  onPressed: (){
 
                    DialogManager.showInputDialog(context, inputItems: [
-                     InputItem(title: "Name")
+                     InputItem(title: "Name",hint: "Enter your name")
                    ], onSummit: (List<String> items){
                      message = "$items";
                      setState(() {});

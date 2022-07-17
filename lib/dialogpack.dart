@@ -15,3 +15,7 @@ export 'src/models/button_placement.dart';
 export 'package:dialogpack/src/models/dialog_entrance.dart';
 export 'package:dialogpack/src/models/list_dialog_model.dart';
 export 'package:dialogpack/src/models/list_dialog_style.dart';
+export 'package:dialogpack/src/models/input_dialog_model.dart';
+export 'package:dialogpack/src/models/input_dialog_style.dart';
+export 'package:dialogpack/src/models/input_design.dart';
+export 'package:dialogpack/src/models/input_item.dart';

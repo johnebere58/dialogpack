@@ -37,8 +37,8 @@ class InputDialogStyle{
          this.buttonSpacing=5.0,
          this.dialogButtonCornerRadius = 5.0,
          this.inputCornerRadius = 5.0,
-         this.itemSpacing = 10.0,
-         this.showButtonDivider=false,
+         this.itemSpacing = 5.0,
+         this.showButtonDivider=true,
          // this.checkable=false,
          this.inputDesign = InputDesign.normal,
          this.inputFocusedColor = Colors.blue

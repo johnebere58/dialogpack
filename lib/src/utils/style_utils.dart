@@ -1,4 +1,5 @@
 
+import 'package:dialogpack/src/assets/color_assets.dart';
 import 'package:flutter/material.dart';
 
 class StyleUtils {
@@ -24,7 +25,7 @@ class StyleUtils {
         side: BorderSide.none
       ) ,
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-      backgroundColor: color, primary: Colors.white,
+      backgroundColor: color, primary: whiteColor,
       textStyle: const TextStyle(fontWeight: FontWeight.bold,)
     );
   }
