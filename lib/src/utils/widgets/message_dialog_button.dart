@@ -61,7 +61,7 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
     if(buttonPlacement==ButtonPlacement.wrapped) {
       return Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: alignLeft?CrossAxisAlignment.start:alignCenter?CrossAxisAlignment.center:CrossAxisAlignment.end,
         children: [
           Row(
@@ -96,7 +96,7 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
     }
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: alignLeft?CrossAxisAlignment.start:alignCenter?CrossAxisAlignment.center:CrossAxisAlignment.end,
       children: [
         positiveButton,

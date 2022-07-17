@@ -237,7 +237,7 @@ class MessageDialogState extends State<MessageDialog> {
                     if(showButtonDivider)addLine(
                         1, blackColor.withOpacity(bestOpacity2), 0, buttonSpacing==0?0:itemSpacing,0,0),
                     if(!showButtonDivider)addSpace(buttonSpacing==0?itemSpacing:0),
-                    Padding(
+                    Container(width: double.infinity,
                       padding: EdgeInsets.all(buttonSpacing==0?0:buttonSpacing),
                       child: MessageDialogButton(
                           messageDialogModel: messageDialogModel,

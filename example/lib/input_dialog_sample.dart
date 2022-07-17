@@ -218,7 +218,7 @@ class InputDialogSample extends StatefulWidget {
 
                            groupedCheckBox("Entrance",
                                DialogEntrance.values.indexOf(dialogEntrance),
-                               ["Slide Up","Scale","Slide Left","Fade In"], (item){
+                               ["Slide Up","Scale","Slide Left","Fade In","Slide Down","Slide Right"], (item){
                                  setState(() {
                                    dialogEntrance = DialogEntrance.values[item];
                                  });

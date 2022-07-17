@@ -342,6 +342,8 @@ class DialogManager{
       dialogEntrance == DialogEntrance.slide_left ? slideTransition :
       dialogEntrance == DialogEntrance.scale ? scaleTransition :
       dialogEntrance == DialogEntrance.fade_in ? fadeTransition :
+      dialogEntrance == DialogEntrance.slide_down ? slideDownTransition :
+      dialogEntrance == DialogEntrance.slide_right ? slideRightTransition :
       slideUpTransition;
     }
 
