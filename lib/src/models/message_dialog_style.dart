@@ -12,7 +12,7 @@ class MessageDialogStyle{
    final double? dialogButtonTextSize;
    final double? dialogButtonHeight;
    final double? itemSpacing;
-   final DialogButtonDesign? dialogButtonStyle;
+   final DialogButtonDesign? dialogButtonDesign;
    final Color? positiveTextButtonColor;
    final Color? negativeTextButtonColor;
    final Color? neutralTextButtonColor;
@@ -29,7 +29,7 @@ class MessageDialogStyle{
        {
          this.titleTextColor,
          this.messageTextColor,
-         this.dialogButtonStyle = DialogButtonDesign.filled,
+         this.dialogButtonDesign = DialogButtonDesign.filled,
          this.dialogButtonFit = DialogButtonFit.stretch,
          this.buttonPlacement=ButtonPlacement.wrapped,
          this.dialogButtonAlignment = DialogButtonAlignment.center,
@@ -52,7 +52,7 @@ class MessageDialogStyle{
        {
          this.titleTextColor,
          this.messageTextColor,
-         this.dialogButtonStyle,
+         this.dialogButtonDesign,
          this.dialogButtonFit,
          this.buttonPlacement,
          this.dialogButtonAlignment,
@@ -79,7 +79,7 @@ class MessageDialogStyle{
         buttonPlacement: buttonPlacement ?? messageDialogStyle.buttonPlacement,
        dialogButtonAlignment: dialogButtonAlignment ?? messageDialogStyle.dialogButtonAlignment,
        dialogButtonFit: dialogButtonFit ?? messageDialogStyle.dialogButtonFit,
-       dialogButtonStyle: dialogButtonStyle ?? messageDialogStyle.dialogButtonStyle,
+       dialogButtonDesign: dialogButtonDesign ?? messageDialogStyle.dialogButtonDesign,
        dialogStyle: dialogStyle ?? messageDialogStyle.dialogStyle,
        imageOrIconStyle: imageOrIconStyle ?? messageDialogStyle.imageOrIconStyle,
        messageTextColor: messageTextColor ?? messageDialogStyle.messageTextColor,

@@ -22,7 +22,7 @@ class InputDialogSample extends StatefulWidget {
    double titleTextSize = 20.0;
    double itemSpacing = 15;
    bool showDivider = true;
-   DialogButtonDesign dialogButtonStyle = DialogButtonDesign.normal;
+   DialogButtonDesign dialogButtonDesign = DialogButtonDesign.normal;
    DialogButtonFit dialogButtonFit = DialogButtonFit.normal;
    DialogButtonAlignment dialogButtonAlignment = DialogButtonAlignment.center;
    double dialogButtonSpacing = 15.0;
@@ -53,7 +53,7 @@ class InputDialogSample extends StatefulWidget {
          // appBanner: ,
          elevation: dialogElevation,
        ),
-       dialogButtonStyle: dialogButtonStyle,
+       dialogButtonDesign: dialogButtonDesign,
        dialogButtonFit: dialogButtonFit,
        dialogButtonAlignment: dialogButtonAlignment,
        buttonSpacing: dialogButtonSpacing,
@@ -272,10 +272,10 @@ class InputDialogSample extends StatefulWidget {
                            const SizedBox(height: 15,),
 
                            groupedCheckBox("Style",
-                               DialogButtonDesign.values.indexOf(dialogButtonStyle),
+                               DialogButtonDesign.values.indexOf(dialogButtonDesign),
                                ["Normal","Filled","Stroked"], (item){
                                  setState(() {
-                                   dialogButtonStyle = DialogButtonDesign.values[item];
+                                   dialogButtonDesign = DialogButtonDesign.values[item];
                                  });
                                },returnIndex: true),
 

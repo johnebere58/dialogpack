@@ -55,10 +55,10 @@ class InputDialogButtonState extends State<InputDialogButton> {
 
   Widget button({required String? text,required Color? color, required Function() onClick}){
 
-    DialogButtonDesign dialogButtonStyle = inputDialogStyle.dialogButtonStyle!;
+    DialogButtonDesign dialogButtonDesign = inputDialogStyle.dialogButtonDesign!;
     Function buttonStyle =
-    dialogButtonStyle == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
-    dialogButtonStyle == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
+    dialogButtonDesign == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
+    dialogButtonDesign == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
     double borderRadius = inputDialogStyle.dialogButtonCornerRadius!;
     DialogButtonFit dialogButtonFit = inputDialogStyle.dialogButtonFit!;

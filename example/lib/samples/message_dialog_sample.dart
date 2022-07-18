@@ -27,7 +27,7 @@ class MessageDialogSampleState extends State<MessageDialogSample> {
   double imageOrIconSize = 60.0;
   double imageOrIconPadding = 0.0;
   double imageOrIconMargin = 5.0;
-  DialogButtonDesign dialogButtonStyle = DialogButtonDesign.normal;
+  DialogButtonDesign dialogButtonDesign = DialogButtonDesign.normal;
   DialogButtonFit dialogButtonFit = DialogButtonFit.normal;
   DialogButtonAlignment dialogButtonAlignment = DialogButtonAlignment.center;
   double dialogButtonSpacing = 5.0;
@@ -69,7 +69,7 @@ class MessageDialogSampleState extends State<MessageDialogSample> {
         // appBanner: ,
         elevation: dialogElevation,
       ),
-      dialogButtonStyle: dialogButtonStyle,
+      dialogButtonDesign: dialogButtonDesign,
       dialogButtonFit: dialogButtonFit,
       dialogButtonAlignment: dialogButtonAlignment,
       buttonSpacing: dialogButtonSpacing,
@@ -396,10 +396,10 @@ class MessageDialogSampleState extends State<MessageDialogSample> {
                           groupedCheckBox(
                               "Style",
                               DialogButtonDesign.values
-                                  .indexOf(dialogButtonStyle),
+                                  .indexOf(dialogButtonDesign),
                               ["Normal", "Filled", "Stroked"], (item) {
                             setState(() {
-                              dialogButtonStyle =
+                              dialogButtonDesign =
                                   DialogButtonDesign.values[item];
                             });
                           }, returnIndex: true),

@@ -9,7 +9,7 @@ class InputDialogStyle{
    final double? titleTextSize;
    final double? dialogButtonTextSize;
    final double? dialogButtonHeight;
-   final DialogButtonDesign? dialogButtonStyle;
+   final DialogButtonDesign? dialogButtonDesign;
    final Color? buttonColor;
    final Color? inputFocusedColor;
    final DialogStyle? dialogStyle;
@@ -27,7 +27,7 @@ class InputDialogStyle{
        {
          this.titleTextColor,
          this.buttonColor,
-         this.dialogButtonStyle = DialogButtonDesign.filled,
+         this.dialogButtonDesign = DialogButtonDesign.filled,
          this.dialogButtonFit = DialogButtonFit.stretch,
          this.dialogButtonAlignment = DialogButtonAlignment.center,
          this.dialogStyle = const DialogStyle(),
@@ -47,7 +47,7 @@ class InputDialogStyle{
    InputDialogStyle.empty(
        {
          this.titleTextColor,
-         this.dialogButtonStyle,
+         this.dialogButtonDesign,
          this.dialogButtonFit,
          this.dialogButtonAlignment,
          this.dialogStyle,
@@ -72,7 +72,7 @@ class InputDialogStyle{
         buttonSpacing: buttonSpacing ?? inputDialogStyle.buttonSpacing,
        dialogButtonAlignment: dialogButtonAlignment ?? inputDialogStyle.dialogButtonAlignment,
        dialogButtonFit: dialogButtonFit ?? inputDialogStyle.dialogButtonFit,
-       dialogButtonStyle: dialogButtonStyle ?? inputDialogStyle.dialogButtonStyle,
+       dialogButtonDesign: dialogButtonDesign ?? inputDialogStyle.dialogButtonDesign,
        dialogStyle: dialogStyle ?? inputDialogStyle.dialogStyle,
        showButtonDivider: showButtonDivider ?? inputDialogStyle.showButtonDivider,
        titleTextColor: titleTextColor ?? inputDialogStyle.titleTextColor,

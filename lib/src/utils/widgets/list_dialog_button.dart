@@ -54,10 +54,10 @@ class ListDialogButtonState extends State<ListDialogButton> {
 
   Widget button({required String? text,required Color? color, required Function() onClick}){
 
-    DialogButtonDesign dialogButtonStyle = listDialogStyle.dialogButtonStyle!;
+    DialogButtonDesign dialogButtonDesign = listDialogStyle.dialogButtonDesign!;
     Function buttonStyle =
-    dialogButtonStyle == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
-    dialogButtonStyle == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
+    dialogButtonDesign == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
+    dialogButtonDesign == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
     double borderRadius = listDialogStyle.dialogButtonCornerRadius!;
     DialogButtonFit dialogButtonFit = listDialogStyle.dialogButtonFit!;

@@ -10,7 +10,7 @@ class ListDialogStyle{
    final double? messageTextSize;
    final double? dialogButtonTextSize;
    final double? dialogButtonHeight;
-   final DialogButtonDesign? dialogButtonStyle;
+   final DialogButtonDesign? dialogButtonDesign;
    final Color? buttonColor;
    final DialogStyle? dialogStyle;
    final double? buttonSpacing;
@@ -25,7 +25,7 @@ class ListDialogStyle{
          this.globalCheckBoxColor,
          this.titleTextColor,
          this.buttonColor,
-         this.dialogButtonStyle = DialogButtonDesign.filled,
+         this.dialogButtonDesign = DialogButtonDesign.filled,
          this.dialogButtonFit = DialogButtonFit.stretch,
          this.dialogButtonAlignment = DialogButtonAlignment.center,
          this.dialogStyle = const DialogStyle(),
@@ -43,7 +43,7 @@ class ListDialogStyle{
        {
          this.globalCheckBoxColor,
          this.titleTextColor,
-         this.dialogButtonStyle,
+         this.dialogButtonDesign,
          this.dialogButtonFit,
          this.dialogButtonAlignment,
          this.dialogStyle,
@@ -66,7 +66,7 @@ class ListDialogStyle{
         buttonSpacing: buttonSpacing ?? listDialogStyle.buttonSpacing,
        dialogButtonAlignment: dialogButtonAlignment ?? listDialogStyle.dialogButtonAlignment,
        dialogButtonFit: dialogButtonFit ?? listDialogStyle.dialogButtonFit,
-       dialogButtonStyle: dialogButtonStyle ?? listDialogStyle.dialogButtonStyle,
+       dialogButtonDesign: dialogButtonDesign ?? listDialogStyle.dialogButtonDesign,
        dialogStyle: dialogStyle ?? listDialogStyle.dialogStyle,
        messageTextSize: messageTextSize ?? listDialogStyle.messageTextSize,
        showButtonDivider: showButtonDivider ?? listDialogStyle.showButtonDivider,

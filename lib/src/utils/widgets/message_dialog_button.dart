@@ -108,10 +108,10 @@ class MessageDialogButtonState extends State<MessageDialogButton> {
 
   Widget button({required String? text,required Color? color, required Function() onClick}){
 
-    DialogButtonDesign dialogButtonStyle = messageDialogStyle.dialogButtonStyle!;
+    DialogButtonDesign dialogButtonDesign = messageDialogStyle.dialogButtonDesign!;
     Function buttonStyle =
-    dialogButtonStyle == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
-    dialogButtonStyle == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
+    dialogButtonDesign == DialogButtonDesign.normal? StyleUtils.buttonStyle1:
+    dialogButtonDesign == DialogButtonDesign.filled? StyleUtils.buttonStyle2:
     StyleUtils.buttonStyle3;
     double borderRadius = messageDialogStyle.dialogButtonCornerRadius!;
     DialogButtonFit dialogButtonFit = messageDialogStyle.dialogButtonFit!;
