@@ -5,6 +5,16 @@
 A powerful plugin for displaying message dialogs, list dialogs, success dialogs, failed dialogs,
  input dialogs, popup dialogs and loading dialogs. This plugin is fully customizable with examples
 
+<p>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_message_dialog.gif" width="auto" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_success.gif" width="auto" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_failed.gif" width="auto" height="400px" hspace="20"/>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_list.gif" width="auto" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_input.gif" width="auto" height="400px" hspace="20"/>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_popup.gif" width="auto" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_loading.gif" width="auto" height="400px" hspace="20"/>
+</p>
+
 - [x] Message Dialog
 - [x] Success Dialog
 - [x] Failed Dialog
@@ -31,7 +41,7 @@ ref: master # branch name
 ## Getting Started
 
 Add this following to the `initState` method of your root widget
-Instantiate the game instance by call `DialogManager.initialize()`
+Initialize the dialog manager instance by callinng `DialogManager.initialize()`
 ```dart
 import 'package:dialogpack/dialogpack.dart';
 
@@ -61,21 +71,15 @@ import 'package:dialogpack/dialogpack.dart';
    
    }
 ```
-Everything is flexible on the go, 
-you can switch theme styles or switch from dark theme to light theme
- ```dart
-     DialogManager.switchToLightMode();
-     DialogManager.switchToDarkMode\();
-```
 
 ## Showing a Message Dialog
 To display a message dialog is very easy
-use the `MessageDialogModel` class to set properties of the dialog
-optionally use the `MessageDialogStyle` class to style the dialog
-you can also choose to use the default dialog style set in the 
+use the `MessageDialogModel` class to set properties of the dialog. Optionally use the `MessageDialogStyle` class to style the dialog you can also choose to use the default dialog style set in the 
 `DialogManager.initialized()` method
 
  ```dart
+ import 'package:dialogpack/dialogpack.dart';
+ 
     DialogManager.showMessageDialog(context,
                                messageDialogModel: MessageDialogModel(
                                    title: "Welcome",
@@ -83,9 +87,20 @@ you can also choose to use the default dialog style set in the
                                messageDialogStyle: MessageDialogStyle(
                                  titleTextColor: Colors.black,
                                  titleTextSize: 20.0
-                               
+                            
                                )));
 
+```
+
+## Dark Mode/ Light Mode
+Everything is flexible on the go, 
+you can switch theme styles or switch from dark theme to light theme
+
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_dark_light.gif" width="auto" height="400px" hspace="20"/>
+
+ ```dart
+     DialogManager.switchToLightMode();
+     DialogManager.switchToDarkMode();
 ```
 
 ## Customizing a message dialog
