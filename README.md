@@ -51,7 +51,7 @@ import 'package:dialogpack/dialogpack.dart';
     super.initState();
   }
 ```
-## Optional GLobal Styling
+## Optional Global Styling
 You can choose to set a global style for all your dialogs during initialization,
 
 ```dart
