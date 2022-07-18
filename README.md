@@ -185,6 +185,26 @@ instead of the selection `String` by setting `returnIndexes` to true
                    }, returnIndexes :true);
 ```
 
+## Multiple Selection in List Dialog
+To selection multiple items you need to set the `maxSelections` parameter to be greater than 1
+
+<div>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_list_multiple.gif" width="auto" height="400px" hspace="20"/>
+</div>
+
+ ```dart
+     DialogManager.showSimpleListDialog(context,
+                       items: [
+                         "Apple", "Ball", "Cake"
+                       ],
+                       onItemSelected: (dynamic result){
+                       showSnackBar(result);
+                   }, maxSelections: 2);
+```
+The result will be a list of the items selected, if you set `returnIndexes` to true, the result will be a list of the indexes of the items selected
+
+
+
 
 
 For help getting started with Flutter development, view the
