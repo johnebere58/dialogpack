@@ -86,8 +86,9 @@ After initialization you can show a method dialog by doing this
 ## Dark Mode/ Light Mode
 Everything is flexible on the go, 
 you can switch theme styles or switch from dark theme to light theme
-
+<p>
    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_dark_light.gif" width="auto" height="400px" hspace="20"/>
+ </p>
 
  ```dart
      DialogManager.switchToLightMode();
