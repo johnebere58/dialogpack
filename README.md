@@ -7,8 +7,8 @@ A powerful plugin for displaying message dialogs, list dialogs, success dialogs,
 
 <p>
     <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_message_dialog.gif" width="200px" height="400px" hspace="20"/>
-    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_success.gif" width="200px" height="400px" hspace="20"/>
-    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_failed.gif" width="200px" height="400px" hspace="20" object-fit="cover"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_success.gif" width="auto" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_failed.gif" width="auto" height="400px" hspace="20"/>
 </p>
 
 - [x] Message Dialog
