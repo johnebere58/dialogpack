@@ -74,7 +74,9 @@ import 'package:dialogpack/dialogpack.dart';
 
 ## Showing a Message Dialog
 After initialization you can show a method dialog by doing this
+<p>
  <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_message.jpg" width="auto" height="400px" hspace="20"/>
+ </p>
  ```dart
  import 'package:dialogpack/dialogpack.dart';
  
