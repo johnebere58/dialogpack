@@ -74,9 +74,10 @@ import 'package:dialogpack/dialogpack.dart';
 
 ## Showing a Message Dialog
 After initialization you can show a method dialog by doing this
-<p>
+<div>
  <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_message.jpg" width="auto" height="400px" hspace="20"/>
- </p>
+</div>
+
  ```dart
  import 'package:dialogpack/dialogpack.dart';
  
@@ -88,9 +89,9 @@ After initialization you can show a method dialog by doing this
 ## Dark Mode/ Light Mode
 Everything is flexible on the go, 
 you can switch theme styles or switch from dark theme to light theme
-<p>
+<div>
    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_dark_light.gif" width="auto" height="400px" hspace="20"/>
- </p>
+</div>
 
  ```dart
      DialogManager.switchToLightMode();
