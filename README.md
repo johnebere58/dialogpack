@@ -101,7 +101,7 @@ you can switch theme styles or switch from dark theme to light theme
 ## Dialog Entrance
 You set a custom entrance for any of your dialogs
 <div>
-   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_slide_down.gif" width="auto" height="400px" hspace="20"/>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialog_slide_down.gif" width="auto" height="400px" hspace="20"/>
 </div>
 
  ```dart
