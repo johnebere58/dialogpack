@@ -6,11 +6,10 @@ A powerful plugin for displaying message dialogs, list dialogs, success dialogs,
  input dialogs, popup dialogs and loading dialogs. This plugin is fully customizable with examples
 
 <p>
-    <img src="https://github.com/johnebere58/screenshots/blob/master/screenshots/dialogpack_message_dialog.gif" width="200px" height="400px" hspace="20"/>
-    <img src="https://github.com/johnebere58/screenshots/blob/master/screenshots/dialogpack_success.gif" width="200px" height="400px" hspace="20"/>
-    <img src="https://github.com/johnebere58/screenshots/blob/master/screenshots/dialogpack_failed.gif" width="200px" height="400px" hspace="20"/>
-
-   </p>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_message_dialog.gif" width="200px" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_success.gif" width="200px" height="400px" hspace="20"/>
+    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_failed.gif" width="200px" height="400px" hspace="20"/>
+</p>
 
 - [x] Message Dialog
 - [x] Success Dialog
