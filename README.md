@@ -31,13 +31,13 @@ To use this plugin, add `dialogpack` as a dependency in your pubspec.yaml file.
 
 ```
 dependencies:
-flutter:
-sdk: flutter
+  flutter:
+    sdk: flutter
 
 dialogpack:
-git:
-url: git://github.com/johnebere58/dialogpack.git
-ref: master # branch name
+  git:
+    url: git://github.com/johnebere58/dialogpack.git
+    ref: master # branch name
 
 ```
 
