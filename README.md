@@ -73,22 +73,13 @@ import 'package:dialogpack/dialogpack.dart';
 ```
 
 ## Showing a Message Dialog
-To display a message dialog is very easy
-use the `MessageDialogModel` class to set properties of the dialog. Optionally use the `MessageDialogStyle` class to style the dialog you can also choose to use the default dialog style set in the 
-`DialogManager.initialized()` method
-
+After initialization you can show a method dialog by doing this
+ <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_message.jpg" width="auto" height="400px" hspace="20"/>
  ```dart
  import 'package:dialogpack/dialogpack.dart';
  
-    DialogManager.showMessageDialog(context,
-                               messageDialogModel: MessageDialogModel(
-                                   title: "Welcome",
-                                   message: "This is a very simple dialog",
-                               messageDialogStyle: MessageDialogStyle(
-                                 titleTextColor: Colors.black,
-                                 titleTextSize: 20.0
-                            
-                               )));
+   DialogManager.showSimpleMessageDialog(context,
+                  message: "This is a simple message dialog", title: "Welcome");
 
 ```
 
@@ -104,7 +95,8 @@ you can switch theme styles or switch from dark theme to light theme
 ```
 
 ## Customizing a message dialog
-You can use the MessageDialogStyle class the customize a message dialog
+You can use the `MessageDialogStyle` class the customize a message dialog
+
 
 
 This project is a starting point for a Flutter
