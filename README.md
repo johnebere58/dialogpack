@@ -98,6 +98,19 @@ you can switch theme styles or switch from dark theme to light theme
      DialogManager.switchToDarkMode();
 ```
 
+## Dialog Entrance
+You set a custom entrance for any of your dialogs
+<div>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_slide_down.gif" width="auto" height="400px" hspace="20"/>
+</div>
+
+ ```dart
+      DialogManager.showSimpleMessageDialog(context,
+                  message: "This is a simple message dialog", 
+                  title: "Welcome",
+                  dialogEntrance: DialogEntrance.slide_down);
+```
+
 ## Customizing a message dialog
 You can use the `MessageDialogStyle` class the customize a message dialog
 
