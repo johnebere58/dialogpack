@@ -69,6 +69,25 @@ class DialogManager {
     darkMode = false;
   }
 
+  /// use this method to show a simple message dialog
+  /// You can add your custom [transition] to slide in the dialog
+  ///
+  static showSimpleMessageDialog(BuildContext context,
+      {required String message,String? title,
+        MessageDialogStyle? messageDialogStyle,
+        DialogEntrance? dialogEntrance}) {
+    if (!initialized) {
+      throw UnimplementedError(
+          "Please call [${DialogManager.initialize()}] first");
+    }
+
+    launchNewScreen(
+        context, MessageDialog(messageDialogModel: MessageDialogModel(
+      message: message,title: title,messageDialogStyle: messageDialogStyle
+    )),
+        transitionBuilder: getTransition(dialogEntrance: dialogEntrance));
+  }
+
   /// use this method to show a dialog
   /// use [MessageDialogModel] to customize the look and feel of your dialog
   /// You can add your custom [transition] to slide in the dialog
