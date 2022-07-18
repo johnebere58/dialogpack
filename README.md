@@ -114,7 +114,7 @@ You set a custom entrance for any of your dialogs
 ## Dialog Placement
 You can choose to position your dialog at the top, center or bottom of the screen
 <div>
-   <img src="https://github.com/johnebere58/screenshots/blob/master/dialog_position.gif" width="auto" height="400px" hspace="20"/>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_position.gif" width="auto" height="400px" hspace="20"/>
 </div>
 
  ```dart
