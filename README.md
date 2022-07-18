@@ -130,8 +130,24 @@ You can choose to position your dialog at the top, center or bottom of the scree
 
 
 ## Customizing a Message Dialog
-You can use the `MessageDialogStyle` class the customize a message dialog
-
+You can use the `MessageDialogStyle` class to style a message dialog however you want
+<div>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_custom.gif" width="auto" height="400px" hspace="20"/>
+</div>
+ ```dart
+   DialogManager.showSimpleMessageDialog(context,
+                  message: "This is a simple message dialog",
+                  title: "Welcome",
+                  dialogEntrance: DialogEntrance.slide_up,
+                  messageDialogStyle: MessageDialogStyle(
+                      dialogStyle: const DialogStyle(
+                          dialogPlacement: DialogPlacement.bottom,
+                      margin: 0.0,curvedRadius: 0.0,elevation: 0.0),
+                  titleTextSize: 25.0,
+                  dialogButtonDesign: DialogButtonDesign.stroked,
+                   buttonSpacing: 10.0,
+                  ));
+```
 
 
 
