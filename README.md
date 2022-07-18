@@ -23,6 +23,9 @@ A powerful plugin for displaying message dialogs, list dialogs, success dialogs,
 - [x] Loading Dialog
 - [x] Popup Dialog
 
+[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/johnebere58 "Buy Me A Coffee")
+
+
 ## Installation
 To use this plugin, add `dialogpack` as a dependency in your pubspec.yaml file. 
 
