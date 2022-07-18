@@ -65,11 +65,11 @@ import 'package:dialogpack/dialogpack.dart';
      super.initState();
      
     DialogManager.initialize(
-      messageDialogStyle: MessageDialogStyle(),
+      messageDialogStyle: MessageDialogStyle( ... ),
       dialogEntrance: DialogEntrance.fade_in,
-      popupDialogStyle: PopupDialogStyle(),
-      inputDialogStyle: InputDialogStyle(),
-      listDialogStyle: ListDialogStyle(),
+      popupDialogStyle: PopupDialogStyle( ... ),
+      inputDialogStyle: InputDialogStyle( ... ),
+      listDialogStyle: ListDialogStyle( ... ),
     );
    
    }
@@ -130,8 +130,6 @@ You can choose to position your dialog at the top, center or bottom of the scree
                           dialogPlacement: DialogPlacement.bottom)));
 ```
 
-
-
 ## Customizing a Message Dialog
 You can use the `MessageDialogStyle` class to style a message dialog however you want
 <div>
@@ -154,12 +152,40 @@ You can use the `MessageDialogStyle` class to style a message dialog however you
                   ));
 ```
 
+## Simple List Dialog
+To show a list dialog is very easy, call `DialogManager.showSimpleListDialog`
+<div>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_list.gif" width="auto" height="400px" hspace="20"/>
+</div>
+
+ ```dart
+     DialogManager.showSimpleListDialog(context,
+                       items: [
+                         "Apple", "Ball", "Cake"
+                       ],
+                       onItemSelected: (dynamic result){
+                       showSnackBar(result);
+                   });
+```
+##
+You can set the dialog to return the `int` index of the item selection, 
+instead of the selection `String` by setting `returnIndexes` to true
+
+<div>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_simple_list_index.gif" width="auto" height="400px" hspace="20"/>
+</div>
+
+ ```dart
+     DialogManager.showSimpleListDialog(context,
+                       items: [
+                         "Apple", "Ball", "Cake"
+                       ],
+                       onItemSelected: (dynamic result){
+                       showSnackBar(result);
+                   }, returnIndexes :true);
+```
 
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
 
 For help getting started with Flutter development, view the
 [online documentation](https://flutter.dev/docs), which offers tutorials,

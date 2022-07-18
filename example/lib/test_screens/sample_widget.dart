@@ -21,22 +21,26 @@ class _SampleWidgetState extends State<SampleWidget> {
         child: Center(
           child: TextButton(
             onPressed: () {
-              DialogManager.showSimpleMessageDialog(context,
-                  message: "This is a simple message dialog",
-                  title: "Welcome",
-                  dialogEntrance: DialogEntrance.slide_up,
-                  messageDialogStyle: MessageDialogStyle(
-                      dialogStyle: const DialogStyle(
-                          dialogPlacement: DialogPlacement.bottom,
-                      margin: 0.0,curvedRadius: 0.0,elevation: 0.0),
-                  titleTextSize: 25.0,
-                  dialogButtonDesign: DialogButtonDesign.stroked,
-                   buttonSpacing: 10.0,
-                  ));
+              DialogManager.showSimpleListDialog(context,
+                  items: [
+                    "Apple", "Ball", "Cake"
+                  ],
+                  onItemSelected: (dynamic result){
+                  showSnackBar(result);
+              },returnIndexes: true);
             },
             child: const Text("Click Me"),
           ),
         ),
+      ),
+    );
+  }
+
+  void showSnackBar(var text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("$text"),
+        duration: const Duration(seconds: 1),
       ),
     );
   }
