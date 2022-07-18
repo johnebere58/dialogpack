@@ -22,12 +22,10 @@ class _SampleWidgetState extends State<SampleWidget> {
           child: TextButton(
             onPressed: () {
               DialogManager.showSimpleListDialog(context,
-                  items: [
-                    "Apple", "Ball", "Cake"
-                  ],
-                  onItemSelected: (dynamic result){
-                  showSnackBar(result);
-              },returnIndexes: true);
+                  items: ["Apple", "Ball", "Cake"],
+                  onItemSelected: (dynamic result) {
+                showSnackBar(result);
+              }, maxSelections: 2);
             },
             child: const Text("Click Me"),
           ),
