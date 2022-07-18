@@ -134,8 +134,10 @@ You can use the `MessageDialogStyle` class to style a message dialog however you
 <div>
    <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_custom.gif" width="auto" height="400px" hspace="20"/>
 </div>
+
+
  ```dart
-   DialogManager.showSimpleMessageDialog(context,
+     DialogManager.showSimpleMessageDialog(context,
                   message: "This is a simple message dialog",
                   title: "Welcome",
                   dialogEntrance: DialogEntrance.slide_up,
