@@ -82,8 +82,8 @@ class PopupDialogState extends State<PopupDialog> {
     IconData? icon = popupDialogModel.icon;
     String message = popupDialogModel.message;
 
-    Color messageTextColor = popupDialogStyle.messageTextColor ?? whiteColor;
-    Color boxColor = popupDialogStyle.boxColor ?? blackColor;
+    Color messageTextColor = popupDialogStyle.messageTextColor ?? white;
+    Color boxColor = popupDialogStyle.boxColor ?? black;
     double messageTextSize = popupDialogStyle.messageTextSize!;
 
     //The dialog style
