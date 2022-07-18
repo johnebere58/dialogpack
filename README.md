@@ -9,6 +9,8 @@ A powerful plugin for displaying message dialogs, list dialogs, success dialogs,
     <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_message_dialog.gif" width="auto" height="400px" hspace="20"/>
     <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_success.gif" width="auto" height="400px" hspace="20"/>
     <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_failed.gif" width="auto" height="400px" hspace="20"/>
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_list.gif" width="auto" height="400px" hspace="20"/>
+ 
 </p>
 
 - [x] Message Dialog
