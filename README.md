@@ -51,8 +51,9 @@ import 'package:dialogpack/dialogpack.dart';
     super.initState();
   }
 ```
-Optionally You can choose to set a global style for your dialogs during initialization,
-you can also choose to use a dark themed dialog 
+## Optional GLobal Styling
+You can choose to set a global style for all your dialogs during initialization,
+
 ```dart
 import 'package:dialogpack/dialogpack.dart';
 
@@ -66,7 +67,6 @@ import 'package:dialogpack/dialogpack.dart';
       popupDialogStyle: PopupDialogStyle(),
       inputDialogStyle: InputDialogStyle(),
       listDialogStyle: ListDialogStyle(),
-      useDarkMode: useDarkMode,
     );
    
    }
