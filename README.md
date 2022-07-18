@@ -39,7 +39,7 @@ ref: master # branch name
 ## Getting Started
 
 Add this following to the `initState` method of your root widget
-Instantiate the game instance by call `DialogManager.initialize()`
+Initialize the dialog manager instance by callinng `DialogManager.initialize()`
 ```dart
 import 'package:dialogpack/dialogpack.dart';
 
