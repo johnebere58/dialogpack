@@ -197,7 +197,7 @@ class ListDialogState extends State<ListDialog> {
                               blackColor.withOpacity(.5),
                             ),
                             border: InputBorder.none,isDense: true),
-                        style: textStyle(false, 16, black),
+                        style: textStyle(false, 16, blackColor),
                         controller: _searchController,
                         cursorColor: blackColor,
                         cursorWidth: 2,
