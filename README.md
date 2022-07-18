@@ -40,8 +40,8 @@ ref: master # branch name
 
 ## Getting Started
 
-Add this following to the `initState` method of your root widget
-Initialize the dialog manager instance by callinng `DialogManager.initialize()`
+Add `DialogManager.initialize()` to the `initState` method of your root widget
+
 ```dart
 import 'package:dialogpack/dialogpack.dart';
 
