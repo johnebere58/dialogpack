@@ -70,12 +70,6 @@ import 'package:dialogpack/dialogpack.dart';
    
    }
 ```
-Everything is flexible on the go, 
-you can switch theme styles or switch from dark theme to light theme
- ```dart
-     DialogManager.switchToLightMode();
-     DialogManager.switchToDarkMode();
-```
 
 ## Showing a Message Dialog
 To display a message dialog is very easy
@@ -95,6 +89,17 @@ use the `MessageDialogModel` class to set properties of the dialog. Optionally u
                             
                                )));
 
+```
+
+## Dark Mode/ Light Mode
+Everything is flexible on the go, 
+you can switch theme styles or switch from dark theme to light theme
+
+   <img src="https://github.com/johnebere58/screenshots/blob/master/dialogpack_dark_light.gif" width="auto" height="400px" hspace="20"/>
+
+ ```dart
+     DialogManager.switchToLightMode();
+     DialogManager.switchToDarkMode();
 ```
 
 ## Customizing a message dialog
