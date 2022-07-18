@@ -14,7 +14,7 @@ A powerful plugin for displaying message dialogs, list dialogs, success dialogs,
 - [x] Popup Dialog
 
 ## Installation
-To use this plugin, add `dialogpack` as a dependency in your pubspec.yaml file.
+To use this plugin, add `dialogpack` as a dependency in your pubspec.yaml file. 
 
 ```
 dependencies:
