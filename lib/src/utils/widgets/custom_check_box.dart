@@ -80,7 +80,7 @@ class CustomCheckBox extends StatefulWidget {
                    border:
                    Border.all(color:checkColor, width: 1.5)
                ),
-               child: AnimatedContainer(duration: const Duration(milliseconds: 600),
+               child: AnimatedContainer(duration: const Duration(milliseconds: 601),
                  width: size,
                  height: size,
                  margin: const EdgeInsets.all(.5),
