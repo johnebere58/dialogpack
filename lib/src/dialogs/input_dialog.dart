@@ -37,7 +37,9 @@ class InputDialogState extends State<InputDialog> {
     inputDialogModel = widget.inputDialogModel;
     List items = inputDialogModel.inputItems;
     inputItems = List.from(items);
-    textControllers = List.generate(inputItems.length, (index) => TextEditingController());
+    textControllers = List.generate(inputItems.length, (index) => TextEditingController(
+      text: inputItems[index].message
+    ));
 
     Future.delayed(const Duration(milliseconds: 200),(){
       hideUI=false;

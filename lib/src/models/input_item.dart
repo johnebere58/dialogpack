@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class InputItem {
   final String title;
   final String? hint;
+  final String? message;
   final String? image;
   final IconData? icon;
   final Color? titleColor;
@@ -26,7 +27,7 @@ class InputItem {
     this.textInputAction= TextInputAction.next,
   this.textCapitalization = TextCapitalization.sentences,
     this.fontSize=18,
-    this.textColor
+    this.textColor,this.message=""
            });
 
   String get itemKey => "$title${hint??""}";
