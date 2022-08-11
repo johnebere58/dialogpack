@@ -149,7 +149,8 @@ class InputDialogState extends State<InputDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          InputTextField(textController: textController, inputDialogStyle: inputDialogStyle, inputItem: inputItem,
+                          InputTextField(textController: textController,
+                            inputDialogStyle: inputDialogStyle, inputItem: inputItem,
                           marginTop: itemSpacing/2,),
                           inputDialogStyle.inputDesign!=InputDesign.normal
                               ? Container()

@@ -74,6 +74,8 @@ class InputTextFieldState extends State<InputTextField> {
     int? maxLength = inputItem.maxLength;
     double? textBoxHeight = inputItem.textBoxHeight;
     double fontSize = inputItem.fontSize;
+    double titleSize = inputItem.titleSize;
+    double titleSpacing = inputItem.titleSpacing;
     // bool allowEmpty = inputItem.allowEmpty;
     TextInputAction textInputAction = inputItem.textInputAction;
     TextCapitalization textCapitalization = inputItem.textCapitalization;
@@ -107,8 +109,9 @@ class InputTextFieldState extends State<InputTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if(textBoxHeight!=0)Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              child: Text(title,style:  TextStyle(fontWeight: FontWeight.bold,fontSize: 13, color: focused?inputFocusedColor:blackColor),)),
+              margin:  EdgeInsets.only(bottom: titleSpacing),
+              child: Text(title,style:
+              TextStyle(fontWeight: FontWeight.bold,fontSize: titleSize, color: focused?inputFocusedColor:blackColor),)),
           Row(
             children: [
               Flexible(fit: FlexFit.tight,
@@ -163,7 +166,7 @@ class InputTextFieldState extends State<InputTextField> {
                     // labelText: title,
                     hintText: hint,
                     hintStyle: TextStyle(
-                      fontSize: 16, color: hintColor,
+                      fontSize: fontSize, color: hintColor,
                     ),
                     focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide.none),

@@ -17,6 +17,8 @@ class InputItem {
   final int maxLine;
   final double? textBoxHeight;
   final double fontSize;
+  final double titleSize;
+  final double titleSpacing;
   final TextInputAction textInputAction;
   final TextCapitalization textCapitalization;
 
@@ -27,6 +29,8 @@ class InputItem {
     this.textInputAction= TextInputAction.next,
   this.textCapitalization = TextCapitalization.sentences,
     this.fontSize=18,
+    this.titleSize=14,
+    this.titleSpacing=15,
     this.textColor,this.message=""
            });
 
