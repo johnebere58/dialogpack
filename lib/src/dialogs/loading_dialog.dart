@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 class LoadingDialog extends StatefulWidget {
-  final String? message;
+  final String message;
   final bool cancelable;
   LoadingDialog(
       {this.message="", this.cancelable = false,});
@@ -28,7 +28,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    message=widget.message!;
+    message=widget.message;
     cancelable = widget.cancelable;
     sub = LoadingController.instance.stream.listen((_) {
       if(_==false) {
@@ -137,7 +137,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                 message,
+                 message??"",
                 style: textStyle(false, 16, Colors.white),
                 textAlign: TextAlign.center,
               ),

@@ -427,7 +427,7 @@ class DialogManager {
   }
 
   static void showLoading(BuildContext context,
-      {String? message, bool cancellable = true}) {
+      {String message="", bool cancellable = true}) {
     if (!initialized) {
       throw UnimplementedError(
           "Please call [${DialogManager.initialize()}] first");
