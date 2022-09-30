@@ -54,26 +54,29 @@ class InputDialogState extends State<InputDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(fit: StackFit.expand,alignment: Alignment.center,
-        children: <Widget>[
-      GestureDetector(
-        onTap: () {
-          closePage((){ Navigator.pop(context);});
-        },
-        key: const ValueKey("tapToClose"),
-        child: AnimatedOpacity(
-          opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
-          child: ClipRect(
-              child:BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                  child: Container(
-                    color: Colors.black.withOpacity(.7),
-                  ))
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(fit: StackFit.expand,alignment: Alignment.center,
+          children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            closePage((){ Navigator.pop(context);});
+          },
+          key: const ValueKey("tapToClose"),
+          child: AnimatedOpacity(
+            opacity: showBack?1:0,duration: const Duration(milliseconds: 300),
+            child: ClipRect(
+                child:BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    child: Container(
+                      color: Colors.black.withOpacity(.7),
+                    ))
+            ),
           ),
         ),
-      ),
-          SafeArea(child: page()),
-    ]);
+            SafeArea(child: page()),
+      ]),
+    );
   }
 
   Widget page() {

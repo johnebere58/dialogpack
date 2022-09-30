@@ -67,20 +67,23 @@ class _LoadingDialogState extends State<LoadingDialog> {
   Widget build(BuildContext context) {
 
     return WillPopScope(
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        AnimatedOpacity(
-          opacity: hideUI?0:showBack?1:0,duration: const Duration(milliseconds: 300),
-          child: ClipRect(
-              child:BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                  child: Container(
-                    color: Colors.black.withOpacity(.7),
-                  ))
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(fit: StackFit.expand, children: <Widget>[
+          AnimatedOpacity(
+            opacity: hideUI?0:showBack?1:0,duration: const Duration(milliseconds: 300),
+            child: ClipRect(
+                child:BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    child: Container(
+                      color: Colors.black.withOpacity(.7),
+                    ))
+            ),
           ),
-        ),
-        page(),
+          page(),
 
-      ]),
+        ])
+      ),
       onWillPop: () {
         if (cancelable)closePage((){ Navigator.pop(context);});
         return Future.value(false);

@@ -58,24 +58,27 @@ class PopupDialogState extends State<PopupDialog> {
     DialogStyle dialogStyle = popupDialogStyle.dialogStyle!;
     DialogPlacement dialogPlacement = dialogStyle.dialogPlacement;
     double margin = dialogStyle.margin;
-    return Stack(fit: StackFit.expand, children: <Widget>[
-      GestureDetector(
-        onTap: () {
-          closePage(() {
-            Navigator.pop(context);
-          });
-        },
-        key: const ValueKey("tapToClose"),
-        child: AnimatedOpacity(
-          opacity: showBack ? 1 : 0,
-          duration: const Duration(milliseconds: 300),
-          child: Container(
-    color: Colors.black.withOpacity(.7),
-    ),
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(fit: StackFit.expand, children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            closePage(() {
+              Navigator.pop(context);
+            });
+          },
+          key: const ValueKey("tapToClose"),
+          child: AnimatedOpacity(
+            opacity: showBack ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
+            child: Container(
+      color: Colors.black.withOpacity(.7),
       ),
-      dialogPlacement==DialogPlacement.top && margin==0?page():SafeArea(child: page()),
-    ]);
+          ),
+        ),
+        dialogPlacement==DialogPlacement.top && margin==0?page():SafeArea(child: page()),
+      ]),
+    );
   }
 
   Widget page() {

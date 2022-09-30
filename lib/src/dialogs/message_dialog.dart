@@ -79,34 +79,37 @@ class MessageDialogState extends State<MessageDialog> {
 
         return Future.value(false);
       },
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            if (cancellable) {
-              closePage(() {
-                Navigator.pop(context);
-              });
-            }
-          },
-          key: const ValueKey("tapToClose"),
-          child: AnimatedOpacity(
-            opacity: showBack ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
-            child: ClipRect(
-                child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                    child: Container(
-                      color: Colors.black.withOpacity(.7),
-                    ))),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(fit: StackFit.expand, children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              if (cancellable) {
+                closePage(() {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            key: const ValueKey("tapToClose"),
+            child: AnimatedOpacity(
+              opacity: showBack ? 1 : 0,
+              duration: const Duration(milliseconds: 300),
+              child: ClipRect(
+                  child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: Container(
+                        color: Colors.black.withOpacity(.7),
+                      ))),
+            ),
           ),
-        ),
-        SafeArea(child: page()),
-        // if(widget.messageDialogModel.gif!=null)
-        //   Opacity(opacity: 1,child: Gif(
-        //   image: AssetImage("assets/${widget.messageDialogModel.gif}",package: "dialogpack",),
-        //   autostart: Autostart.once,
-        // ),)
-      ]),
+          SafeArea(child: page()),
+          // if(widget.messageDialogModel.gif!=null)
+          //   Opacity(opacity: 1,child: Gif(
+          //   image: AssetImage("assets/${widget.messageDialogModel.gif}",package: "dialogpack",),
+          //   autostart: Autostart.once,
+          // ),)
+        ]),
+      ),
     );
   }
 
